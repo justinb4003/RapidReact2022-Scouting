@@ -24,23 +24,6 @@ export class AppComponent implements OnInit {
     this.appData.getHelloWorld().subscribe((data) => {
         console.log(data);
     });
-    const d = {
-      'name': 'Justin',
-      'age': 41,
-      'event_key': 'misjo_2022',
-      'scouting_team': 8008,
-      'upper_goals_auton': 1,
-      'lower_goals_auton': 3,
-      'upper_goals_teleop': 4,
-      'lower_goals_teleop': 2,
-      'final_hang': 'lower',
-    };
-    /*
-    console.log('going for a post');
-    this.appData.postResults(d).subscribe((data) => {
-      console.log(data);
-    });
-    */
     console.log('init ended');
 
   }
