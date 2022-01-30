@@ -1,0 +1,41 @@
+mat-sidenav-content {
+  width: 100%;
+}
+
+.trisonics-logo {
+  width: 120px;
+  margin-top: 0.25em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.main-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.main-sidenav {
+  border-bottom-right-radius: 100px;
+  //background-color: #d31112;
+  background-color: #972123;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.menu-link {
+  color: white;
+  overflow: hidden;
+}

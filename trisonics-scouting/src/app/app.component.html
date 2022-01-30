@@ -1,2 +1,47 @@
-This is the main page where everything sits inside of.
-<router-outlet></router-outlet>
+<mat-sidenav-container [hasBackdrop]="!media.isActive('gt-xs')"
+     fxLayout="row" fxLayoutAlign="start stretch" fxFlexFill autosize
+     role="main" class="main-container">
+  <mat-sidenav [mode]="media.isActive('gt-xs') ? 'side' : 'over'"
+               [opened]="media.isActive('gt-xs')"
+               [disableClose]="media.isActive('gt-xs')"
+               class="main-sidenav"
+               #sidenav>
+    <div class="menu-container">
+      <div class="menu-header">
+        <img src="./assets/trisonics_logo.png" alt="Trisonics Logo" class="trisonics-logo">
+      </div>
+      <mat-nav-list>
+        <a routerLink="./scout-match" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>dashboard</mat-icon>Scout!
+        </a>
+        <a routerLink="./view-schedule" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>schedule</mat-icon>Schedule
+        </a>
+        <a routerLink="./view-results" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>verified</mat-icon>Results
+        </a>
+        <a routerLink="" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.logout(); this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>logout</mat-icon>Log out
+        </a>
+      </mat-nav-list>
+   </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <mat-toolbar-row class="main-toolbar">
+        <button mat-icon-button [fxShow]="!media.isActive('gt-xs')"
+                (click)="this.displaySidenavMenu()"><mat-icon aria-label="Menu">menu</mat-icon></button>
+        <span class="toolbar-spacer"></span>
+        <body class="mat-body">Welcome, User!</body>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <main class="main-router-outlet">
+      <router-outlet>
+      </router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
