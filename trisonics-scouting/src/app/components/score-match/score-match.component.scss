@@ -1,0 +1,41 @@
+mat-slide-toggle {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.pm-button {
+  height: 2em;
+  font-size: 16pt;
+  font-weight: bold;
+  margin-left: 1em;
+  margin-right: 1em;
+  align-self: baseline;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.score {
+  font-size: 20pt;
+  font-weight: normal;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  align-self: baseline;
+}
+
+.score-label {
+  font-size: 12pt;
+}
+
+.comment-box {
+  display: flex;
+}

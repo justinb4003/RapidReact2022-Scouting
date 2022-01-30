@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CdkTableModule } from '@angular/cdk/table';
+import { HttpClientModule } from '@angular/common/http';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginScreenComponent } from './components/login-screen/login-screen.component';
-import { ScoreMatchComponent } from './components/score-match/score-match.component';
-import { ViewResultsComponent } from './components/view-results/view-results.component';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,6 +34,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoginScreenComponent } from './components/login-screen/login-screen.component';
+import { ScoreMatchComponent } from './components/score-match/score-match.component';
+import { ViewResultsComponent } from './components/view-results/view-results.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +47,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   ],
   imports: [
     BrowserModule,
+    CdkTableModule,
     FlexLayoutModule,
     HttpClientModule,
+    QRCodeModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     FormsModule,

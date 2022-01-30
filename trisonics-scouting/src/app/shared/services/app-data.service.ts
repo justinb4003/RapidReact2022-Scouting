@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { getMatIconFailedToSanitizeUrlError } from '@angular/material/icon';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppDataService {
 
-  private baseUrl = 'http://localhost:7071/api';
+  public autoTarmac: boolean = false;
+
+  public autoHighGoal: number = 0;
+
+  private baseUrl = environment.baseUrl;
 
   constructor(private httpClient: HttpClient) { }
 

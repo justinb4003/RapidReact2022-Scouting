@@ -1,4 +1,28 @@
-<p>score-match works!</p>
-<button mat-raised-button (click)="this.updateData()">
-  Update Data
-</button>
+<form [formGroup]="this.fgMatch">
+  <div class="flex-col">
+    <div class="flex-row">
+      <h2 class="mat-h2">Autonomous</h2>
+    </div>
+    <div class="flex-row">
+      <mat-slide-toggle formControlName="autoTarmac" color="primary"
+        (change)="this.toggleAutoTarmac()">
+        Moved out of the tarmac
+      </mat-slide-toggle>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Auto High Goals</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalDec()">-</button>
+      <p class="score">{{ this.appData.autoHighGoal }}</p>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalInc()">+</button>
+    </div>
+    <div class="flex-row">
+      <qrcode [qrdata]="this.qrGameString"></qrcode>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.updateData()">Send Data</button>
+    </div>
+  </div>
+</form>
