@@ -12,4 +12,8 @@ export class ScoreMatchComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public updateData(): void {
+    console.log('hit cosmos now');
+  }
+
 }
