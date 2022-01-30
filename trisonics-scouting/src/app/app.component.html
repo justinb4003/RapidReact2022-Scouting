@@ -11,13 +11,9 @@
         <img src="./assets/trisonics_logo.png" alt="Trisonics Logo" class="trisonics-logo">
       </div>
       <mat-nav-list>
-        <a routerLink="./scout-match" mat-list-item routerLinkActive="active" class="menu-link"
+        <a routerLink="./score-match" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
           <mat-icon>dashboard</mat-icon>Scout!
-        </a>
-        <a routerLink="./view-schedule" mat-list-item routerLinkActive="active" class="menu-link"
-          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
-          <mat-icon>schedule</mat-icon>Schedule
         </a>
         <a routerLink="./view-results" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
