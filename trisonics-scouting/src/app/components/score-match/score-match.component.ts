@@ -34,6 +34,15 @@ export class ScoreMatchComponent implements OnInit {
       this.appData.autoHighGoal -= 1;
     }
   }
+  public autoLowGoalInc(): void {
+    this.appData.autoLowGoal += 1;
+  }
+
+  public autoLowGoalDec(): void {
+    if (this.appData.autoHighGoal > 0) {
+      this.appData.autoLowGoal -= 1;
+    }
+  }
 
   private getGameData(): any {
     const d = {
