@@ -34,12 +34,20 @@ export class ScoreMatchComponent implements OnInit {
       this.appData.autoHighGoal -= 1;
     }
   }
-  public autoLowGoalInc(): void {
+  public autoLowGoalsInc(): void {
     this.appData.autoLowGoal += 1;
+  }
+  public humanGoalsDec(): void {
+    if (this.appData.humanGoals > 0) {
+      this.appData.humanGoals -= 1;
+    }
+  }
+  public humanGoalsInc(): void {
+    this.appData.humanGoals += 1;
   }
 
   public autoLowGoalDec(): void {
-    if (this.appData.autoHighGoal > 0) {
+    if (this.appData.autoLowGoal > 0) {
       this.appData.autoLowGoal -= 1;
     }
   }
@@ -51,7 +59,8 @@ export class ScoreMatchComponent implements OnInit {
       'scouting_team': 8008,
       'high_goals_auton': this.appData.autoHighGoal,
       'tarmac_auton': this.appData.autoTarmac,
-      'lower_goals_auton': 3,
+      'lower_goals_auton': this.appData.autoLowGoal, 
+      'human_goals': this.appData.humanGoals,
       'upper_goals_teleop': 4,
       'lower_goals_teleop': 2,
       'final_hang': 'lower',

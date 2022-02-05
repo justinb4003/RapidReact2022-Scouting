@@ -8,6 +8,7 @@ import { getMatIconFailedToSanitizeUrlError } from '@angular/material/icon';
   providedIn: 'root'
 })
 export class AppDataService {
+  public humanGoals: number = 0;
 
   public autoTarmac: boolean = false;
 
