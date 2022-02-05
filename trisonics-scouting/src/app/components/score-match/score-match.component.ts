@@ -51,12 +51,15 @@ export class ScoreMatchComponent implements OnInit {
   }
 
   public updateData(): void {
+    // Nice way to demonstrate how async timing works out.
     console.log('update data started');
     console.log('going for a post');
+
     this.appData.postResults(this.getGameData()).subscribe((data) => {
       console.log(data);
       console.log('post complete.');
     });
+
     console.log('update date complete.');
   }
 

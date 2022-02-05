@@ -20,12 +20,6 @@ export class AppComponent implements OnInit {
     ) { }
 
   public ngOnInit(): void {
-    console.log('init started');
-    this.appData.getHelloWorld().subscribe((data) => {
-        console.log(data);
-    });
-    console.log('init ended');
-
   }
 
   public displaySidenavMenu(): void {
