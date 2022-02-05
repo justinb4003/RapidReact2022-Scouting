@@ -51,6 +51,25 @@ export class ScoreMatchComponent implements OnInit {
       this.appData.autoLowGoal -= 1;
     }
   }
+  public autoHighGoalmissInc(): void {
+    this.appData.autoHighGoalmiss += 1;
+  }
+
+  public autoHighGoalmissDec(): void {
+    if (this.appData.autoHighGoalmiss > 0) {
+      this.appData.autoHighGoalmiss -= 1;
+    }
+  }
+  public autoLowGoalmissInc(): void {
+    this.appData.autoLowGoalmiss += 1;
+  }
+
+  public autoLowGoalmissDec(): void {
+    if (this.appData.autoLowGoalmiss > 0) {
+      this.appData.autoLowGoalmiss -= 1;
+    }
+  }
+  
 
   private getGameData(): any {
     const d = {
@@ -64,6 +83,8 @@ export class ScoreMatchComponent implements OnInit {
       'upper_goals_teleop': 4,
       'lower_goals_teleop': 2,
       'final_hang': 'lower',
+      'low_goals_miss_auton': this.appData.autoLowGoalmiss,
+      'high_goals_miss_auton': this.appData.autoHighGoalmiss,
     };
     return d;
   }

@@ -31,7 +31,24 @@
     </div>
     <div class="flex-row">
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalDec()">-</button>
-      <p class="score">{{ this.appData.autoLowGoal }}</p>      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalsInc()">+</button>
+      <p class="score">{{ this.appData.autoLowGoal }}</p>      
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalsInc()">+</button>
+    </div>
+    <div class="flex-row score-label">
+      <h4 mat-h4>Auto High Goal Miss</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalmissDec()">-</button>
+      <p class="score">{{ this.appData.autoHighGoalmiss }}</p>      
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalmissInc()">+</button>
+    </div>
+    <div class="flex-row score-label">
+      <h4 mat-h4>Auto Low Goal Miss</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissDec()">-</button>
+      <p class="score">{{ this.appData.autoLowGoalmiss }}</p>      
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissInc()">+</button>
     </div>
     <div class="flex-row">
       <qrcode [qrdata]="this.qrGameString"></qrcode>
