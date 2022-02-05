@@ -18,6 +18,14 @@
       <p class="score">{{ this.appData.autoHighGoal }}</p>
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalInc()">+</button>
     </div>
+    <div class="flex-row score-label">
+      <h4 mat-h4>Auto low Goals</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalDec()">-</button>
+      <p class="score">{{ this.appData.autoLowGoal }}</p>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalInc()">+</button>
+    </div>
     <div class="flex-row">
       <qrcode [qrdata]="this.qrGameString"></qrcode>
     </div>

@@ -13,6 +13,8 @@ export class AppDataService {
 
   public autoHighGoal: number = 0;
 
+  public autoLowGoal: number = 0;
+
   private baseUrl = environment.baseUrl;
 
   constructor(private httpClient: HttpClient) { }
