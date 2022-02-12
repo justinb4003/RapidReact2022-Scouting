@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   public sidenav: MatSidenav;
 
   constructor(
-    private appData: AppDataService,
+    public appData: AppDataService,
     public media: MediaObserver,
     ) { }
 

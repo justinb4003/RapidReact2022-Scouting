@@ -32,7 +32,11 @@
         <button mat-icon-button [fxShow]="!media.isActive('gt-xs')"
                 (click)="this.displaySidenavMenu()"><mat-icon aria-label="Menu">menu</mat-icon></button>
         <span class="toolbar-spacer"></span>
-        <body class="mat-body">Welcome, User!</body>
+        <body class="mat-body">
+          <span *ngIf="this.appData.scouterName">
+            Welcome, {{this.appData.scouterName}}!
+          </span>
+        </body>
       </mat-toolbar-row>
     </mat-toolbar>
     <main class="main-router-outlet">
