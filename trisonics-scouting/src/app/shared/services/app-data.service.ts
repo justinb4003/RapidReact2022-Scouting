@@ -16,6 +16,9 @@ export class AppDataService {
 
   public autoTarmac: boolean = false;
 
+  public scouterName: string = '';
+
+
   public autoHighGoal: number = 0;
 
   public autoLowGoal: number = 0;

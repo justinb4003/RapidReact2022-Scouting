@@ -11,6 +11,7 @@ export class ScoreMatchComponent implements OnInit {
 
   public fgMatch: FormGroup = new FormGroup({
     autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
+    scouterName: new FormControl(this.appData.scouterName, Validators.required),
     matchNotes: new FormControl('', Validators.required),
   });
 
@@ -23,6 +24,10 @@ export class ScoreMatchComponent implements OnInit {
 
   public toggleAutoTarmac(): void {
     this.appData.autoTarmac = this.fgMatch.get('autoTarmac')?.value;
+  }
+
+  public updateScouterName(): void {
+    this.appData.scouterName = this.fgMatch.get('scouterName')?.value;
   }
 
   public autoHighGoalInc(): void {
@@ -69,16 +74,16 @@ export class ScoreMatchComponent implements OnInit {
       this.appData.autoLowGoalmiss -= 1;
     }
   }
-  
+
 
   private getGameData(): any {
     const d = {
-      'name': 'Justin',
+      'name': this.appData.scouterName,
       'event_key': 'misjo_2022',
       'scouting_team': 8008,
       'high_goals_auton': this.appData.autoHighGoal,
       'tarmac_auton': this.appData.autoTarmac,
-      'lower_goals_auton': this.appData.autoLowGoal, 
+      'lower_goals_auton': this.appData.autoLowGoal,
       'human_goals': this.appData.humanGoals,
       'upper_goals_teleop': 4,
       'lower_goals_teleop': 2,
@@ -89,7 +94,7 @@ export class ScoreMatchComponent implements OnInit {
     return d;
   }
 
-  public updateData(): void {
+  public uploadData(): void {
     // Nice way to demonstrate how async timing works out.
     console.log('update data started');
     console.log('going for a post');

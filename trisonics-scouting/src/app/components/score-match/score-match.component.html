@@ -1,4 +1,9 @@
 <form [formGroup]="this.fgMatch">
+  <mat-form-field >
+    <mat-label>Scouter Name</mat-label>
+    <input matInput placeholder="Your Name" formControlName="scouterName" (change)="this.updateScouterName()">
+  </mat-form-field>
+
   <div class="flex-col">
     <div class="flex-row">
       <h2 class="mat-h2">Autonomous</h2>
@@ -55,8 +60,20 @@
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissInc()">+</button>
     </div>
 
+    <!-- TODO: Put teleop controls here -->
+    <!-- TODO: Put end-game controls here -->
+
+    <!-- TODO: Add a 'snackbar' success/fail message after posting data -->
+    <div class="flex-row">
+      <button mat-raised-button class="upload-data-button" (click)="this.uploadData()">Upload Data</button>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Backup Data Transfer</h4>
+    </div>
     <div class="flex-row">
       <qrcode [qrdata]="this.qrGameString"></qrcode>
     </div>
+
   </div>
 </form>
