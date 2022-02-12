@@ -37,6 +37,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoginScreenComponent } from './components/login-screen/login-screen.component';
 import { ScoreMatchComponent } from './components/score-match/score-match.component';
 import { ViewResultsComponent } from './components/view-results/view-results.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,12 @@ import { ViewResultsComponent } from './components/view-results/view-results.com
     MatSnackBarModule,
     MatAutocompleteModule,
     AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
