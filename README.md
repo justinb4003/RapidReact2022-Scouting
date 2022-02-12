@@ -1,5 +1,10 @@
-# Trisonics Scouting Application
+# Curent TODO List
+- Add ability to capture scouter's name (text input)
+- Add ability to capture team number that is being scouted (text input)
+- Add controls for all teleop game components (similar to auton)
+- Add controls for end-game hanging (radio buttons)
 
+# Trisonics Scouting Application Overview
 This repository consists of three related projects. Under the 'api' directory
 you'll find an Azure Function v4 projedct written in Python that acts as the
 data layer for the application. This handles connections back to our Cosmos
