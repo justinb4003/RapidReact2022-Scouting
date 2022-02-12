@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppDataService } from 'src/app/shared/services/app-data.service';
 
 @Component({
   selector: 'app-view-results',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewResultsComponent implements OnInit {
 
-  constructor() { }
+  public htmlData: string = '';
+
+  constructor(
+    public appData: AppDataService,
+  ) { }
 
   ngOnInit(): void {
+    this.appData.getResults().subscribe((res) => {
+      console.log(res);
+      this.htmlData = res;
+    });
   }
-
 }

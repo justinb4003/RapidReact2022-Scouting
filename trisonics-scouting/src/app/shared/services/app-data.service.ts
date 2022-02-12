@@ -34,4 +34,8 @@ export class AppDataService {
   public postResults(payload: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/PostResults`, payload);
   }
+
+  public getResults(): Observable<string> {
+    return this.httpClient.get(`${this.baseUrl}/GetResults`, { responseType: 'text'});
+  }
 }
