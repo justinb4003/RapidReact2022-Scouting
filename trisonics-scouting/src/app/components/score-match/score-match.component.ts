@@ -20,15 +20,20 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     matchNotes: new FormControl(this.appData.matchNotes),
   });
 
-  constructor(public appData: AppDataService) {
-  }
+  constructor(
+    public appData: AppDataService,
+    ) {}
 
   public ngOnInit(): void {
     const self = this;
   }
 
   public ngAfterViewInit(): void {
-    // Create event handler for text input form controls
+    // Create event handlers for text input form controls
+    // The ? operator here is used to abort the command if the get() returns
+    // a null or undefined value.
+    // We're also creating a subscription that processes the tiny little function
+    // that we define within the subscribe() method itself.
     this.fgMatch.get('scouterName')?.valueChanges.subscribe((x) => {
       this.appData.scouterName = x;
     });
@@ -39,9 +44,12 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       // We use the + operator to force the value to be a number.
       this.appData.scoutingTeam = +x;
     });
-    this.fgMatch.get('matchNotes')?.valueChanges.subscribe((x) => {
-      this.appData.matchNotes = x;
-    });
+    // Now let's define one with a defined function instead of an anonymous one.
+    this.fgMatch.get('matchNotes')?.valueChanges.subscribe((x) => this.updateMatchNotes(x));
+  }
+
+  public updateMatchNotes(notes: string): void {
+    this.appData.matchNotes = notes;
   }
 
   public toggleAutoTarmac(): void {
@@ -81,6 +89,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       this.appData.autoLowGoal -= 1;
     }
   }
+
   public autoHighGoalmissInc(): void {
     this.appData.autoHighGoalmiss += 1;
   }
@@ -163,34 +172,28 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     return ret;
   }
 
-  public updateEventKey(): void {
-    this.appData.eventKey = this.fgMatch.get('eventKey')?.value;
-  }
-
-  public updateMatch(): void {
-    this.appData.match = this.fgMatch.get('match')?.value;
-  }
-
-  public updateScoutingTeam(): void {
-    this.appData.scoutingTeam = +this.fgMatch.get('scoutingTeam')?.value;
-  }
-
-  public updateMatchNotes(): void {
-    this.appData.matchNotes = this.fgMatch.get('matchNotes')?.value;
-    console.log('match notes', this.appData.matchNotes);
-  }
-
   public uploadData(): void {
     // Nice way to demonstrate how async timing works out.
-    console.log('update data started');
-    console.log('going for a post');
-
     this.appData.postResults(this.getGameData()).subscribe((data) => {
-      console.log(data);
-      console.log('post complete.');
-    });
+      alert('Data uploaded successfully');
+      // Reset form controls that should be reset between matches
+      this.fgMatch.get('autoTarmac')?.setValue(false);
+      this.fgMatch.get('scoutingTeam')?.setValue('');
+      this.fgMatch.get('match')?.setValue('');
+      this.fgMatch.get('finalHangPos')?.setValue(0);
+      this.fgMatch.get('matchNotes')?.setValue('');
 
-    console.log('update date complete.');
+      // Now flip the numeric controls back to 0
+      this.appData.autoHighGoal = 0;
+      this.appData.autoHighGoalmiss = 0;
+      this.appData.autoLowGoal = 0;
+      this.appData.autoLowGoalmiss = 0;
+      this.appData.humanGoals = 0;
+      this.appData.teleopHighGoal = 0;
+      this.appData.teleopHighGoalmiss = 0;
+      this.appData.teleopLowGoal = 0;
+      this.appData.teleopLowGoalmiss = 0;
+    });
   }
 
   get qrGameString(): string {

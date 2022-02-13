@@ -1,4 +1,5 @@
 <form [formGroup]="this.fgMatch">
+  <!-- Match/Scouter level data -->
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Scouter Name</mat-label>
@@ -33,6 +34,7 @@
   </div>
 
   <div class="flex-col">
+    <!-- Auton Controls -->
     <div class="flex-row game-section">
       <h2 class="mat-h2">Autonomous</h2>
     </div>
@@ -88,7 +90,7 @@
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissInc()">+</button>
     </div>
 
-    <!-- TODO: Put teleop controls here -->
+    <!-- Teleop Controls -->
     <div class="flex-row game-section">
       <h2 class="mat-h2">Teleop</h2>
     </div>
@@ -128,14 +130,15 @@
       <span class="score">{{ this.appData.teleopLowGoalmiss }}</span>
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalmissInc()">+</button>
     </div>
-    <!-- TODO: Put end-game controls here -->
+
+    <!-- End game controls-->
     <div class="flex-row game-section">
       <h2 class="mat-h2">End Game</h2>
     </div>
     <div class="flex-row endgame-section">
       <mat-radio-group formControlName="finalHangPos" (change)="this.updateFinalHangPos()">
+        <!-- Might be better as a drop down.-->
         <mat-radio-button class="hang-radio-button" value="0">None (0)</mat-radio-button>
-        <br />
         <mat-radio-button class="hang-radio-button" value="1">Lower (1)</mat-radio-button>
         <mat-radio-button class="hang-radio-button" value="2">Mid (2)</mat-radio-button>
         <mat-radio-button class="hang-radio-button" value="3">High (3)</mat-radio-button>
@@ -169,6 +172,5 @@
     <div class="flex-row">
       <qrcode [qrdata]="this.qrGameString"></qrcode>
     </div>
-
   </div>
 </form>
