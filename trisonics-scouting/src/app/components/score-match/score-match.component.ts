@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
@@ -8,7 +8,7 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
   templateUrl: './score-match.component.html',
   styleUrls: ['./score-match.component.scss']
 })
-export class ScoreMatchComponent implements OnInit {
+export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public fgMatch: FormGroup = new FormGroup({
     autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
@@ -25,6 +25,23 @@ export class ScoreMatchComponent implements OnInit {
 
   public ngOnInit(): void {
     const self = this;
+  }
+
+  public ngAfterViewInit(): void {
+    // Create event handler for text input form controls
+    this.fgMatch.get('scouterName')?.valueChanges.subscribe((x) => {
+      this.appData.scouterName = x;
+    });
+    this.fgMatch.get('eventKey')?.valueChanges.subscribe((x) => {
+      this.appData.eventKey = x;
+    });
+    this.fgMatch.get('scoutingTeam')?.valueChanges.subscribe((x) => {
+      // We use the + operator to force the value to be a number.
+      this.appData.scoutingTeam = +x;
+    });
+    this.fgMatch.get('matchNotes')?.valueChanges.subscribe((x) => {
+      this.appData.matchNotes = x;
+    });
   }
 
   public toggleAutoTarmac(): void {

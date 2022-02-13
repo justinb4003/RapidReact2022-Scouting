@@ -2,14 +2,14 @@
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Scouter Name</mat-label>
-      <input matInput placeholder="Your Name" formControlName="scouterName" (change)="this.updateScouterName()">
+      <input matInput placeholder="Your Name" formControlName="scouterName">
     </mat-form-field>
   </div>
 
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Event</mat-label>
-      <mat-select formControlName="eventKey" (change)="this.updateEventKey()">
+      <mat-select formControlName="eventKey">
         <mat-option value="test">Test</mat-option>
         <mat-option value="misjo_2022">St. Joe</mat-option>
         <mat-option value="miwmi_2022">GVSU</mat-option>
@@ -21,14 +21,14 @@
     <mat-form-field >
       <mat-label>Team you are Scouting</mat-label>
       <input matInput placeholder="Observing" autocomplete="off"
-            formControlName="scoutingTeam" (change)="this.updateScoutingTeam()">
+            formControlName="scoutingTeam">
     </mat-form-field>
   </div>
 
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Match</mat-label>
-      <input matInput placeholder="Match" formControlName="match" (change)="this.updateMatch()">
+      <input matInput placeholder="Match" formControlName="match">
     </mat-form-field>
   </div>
 
@@ -154,8 +154,7 @@
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="2"
                   cdkAutosizeMaxRows="10"
-                  formControlName="matchNotes"
-                  (change)="this.updateMatchNotes()"></textarea>
+                  formControlName="matchNotes"></textarea>
       </mat-form-field>
     </div>
 
