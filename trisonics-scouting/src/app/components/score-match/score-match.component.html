@@ -1,14 +1,42 @@
 <form [formGroup]="this.fgMatch">
-  <mat-form-field >
-    <mat-label>Scouter Name</mat-label>
-    <input matInput placeholder="Your Name" formControlName="scouterName" (change)="this.updateScouterName()">
-  </mat-form-field>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Scouter Name</mat-label>
+      <input matInput placeholder="Your Name" formControlName="scouterName" (change)="this.updateScouterName()">
+    </mat-form-field>
+  </div>
+
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Event</mat-label>
+      <mat-select formControlName="eventKey" (change)="this.updateEventKey()">
+        <mat-option value="test">Test</mat-option>
+        <mat-option value="misjo_2022">St. Joe</mat-option>
+        <mat-option value="miwmi_2022">GVSU</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team you are Scouting</mat-label>
+      <input matInput placeholder="Observing" autocomplete="off"
+            formControlName="scoutingTeam" (change)="this.updateScoutingTeam()">
+    </mat-form-field>
+  </div>
+
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Match</mat-label>
+      <input matInput placeholder="Match" formControlName="match" (change)="this.updateMatch()">
+    </mat-form-field>
+  </div>
 
   <div class="flex-col">
-    <div class="flex-row">
+    <div class="flex-row game-section">
       <h2 class="mat-h2">Autonomous</h2>
     </div>
-    <div class="flex-row">
+    <div class="flex-row score-label">
       <mat-slide-toggle formControlName="autoTarmac" color="primary"
         (change)="this.toggleAutoTarmac()">
         Moved out of the tarmac
@@ -61,7 +89,75 @@
     </div>
 
     <!-- TODO: Put teleop controls here -->
+    <div class="flex-row game-section">
+      <h2 class="mat-h2">Teleop</h2>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Teleop High Goals</h4>
+    </div>
+    <div class="flex-row" score-label>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalDec()">-</button>
+      <span class="score">{{ this.appData.teleopHighGoal }}</span>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalInc()">+</button>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Teleop low Goals</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalDec()">-</button>
+      <span class="score">{{ this.appData.teleopLowGoal }}</span>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalsInc()">+</button>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Teleop High Goal Miss</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalmissDec()">-</button>
+      <span class="score">{{ this.appData.teleopHighGoalmiss }}</span>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalmissInc()">+</button>
+    </div>
+
+    <div class="flex-row score-label">
+      <h4 mat-h4>Teleop Low Goal Miss</h4>
+    </div>
+    <div class="flex-row">
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalmissDec()">-</button>
+      <span class="score">{{ this.appData.teleopLowGoalmiss }}</span>
+      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalmissInc()">+</button>
+    </div>
     <!-- TODO: Put end-game controls here -->
+    <div class="flex-row game-section">
+      <h2 class="mat-h2">End Game</h2>
+    </div>
+    <div class="flex-row endgame-section">
+      <mat-radio-group formControlName="finalHangPos" (change)="this.updateFinalHangPos()">
+        <mat-radio-button class="hang-radio-button" value="0">None (0)</mat-radio-button>
+        <br />
+        <mat-radio-button class="hang-radio-button" value="1">Lower (1)</mat-radio-button>
+        <mat-radio-button class="hang-radio-button" value="2">Mid (2)</mat-radio-button>
+        <mat-radio-button class="hang-radio-button" value="3">High (3)</mat-radio-button>
+        <mat-radio-button class="hang-radio-button" value="4">Terminal (4)</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="flex-row game-section">
+      <h2 class="mat-h2">Match Notes</h2>
+    </div>
+    <div class="flex-row">
+      <mat-form-field>
+        <mat-label>Notes</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="10"
+                  formControlName="matchNotes"
+                  (change)="this.updateMatchNotes()"></textarea>
+      </mat-form-field>
+    </div>
 
     <!-- TODO: Add a 'snackbar' success/fail message after posting data -->
     <div class="flex-row">

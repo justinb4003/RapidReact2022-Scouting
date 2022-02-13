@@ -31,6 +31,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -79,6 +80,7 @@ import { environment } from '../environments/environment';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatChipsModule,
+    MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
     MatAutocompleteModule,

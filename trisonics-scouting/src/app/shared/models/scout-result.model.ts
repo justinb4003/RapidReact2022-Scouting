@@ -1,0 +1,18 @@
+export interface ScoutResult {
+  scouter_name: string,
+  event_key: string,
+  match_key: string,
+  scouting_team: number,
+  auton_tarmac: boolean,
+  auton_high_goals: number,
+  auton_high_miss: number,
+  auton_low_goals: number,
+  auton_low_miss: number,
+  auton_human_player: number,
+  teleop_high_goals: number,
+  teleop_high_miss: number,
+  teleop_low_goals: number,
+  teleop_low_miss: number,
+  final_hang_pos: number,
+  match_notes: string,
+}
