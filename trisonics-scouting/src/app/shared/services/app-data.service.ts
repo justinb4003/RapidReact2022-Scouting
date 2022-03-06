@@ -10,6 +10,7 @@ import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 export class AppDataService {
   public autoTarmac: boolean = false;
   public scouterName: string = '';
+  public teamKey: string = '';
   public eventKey: string = 'test';
   public match: string = '';
   public scoutingTeam: number = 0;

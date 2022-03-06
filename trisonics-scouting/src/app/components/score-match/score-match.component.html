@@ -6,6 +6,13 @@
       <input matInput placeholder="Your Name" formControlName="scouterName">
     </mat-form-field>
   </div>
+  
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team Key (secret)</mat-label>
+      <input matInput placeholder="Team Key" formControlName="teamKey">
+    </mat-form-field>
+  </div>
 
   <div class="flex-row">
     <mat-form-field >
@@ -161,7 +168,11 @@
       </mat-form-field>
     </div>
 
-    <!-- TODO: Add a 'snackbar' success/fail message after posting data -->
+    <div class="flex-row">
+      <ng-container *ngIf="this.uploadError">
+        <h3 mat-h3 class="upload-error-test">Error uploading data, try again when network improves.</h3>
+      </ng-container>
+    </div>
     <div class="flex-row">
       <button mat-raised-button class="upload-data-button" (click)="this.uploadData()">Upload Data</button>
     </div>

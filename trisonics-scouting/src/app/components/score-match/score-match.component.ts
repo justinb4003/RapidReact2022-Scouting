@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 
@@ -10,9 +11,12 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
 })
 export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
+  public uploadError: boolean = false;
+
   public fgMatch: FormGroup = new FormGroup({
     autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
+    teamKey: new FormControl(this.appData.teamKey, Validators.required),
     scoutingTeam: new FormControl(this.appData.scoutingTeam, Validators.required),
     eventKey: new FormControl(this.appData.eventKey, Validators.required),
     match: new FormControl(this.appData.match, Validators.required),
@@ -22,6 +26,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   constructor(
     public appData: AppDataService,
+    public snackbar: MatSnackBar,
     ) {}
 
   public ngOnInit(): void {
@@ -154,6 +159,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   private getGameData(): ScoutResult {
     const ret = {
       scouter_name: this.appData.scouterName,
+      secret_team_key: this.appData.teamKey,
       event_key: this.appData.eventKey,
       scouting_team: this.appData.scoutingTeam,
       auton_tarmac: this.appData.autoTarmac,
@@ -174,25 +180,35 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public uploadData(): void {
     // Nice way to demonstrate how async timing works out.
-    this.appData.postResults(this.getGameData()).subscribe((data) => {
-      alert('Data uploaded successfully');
-      // Reset form controls that should be reset between matches
-      this.fgMatch.get('autoTarmac')?.setValue(false);
-      this.fgMatch.get('scoutingTeam')?.setValue('');
-      this.fgMatch.get('match')?.setValue('');
-      this.fgMatch.get('finalHangPos')?.setValue(0);
-      this.fgMatch.get('matchNotes')?.setValue('');
+    this.appData.postResults(this.getGameData()).subscribe({
+      next: (data) => {
+        this.uploadError = false;
+        this.snackbar.open('Success! Data uploaded!', 
+          'Close', { duration: 5000, panelClass: ['snackbar-success'] });
+        // Reset form controls that should be reset between matches
+        this.fgMatch.get('autoTarmac')?.setValue(false);
+        this.fgMatch.get('scoutingTeam')?.setValue('');
+        this.fgMatch.get('match')?.setValue('');
+        this.fgMatch.get('finalHangPos')?.setValue(0);
+        this.fgMatch.get('matchNotes')?.setValue('');
 
-      // Now flip the numeric controls back to 0
-      this.appData.autoHighGoal = 0;
-      this.appData.autoHighGoalmiss = 0;
-      this.appData.autoLowGoal = 0;
-      this.appData.autoLowGoalmiss = 0;
-      this.appData.humanGoals = 0;
-      this.appData.teleopHighGoal = 0;
-      this.appData.teleopHighGoalmiss = 0;
-      this.appData.teleopLowGoal = 0;
-      this.appData.teleopLowGoalmiss = 0;
+        // Now flip the numeric controls back to 0
+        this.appData.autoHighGoal = 0;
+        this.appData.autoHighGoalmiss = 0;
+        this.appData.autoLowGoal = 0;
+        this.appData.autoLowGoalmiss = 0;
+        this.appData.humanGoals = 0;
+        this.appData.teleopHighGoal = 0;
+        this.appData.teleopHighGoalmiss = 0;
+        this.appData.teleopLowGoal = 0;
+        this.appData.teleopLowGoalmiss = 0;
+      },
+      error: (err) => {
+        console.log('Error uploading data: ', err);
+        this.uploadError = true;
+        this.snackbar.open('Error uploading data, please try again.', 
+          'Close', { duration: 5000, panelClass: ['snackbar-error'] });
+      }
     });
   }
 
