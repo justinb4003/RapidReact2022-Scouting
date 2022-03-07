@@ -47,4 +47,9 @@ export class AppDataService {
     }
     return this.httpClient.get<ScoutResult[]>(url);
   }
+
+  public getOPRData(eventKey: string): Observable<any[]> {
+    let url = `${this.baseUrl}/GetOPRData?event_key=${eventKey}`;
+    return this.httpClient.get<any[]>(url);
+  }
 }

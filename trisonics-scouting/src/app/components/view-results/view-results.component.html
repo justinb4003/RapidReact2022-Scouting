@@ -28,7 +28,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Team
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.scouting_team}} </td>
+      <td mat-cell *matCellDef="let element" [routerLink]="['/team-details', element.scouting_team]"> {{element.scouting_team}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_tarmac">
@@ -51,63 +51,63 @@
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_high_goals}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="auton_low_goals">
       <th mat-header-cell *matHeaderCellDef>
         Auton Low
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_low_goals}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="auton_high_miss">
       <th mat-header-cell *matHeaderCellDef>
         Auton High Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_high_miss}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="auton_low_miss">
       <th mat-header-cell *matHeaderCellDef>
         Auton Low Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_low_miss}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="teleop_high_goals">
       <th mat-header-cell *matHeaderCellDef>
         Teleop High
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_high_goals}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="teleop_low_goals">
       <th mat-header-cell *matHeaderCellDef>
         Teleop Low
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_low_goals}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="teleop_high_miss">
       <th mat-header-cell *matHeaderCellDef>
         Teleop High Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_high_miss}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="teleop_low_miss">
       <th mat-header-cell *matHeaderCellDef>
         Teleop Low Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_low_miss}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="final_hang_pos">
       <th mat-header-cell *matHeaderCellDef>
         Hang
       </th>
       <td mat-cell *matCellDef="let element"> {{element.final_hang_pos}} </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="match_notes">
       <th mat-header-cell *matHeaderCellDef>
         Notes

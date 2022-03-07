@@ -4,5 +4,25 @@
     "azureFunctions.pythonVenv": ".venv",
     "azureFunctions.projectLanguage": "Python",
     "azureFunctions.projectRuntime": "~4",
-    "debug.internalConsoleOptions": "neverOpen"
+    "debug.internalConsoleOptions": "neverOpen",
+    "peacock.color": "#b4614e",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#c38172",
+        "activityBar.activeBorder": "#bce2c3",
+        "activityBar.background": "#c38172",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#bce2c3",
+        "activityBarBadge.foreground": "#15202b",
+        "sash.hoverBorder": "#c38172",
+        "statusBar.background": "#b4614e",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#c38172",
+        "statusBarItem.remoteBackground": "#b4614e",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#b4614e",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#b4614e99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    }
 }

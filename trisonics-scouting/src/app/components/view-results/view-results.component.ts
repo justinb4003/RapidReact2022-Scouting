@@ -33,9 +33,9 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     'final_hang_pos',
     'match_notes',
   ];
-  
+
   public displayedColumns: string[] = [];
-  
+
   public fgSearch: FormGroup = new FormGroup({
     teamKey: new FormControl(this.appData.teamKey),
     eventKey: new FormControl(''),
@@ -50,11 +50,11 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.setDisplayColumns();
   }
 
   ngAfterViewInit(): void {
     this.scoutData.sort = this.sort;
-    this.setDisplayColumns();
     this.fgSearch.valueChanges.subscribe((x) => {
       this.setDisplayColumns();
     });

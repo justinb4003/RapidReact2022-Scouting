@@ -41,13 +41,15 @@ import { ScoreMatchComponent } from './components/score-match/score-match.compon
 import { ViewResultsComponent } from './components/view-results/view-results.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { TeamDetailsComponent } from './components/team-details/team-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginScreenComponent,
     ScoreMatchComponent,
-    ViewResultsComponent
+    ViewResultsComponent,
+    TeamDetailsComponent
   ],
   imports: [
     BrowserModule,

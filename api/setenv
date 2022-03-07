@@ -1,2 +1,3 @@
 export COSMOS_ENDPOINT=https://trisonics-scouting.documents.azure.com:443/
 export COSMOS_KEY=2JY3ncalrujpk6ZM6Qno8bHwP0eMVVCsJ1uSJ53Msp02fp0UvZZNQRBmWf7JCCq3XGgtqfyqtWnQNi3swyifkg==
+export TBA_KEY=VUdGT41tnb2MLMfXSX0QvPSDDyi0aMVzmxLTWar8wjCmZvNFZfZiq7sHfhAtWgbO
