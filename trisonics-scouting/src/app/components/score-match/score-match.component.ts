@@ -42,6 +42,9 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.fgMatch.get('scouterName')?.valueChanges.subscribe((x) => {
       this.appData.scouterName = x;
     });
+    this.fgMatch.get('teamKey')?.valueChanges.subscribe((x) => {
+      this.appData.teamKey = x;
+    });
     this.fgMatch.get('eventKey')?.valueChanges.subscribe((x) => {
       this.appData.eventKey = x;
     });
@@ -59,10 +62,6 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public toggleAutoTarmac(): void {
     this.appData.autoTarmac = this.fgMatch.get('autoTarmac')?.value;
-  }
-
-  public updateScouterName(): void {
-    this.appData.scouterName = this.fgMatch.get('scouterName')?.value;
   }
 
   public autoHighGoalInc(): void {

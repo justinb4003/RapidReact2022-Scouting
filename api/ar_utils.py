@@ -16,10 +16,20 @@ def get_container():
     return container
 
 
-def get_scouting_data():
+def get_scouting_data(secret_team_key=None, event_key=None):
     container = get_container()
-    query = "SELECT * FROM c"
-    items = container.query_items(query=query, enable_cross_partition_query=True)
+    query = "SELECT * FROM c WHERE 1=1 "
+    params = [
+    ]
+    if (secret_team_key is not None):
+        query += "AND c.secret_team_key = @secret_team_key " 
+        params.append({'name': '@secret_team_key', 'value': secret_team_key})
+    if (event_key is not None):
+        query += "AND c.event_key = @event_key " 
+        params.append({'name': '@event_key', 'value': event_key})
+
+    items = container.query_items(query=query, parameters=params,
+                                  enable_cross_partition_query=True)
     # Now we make a Panads dataframe out of our query results
     df = pd.DataFrame(items)
     df = df[df.columns.drop(list(df.filter(regex='^_')))]

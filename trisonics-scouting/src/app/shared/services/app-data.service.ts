@@ -40,7 +40,11 @@ export class AppDataService {
     return this.httpClient.post(`${this.baseUrl}/PostResults`, payload);
   }
 
-  public getResults(): Observable<ScoutResult[]> {
-    return this.httpClient.get<ScoutResult[]>(`${this.baseUrl}/GetResults`);
+  public getResults(secretTeamKey: string): Observable<ScoutResult[]> {
+    let url = `${this.baseUrl}/GetResults`;
+    if (secretTeamKey)  {
+      url += `?secret_team_key=${secretTeamKey}`;
+    }
+    return this.httpClient.get<ScoutResult[]>(url);
   }
 }
