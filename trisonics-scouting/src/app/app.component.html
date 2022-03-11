@@ -11,13 +11,17 @@
         <img src="./assets/trisonics_logo.png" alt="Trisonics Logo" class="trisonics-logo">
       </div>
       <mat-nav-list>
-        <a routerLink="./score-match" mat-list-item routerLinkActive="active" class="menu-link"
+        <a routerLink="/score-match" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
           <mat-icon>dashboard</mat-icon>Scout!
         </a>
-        <a routerLink="./view-results" mat-list-item routerLinkActive="active" class="menu-link"
+        <a routerLink="/view-results" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
           <mat-icon>verified</mat-icon>Results
+        </a>
+        <a routerLink="/team-details" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>verified</mat-icon>OPRs
         </a>
       </mat-nav-list>
    </div>

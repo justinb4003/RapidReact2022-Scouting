@@ -10,6 +10,16 @@
     </mat-form-field>
   </div>
   <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Event</mat-label>
+      <mat-select formControlName="eventKey">
+        <mat-option value="2022mifor">Test</mat-option>
+        <mat-option value="2022misjo">St. Joe</mat-option>
+        <mat-option value="2022miwmi">GVSU</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
     <button mat-raised-button color="ts-red" class="pm-button" (click)="this.loadData()">
       Load Data
     </button>
@@ -18,6 +28,9 @@
     <mat-checkbox class="game-section" formControlName="displayAuton">Auton</mat-checkbox>
     <mat-checkbox class="game-section" formControlName="displayTeleop">Teleop</mat-checkbox>
     <mat-checkbox class="game-section" formControlName="displayEndGame">End game</mat-checkbox>
+    <!--
+    <mat-checkbox class="game-section" formControlName="displayOPR">OPRs</mat-checkbox>
+    -->
     <mat-checkbox class="game-section" formControlName="displayNotes">Notes</mat-checkbox>
   </div>
 </form>
@@ -32,87 +45,92 @@
     </ng-container>
 
     <ng-container matColumnDef="auton_tarmac">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Tarmac
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_tarmac}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_human_goals">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton Human
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_human_goals}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_high_goals">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton High
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_high_goals}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_low_goals">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton Low
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_low_goals}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_high_miss">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton High Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_high_miss}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_low_miss">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton Low Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.auton_low_miss}} </td>
     </ng-container>
 
     <ng-container matColumnDef="teleop_high_goals">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Teleop High
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_high_goals}} </td>
     </ng-container>
 
     <ng-container matColumnDef="teleop_low_goals">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Teleop Low
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_low_goals}} </td>
     </ng-container>
 
     <ng-container matColumnDef="teleop_high_miss">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Teleop High Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_high_miss}} </td>
     </ng-container>
 
     <ng-container matColumnDef="teleop_low_miss">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Teleop Low Miss
       </th>
       <td mat-cell *matCellDef="let element"> {{element.teleop_low_miss}} </td>
     </ng-container>
 
     <ng-container matColumnDef="final_hang_pos">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Hang
       </th>
       <td mat-cell *matCellDef="let element"> {{element.final_hang_pos}} </td>
     </ng-container>
 
     <ng-container matColumnDef="match_notes">
-      <th mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Notes
       </th>
       <td mat-cell *matCellDef="let element"> {{element.match_notes}} </td>
+    </ng-container>
+    <!-- catch all for OPR columns -->
+    <ng-container *ngFor="let column of oprColumns" [cdkColumnDef]="column.columnDef">
+      <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
     </ng-container>
 
 

@@ -4,6 +4,8 @@ import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as _ from 'lodash';
+import { _MatSlideToggleRequiredValidatorModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-view-results',
@@ -36,12 +38,16 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public displayedColumns: string[] = [];
 
+  public oprColumns: any[] = [];
+  public oprData: any[] = [];
+
   public fgSearch: FormGroup = new FormGroup({
     teamKey: new FormControl(this.appData.teamKey),
     eventKey: new FormControl(''),
     displayAuton: new FormControl(true),
     displayTeleop: new FormControl(true),
     displayEndGame: new FormControl(true),
+    displayOPR: new FormControl(true),
     displayNotes: new FormControl(true),
   });
 
@@ -63,6 +69,9 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   public setDisplayColumns(): void {
     console.log('change');
     this.displayedColumns = this.allColumns;
+    if (this.fgSearch.value.disoplayOPR) {
+      this.displayedColumns = this.displayedColumns.concat(this.oprColumns);
+    }
     if (!this.fgSearch.value.displayAuton) {
       this.displayedColumns = this.displayedColumns.filter((x) => !(x.startsWith('auton')));
     }
@@ -79,6 +88,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public loadData(): void {
     const teamKey = this.fgSearch.value.teamKey;
+    const eventKey = this.fgSearch.value.eventKey;
     this.appData.getResults(teamKey).subscribe((res) => {
       console.log(res);
       this.scoutData.data = res;

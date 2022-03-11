@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { OPRData } from 'src/app/shared/models/opr-data-model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +49,8 @@ export class AppDataService {
     return this.httpClient.get<ScoutResult[]>(url);
   }
 
-  public getOPRData(eventKey: string): Observable<any[]> {
+  public getOPRData(eventKey: string): Observable<OPRData[]> {
     let url = `${this.baseUrl}/GetOPRData?event_key=${eventKey}`;
-    return this.httpClient.get<any[]>(url);
+    return this.httpClient.get<OPRData[]>(url);
   }
 }

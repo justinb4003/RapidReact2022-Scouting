@@ -1,5 +1,11 @@
 <form [formGroup]="this.fgEvent">
   <div class="flex-row">
+    <mat-form-field>
+      <mat-label>Team Number (optional) </mat-label>
+      <input matInput placeholder="Team Number" formControlName="teamNumber">
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
     <mat-form-field >
       <mat-label>Event</mat-label>
       <mat-select formControlName="eventKey">
@@ -9,4 +15,103 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <ng-container>
+    <table mat-table matSort [dataSource]="this.oprData" class="mat-elevation-z8">
+      <ng-container matColumnDef="teamNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Team
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.teamNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="autoPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Auto Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.autoPoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="adjustPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Adjust Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.adjustPoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="autoCargoUpper">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Auto Upper
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.autoCargoUpper | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="autoCargoLower">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Auto Lower
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.autoCargoLower | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="teleopPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Tele Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.teleopPoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="teleopCargoLower">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Tele Lower
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.teleopCargoLower | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="teleopCargoUpper">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Tele Upper
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.teleopCargoUpper | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endgamePoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Endgame Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.endgamePoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Total Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalPoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Ranking Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.rp | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="foulCount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Foul Count
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.foulCount | number : '1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="foulPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Foul Points
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.foulPoints | number : '1.2-2'}} </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </ng-container>
+
 </form>

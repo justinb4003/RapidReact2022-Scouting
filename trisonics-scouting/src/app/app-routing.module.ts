@@ -14,6 +14,10 @@ const routes: Routes = [
     component: ViewResultsComponent,
   },
   {
+    path: "team-details",
+    component: TeamDetailsComponent,
+  },
+  {
     path: "team-details/:teamKey",
     component: TeamDetailsComponent,
   },
