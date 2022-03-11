@@ -227,7 +227,7 @@ def get_opr_data(event_code):
     score_df = score_df.select_dtypes(np.number)
 
     Q, R = np.linalg.qr(team_df)
-    oprs = np.linalg.inv(R) @ Q.T @ score_df
+    oprs = np.linalg.pinv(R) @ Q.T @ score_df
     oprs.index = [team_dict[team] for team in event_teams]
     oprs = oprs.sort_index()
     oprs['teamNumber'] = oprs.index
