@@ -203,7 +203,16 @@ def get_opr_data(event_code):
     quals = quals.dropna(axis='index', subset=['score_breakdown'])
 
     ## dictionary to keep track of who played in a match
+    ## had to be modified so we could work with events where not
+    ## every team showed up.
 
+    teams_in_match = []
+    for i, r in quals.iterrows():
+        blue_teams = r['alliances']['blue']['team_keys']
+        red_teams = r['alliances']['red']['team_keys']
+        teams_in_match += blue_teams + red_teams
+
+    event_teams = list(set(teams_in_match))
     teams_in_match = {team: 0 for team in event_teams}
 
     ## compute oprs
@@ -227,7 +236,7 @@ def get_opr_data(event_code):
     score_df = score_df.select_dtypes(np.number)
 
     Q, R = np.linalg.qr(team_df)
-    oprs = np.linalg.pinv(R) @ Q.T @ score_df
+    oprs = np.linalg.inv(R) @ Q.T @ score_df
     oprs.index = [team_dict[team] for team in event_teams]
     oprs = oprs.sort_index()
     oprs['teamNumber'] = oprs.index
