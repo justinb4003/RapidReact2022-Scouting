@@ -5,3 +5,11 @@
   background-color: #972123;
   color: white;
 }
+
+.mat-row:nth-child(even){
+  background-color: white;
+}
+
+.mat-row:nth-child(odd){
+  background-color: lightgray;
+}
