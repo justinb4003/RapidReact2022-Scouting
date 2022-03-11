@@ -121,12 +121,20 @@
       <td mat-cell *matCellDef="let element"> {{element.final_hang_pos}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="event_key">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Event
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.event_key}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="match_notes">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Notes
       </th>
       <td mat-cell *matCellDef="let element"> {{element.match_notes}} </td>
     </ng-container>
+
     <!-- catch all for OPR columns -->
     <ng-container *ngFor="let column of oprColumns" [cdkColumnDef]="column.columnDef">
       <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>

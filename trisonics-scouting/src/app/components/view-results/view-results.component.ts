@@ -17,6 +17,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   public htmlData: string = '';
+  public fullScoutData: ScoutResult[] = [];
   public scoutData = new MatTableDataSource<ScoutResult>();
   public pageReady: boolean = false;
 
@@ -33,6 +34,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     'teleop_high_miss',
     'teleop_low_miss',
     'final_hang_pos',
+    'event_key',
     'match_notes',
   ];
 
@@ -63,6 +65,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     this.scoutData.sort = this.sort;
     this.fgSearch.valueChanges.subscribe((x) => {
       this.setDisplayColumns();
+      this.filterData();
     });
   }
 
@@ -86,12 +89,23 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public filterData(): void {
+    const eventKey = this.fgSearch.value.eventKey;
+    if (eventKey) {
+      const data = this.fullScoutData.filter((x) => x.event_key === eventKey);
+      this.scoutData.data = data;
+    } else {
+      this.scoutData.data = this.fullScoutData;
+    }
+  }
+
   public loadData(): void {
     const teamKey = this.fgSearch.value.teamKey;
     const eventKey = this.fgSearch.value.eventKey;
     this.appData.getResults(teamKey).subscribe((res) => {
       console.log(res);
-      this.scoutData.data = res;
+      this.fullScoutData = res;
+      this.filterData();
       this.pageReady = true;
     });
   }
