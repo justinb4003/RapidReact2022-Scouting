@@ -189,6 +189,7 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     df = df[df.columns.drop(list(df.filter(regex='^_')))]
     df = df.drop(columns=['id'])
     df["auton_tarmac"] = df["auton_tarmac"].astype(int)
+    df.drop_duplicates(inplace=True, ignore_index=True, keep='last')
     return df
 
 def get_opr_data(event_code):
