@@ -19,7 +19,8 @@ def get_checksum(data):
 
 # A list of dictionaries, each containing the data of a scouted team in a match
 scoutdata = []
-remote_scout_data = get_scouting_data()
+remote_scout_data = get_scouting_data().to_dict('records')
+print(remote_scout_data)
 scoutdata = scoutdata + remote_scout_data
 # List of checksums of the scoutdata elements
 # We don't need to store this, we'll just re-compute it on load, so we don't
