@@ -189,22 +189,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
         this.snackbar.open('Success! Data uploaded!',
           'Close', { duration: 5000, panelClass: ['snackbar-success'] });
         // Reset form controls that should be reset between matches
-        this.fgMatch.get('autoTarmac')?.setValue(false);
-        this.fgMatch.get('scoutingTeam')?.setValue('');
-        this.fgMatch.get('match')?.setValue('');
-        this.fgMatch.get('finalHangPos')?.setValue(0);
-        this.fgMatch.get('matchNotes')?.setValue('');
-
-        // Now flip the numeric controls back to 0
-        this.appData.autoHighGoal = 0;
-        this.appData.autoHighGoalmiss = 0;
-        this.appData.autoLowGoal = 0;
-        this.appData.autoLowGoalmiss = 0;
-        this.appData.humanGoals = 0;
-        this.appData.teleopHighGoal = 0;
-        this.appData.teleopHighGoalmiss = 0;
-        this.appData.teleopLowGoal = 0;
-        this.appData.teleopLowGoalmiss = 0;
+        this.resetForm();
       },
       error: (err) => {
         console.log('Error uploading data: ', err);
@@ -213,6 +198,32 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
           'Close', { duration: 5000, panelClass: ['snackbar-error'] });
       }
     });
+  }
+
+  public resetForm(): void {
+    this.fgMatch.get('autoTarmac')?.setValue(false);
+    this.fgMatch.get('scoutingTeam')?.setValue('');
+    this.fgMatch.get('match')?.setValue('');
+    this.fgMatch.get('finalHangPos')?.setValue(0);
+    this.fgMatch.get('matchNotes')?.setValue('');
+
+    // Now flip the numeric controls back to 0
+    this.appData.autoHighGoal = 0;
+    this.appData.autoHighGoalmiss = 0;
+    this.appData.autoLowGoal = 0;
+    this.appData.autoLowGoalmiss = 0;
+    this.appData.humanGoals = 0;
+    this.appData.teleopHighGoal = 0;
+    this.appData.teleopHighGoalmiss = 0;
+    this.appData.teleopLowGoal = 0;
+    this.appData.teleopLowGoalmiss = 0;
+  }
+
+  public resetFormConfirm(): void {
+    const resp = confirm('Are you sure you want to clear the form?');
+    if (resp) {
+      this.resetForm();
+    }
   }
 
   get qrGameString(): string {
