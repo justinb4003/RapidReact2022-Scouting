@@ -188,6 +188,7 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     df = pd.DataFrame(items)
     df = df[df.columns.drop(list(df.filter(regex='^_')))]
     df = df.drop(columns=['id'])
+    df["auton_tarmac"] = df["auton_tarmac"].astype(int)
     return df
 
 def get_opr_data(event_code):
@@ -227,4 +228,5 @@ def get_opr_data(event_code):
     oprs = np.linalg.inv(R) @ Q.T @ score_df
     oprs.index = [team_dict[team] for team in event_teams]
     oprs = oprs.sort_index()
+    oprs['teamNumber'] = oprs.index
     return oprs
