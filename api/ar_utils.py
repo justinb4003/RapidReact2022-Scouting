@@ -200,6 +200,7 @@ def get_opr_data(event_code):
 
     matches = get_event_matches_df(event_code)
     quals = matches[matches['comp_level'] == 'qm']
+    quals = quals.dropna(axis='index', subset=['score_breakdown'])
 
     ## dictionary to keep track of who played in a match
 
@@ -218,8 +219,6 @@ def get_opr_data(event_code):
                 team_matrix_row[team] = 1
             team_matrix.append(team_matrix_row)
 
-            if row['score_breakdown'] is None:
-                continue
             scores = row['score_breakdown'][color]  # Problem here, row['score_breakdown'] is None
             score_matrix.append(scores)
 
