@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -58,6 +59,7 @@ import { TeamDetailsComponent } from './components/team-details/team-details.com
     HttpClientModule,
     QRCodeModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

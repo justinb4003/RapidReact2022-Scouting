@@ -21,6 +21,8 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   public scoutData = new MatTableDataSource<ScoutResult>();
   public pageReady: boolean = false;
 
+  public dataLoading: boolean = false;
+
   public allColumns = [
     'scouting_team',
     'auton_tarmac',
@@ -135,11 +137,13 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   public loadData(): void {
     const teamKey = this.fgSearch.value.teamKey;
     const eventKey = this.fgSearch.value.eventKey;
+    this.dataLoading = true;
     this.appData.getResults(teamKey).subscribe((res) => {
       console.log(res);
       this.fullScoutData = res;
       this.filterData();
       this.pageReady = true;
+      this.dataLoading = false;
     });
   }
 }

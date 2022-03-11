@@ -18,6 +18,10 @@
     </mat-form-field>
   </div>
   <ng-container>
+    <div *ngIf="this.dataLoading">
+      <mat-progress-bar color="primary" mode="indeterminate">
+      </mat-progress-bar>
+    </div>
     <table mat-table matSort [dataSource]="this.oprData" class="mat-elevation-z8">
       <ng-container matColumnDef="teamNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>

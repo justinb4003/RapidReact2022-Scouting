@@ -47,6 +47,10 @@
   </div>
 </form>
 <ng-container>
+  <div *ngIf="this.dataLoading">
+    <mat-progress-bar color="primary" mode="indeterminate">
+    </mat-progress-bar>
+  </div>
   <table mat-table [dataSource]="this.scoutData" matSort class="mat-elevation-z8">
 
     <ng-container matColumnDef="scouting_team">

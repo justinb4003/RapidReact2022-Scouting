@@ -20,6 +20,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   public oprData = new MatTableDataSource<OPRData>();
   public displayedColumns: string[] = [];
   public columns: Array<any> = [];
+  public dataLoading: boolean = false;
 
   public oprColumnsMain: string[] = [
     'teamNumber',
@@ -69,6 +70,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   }
 
   public loadOPRData(): void {
+    this.dataLoading = true;
     this.appData.getOPRData(this.fgEvent.get('eventKey')?.value).subscribe({
       next: (data) => {
         console.log(JSON.stringify(data, null, 4));
@@ -96,9 +98,12 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
         _.remove(this.displayedColumns, c => c === 'teamNumber');
         this.displayedColumns.unshift('teamNumber');
         this.oprData.data = data;
+        this.dataLoading = false;
+
       },
       error: (err) => {
         console.error(err);
+        this.dataLoading = false;
         alert('Error retrieving OPR data!')
       }
     });
