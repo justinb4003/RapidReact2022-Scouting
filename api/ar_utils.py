@@ -218,7 +218,9 @@ def get_opr_data(event_code):
                 team_matrix_row[team] = 1
             team_matrix.append(team_matrix_row)
 
-            scores = row['score_breakdown'][color]
+            if row['score_breakdown'] is None:
+                continue
+            scores = row['score_breakdown'][color]  # Problem here, row['score_breakdown'] is None
             score_matrix.append(scores)
 
     team_df = pd.DataFrame(team_matrix)
