@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import * as _ from 'lodash';
 
 @Component({
@@ -10,10 +12,12 @@ import * as _ from 'lodash';
   templateUrl: './team-details.component.html',
   styleUrls: ['./team-details.component.scss']
 })
-export class TeamDetailsComponent implements OnInit {
+export class TeamDetailsComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(MatSort) sort: MatSort;
 
   public fullOPRData: OPRData[] = [];
-  public oprData: OPRData[] = [];
+  public oprData = new MatTableDataSource<OPRData>();
   public displayedColumns: string[] = [];
   public columns: Array<any> = [];
 
@@ -56,6 +60,10 @@ export class TeamDetailsComponent implements OnInit {
     });
   }
 
+  public ngAfterViewInit(): void {
+    this.oprData.sort = this.sort;
+  }
+
   public filterOPRData(): void {
 
   }
@@ -79,15 +87,15 @@ export class TeamDetailsComponent implements OnInit {
           }
         })
         data.forEach((row) => {
-          row.autoCargoLower = (row.autoCargoLowerBlue + row.autoCargoLowerRed + row.autoCargoLowerNear + row.autoCargoLowerFar) / 4;
-          row.autoCargoUpper = (row.autoCargoUpperBlue + row.autoCargoUpperRed + row.autoCargoUpperNear + row.autoCargoUpperFar) / 4;
-          row.teleopCargoLower = (row.teleopCargoLowerBlue + row.teleopCargoLowerRed + row.teleopCargoLowerNear + row.teleopCargoLowerFar) / 4
-          row.teleopCargoUpper = (row.teleopCargoUpperBlue + row.teleopCargoUpperRed + row.teleopCargoUpperNear + row.teleopCargoUpperFar) / 4;
+          row.autoCargoLower = (row.autoCargoLowerBlue + row.autoCargoLowerRed + row.autoCargoLowerNear + row.autoCargoLowerFar);
+          row.autoCargoUpper = (row.autoCargoUpperBlue + row.autoCargoUpperRed + row.autoCargoUpperNear + row.autoCargoUpperFar);
+          row.teleopCargoLower = (row.teleopCargoLowerBlue + row.teleopCargoLowerRed + row.teleopCargoLowerNear + row.teleopCargoLowerFar)
+          row.teleopCargoUpper = (row.teleopCargoUpperBlue + row.teleopCargoUpperRed + row.teleopCargoUpperNear + row.teleopCargoUpperFar);
         })
         this.displayedColumns = this.columns.map(c => c.columnDef);
         _.remove(this.displayedColumns, c => c === 'teamNumber');
         this.displayedColumns.unshift('teamNumber');
-        this.oprData = data;
+        this.oprData.data = data;
       },
       error: (err) => {
         console.error(err);
