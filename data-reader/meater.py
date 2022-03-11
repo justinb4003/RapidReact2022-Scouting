@@ -6,6 +6,8 @@ import hashlib
 import cv2 as cv
 from pyzbar.pyzbar import decode, ZBarSymbol
 
+from ar_utils import *
+
 
 # Quick function to create an md5 hash of a dictionary
 # Odds of two dictionaries having the same hash are very low, essentially
@@ -17,6 +19,8 @@ def get_checksum(data):
 
 # A list of dictionaries, each containing the data of a scouted team in a match
 scoutdata = []
+remote_scout_data = get_scouting_data()
+scoutdata = scoutdata + remote_scout_data
 # List of checksums of the scoutdata elements
 # We don't need to store this, we'll just re-compute it on load, so we don't
 # store it with the actual scoutdata that gets saved
@@ -62,7 +66,10 @@ while True:
             print(f'System has {len(scoutdata)} data points.')
             # Write the whole scoutdata list to the datafile
             with open(datafile, 'w') as f:
-                json.dump(scoutdata, f)
+                json.dump(scoutdata, f)  # Dump to disk
+                # Now try and upload to Cosmos
+                container = get_container()
+                container.upsert_item(data)
     cv.imshow('frame', frame)
     # If the user presses 'q' in the window, exit the while loop
     # and the program ends.
