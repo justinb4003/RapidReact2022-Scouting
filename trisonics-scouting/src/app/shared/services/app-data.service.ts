@@ -12,7 +12,7 @@ export class AppDataService {
   public autoTarmac: boolean = false;
   public scouterName: string = '';
   public teamKey: string = '';
-  public eventKey: string = 'test';
+  public eventKey: string = '2022misjo';
   public match: string = '';
   public scoutingTeam: number = 0;
   public autoHighGoal: number = 0;
