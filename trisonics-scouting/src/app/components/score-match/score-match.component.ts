@@ -48,6 +48,9 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.fgMatch.get('eventKey')?.valueChanges.subscribe((x) => {
       this.appData.eventKey = x;
     });
+    this.fgMatch.get('match')?.valueChanges.subscribe((x) => {
+      this.appData.match = x;
+    });
     this.fgMatch.get('scoutingTeam')?.valueChanges.subscribe((x) => {
       // We use the + operator to force the value to be a number.
       this.appData.scoutingTeam = +x;
@@ -160,6 +163,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       scouter_name: this.appData.scouterName,
       secret_team_key: this.appData.teamKey,
       event_key: this.appData.eventKey,
+      match_key: this.appData.match,
       scouting_team: this.appData.scoutingTeam,
       auton_tarmac: this.appData.autoTarmac,
       auton_high_goals: this.appData.autoHighGoal,
@@ -182,7 +186,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.appData.postResults(this.getGameData()).subscribe({
       next: (data) => {
         this.uploadError = false;
-        this.snackbar.open('Success! Data uploaded!', 
+        this.snackbar.open('Success! Data uploaded!',
           'Close', { duration: 5000, panelClass: ['snackbar-success'] });
         // Reset form controls that should be reset between matches
         this.fgMatch.get('autoTarmac')?.setValue(false);
@@ -205,7 +209,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       error: (err) => {
         console.log('Error uploading data: ', err);
         this.uploadError = true;
-        this.snackbar.open('Error uploading data, please try again.', 
+        this.snackbar.open('Error uploading data, please try again.',
           'Close', { duration: 5000, panelClass: ['snackbar-error'] });
       }
     });

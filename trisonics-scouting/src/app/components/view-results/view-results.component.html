@@ -1,9 +1,18 @@
 <div>
-  Results
+  <h2 mat-h2>Results</h2>
 </div>
 <form [formGroup]="this.fgSearch">
   <!-- Match/Scouter level data -->
   <div class="flex-row">
+    <p>
+      If you want to filter data to only show data
+      that was entered by a group you know, use the
+      secret key here.
+    </p>
+    <p>
+      An empty value gives you everything recored by anybody
+      in the app.
+    </p>
     <mat-form-field >
       <mat-label>Team Key (optional)</mat-label>
       <input matInput placeholder="Secret Key" formControlName="teamKey">
@@ -33,6 +42,9 @@
     -->
     <mat-checkbox class="game-section" formControlName="displayNotes">Notes</mat-checkbox>
   </div>
+  <div class="flex-row">
+    <mat-checkbox class="game-section" formControlName="displaySummary">Summary/Group Data by Team</mat-checkbox>
+  </div>
 </form>
 <ng-container>
   <table mat-table [dataSource]="this.scoutData" matSort class="mat-elevation-z8">
@@ -51,11 +63,11 @@
       <td mat-cell *matCellDef="let element"> {{element.auton_tarmac}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_human_goals">
+    <ng-container matColumnDef="auton_human_player">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Auton Human
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_human_goals}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auton_human_player}} </td>
     </ng-container>
 
     <ng-container matColumnDef="auton_high_goals">
@@ -126,6 +138,20 @@
         Event
       </th>
       <td mat-cell *matCellDef="let element"> {{element.event_key}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="scouter_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Scouter
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.scouter_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="match_key">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Match
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.match_key}} </td>
     </ng-container>
 
     <ng-container matColumnDef="match_notes">

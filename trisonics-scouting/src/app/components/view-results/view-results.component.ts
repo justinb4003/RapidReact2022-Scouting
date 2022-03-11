@@ -24,7 +24,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   public allColumns = [
     'scouting_team',
     'auton_tarmac',
-    'auton_human_goals',
+    'auton_human_player',
     'auton_high_goals',
     'auton_low_goals',
     'auton_high_miss',
@@ -35,6 +35,8 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     'teleop_low_miss',
     'final_hang_pos',
     'event_key',
+    'match_key',
+    'scouter_name',
     'match_notes',
   ];
 
@@ -51,6 +53,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     displayEndGame: new FormControl(true),
     displayOPR: new FormControl(true),
     displayNotes: new FormControl(true),
+    displaySummary: new FormControl(false),
   });
 
   constructor(
@@ -91,13 +94,43 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public filterData(): void {
     const eventKey = this.fgSearch.value.eventKey;
+    const summary = this.fgSearch.value.displaySummary;
     if (eventKey) {
       const data = this.fullScoutData.filter((x) => x.event_key === eventKey);
       this.scoutData.data = data;
     } else {
       this.scoutData.data = this.fullScoutData;
     }
+
+    // Check summation now
+    if (summary) {
+      var output =
+    _(this.scoutData.data).groupBy('scouting_team')
+      .map((objs, key) => ({
+          'scouting_team': +key,
+          'auton_tarmac': _.meanBy(objs, 'auton_tarmac'),
+          'auton_human_player': _.meanBy(objs, 'auton_human_player'),
+          'auton_high_goals': _.meanBy(objs, 'auton_high_goals'),
+          'auton_low_goals': _.meanBy(objs, 'auton_low_goals'),
+          'auton_high_miss': _.meanBy(objs, 'auton_high_miss'),
+          'auton_low_miss': _.meanBy(objs, 'auton_low_miss'),
+          'teleop_high_goals': _.meanBy(objs, 'teleop_high_goals'),
+          'teleop_low_goals': _.meanBy(objs, 'teleop_low_goals'),
+          'teleop_high_miss': _.meanBy(objs, 'teleop_high_miss'),
+          'teleop_low_miss': _.meanBy(objs, 'teleop_low_miss'),
+          'final_hang_pos': _.meanBy(objs, 'final_hang_pos'),
+          'event_key': '',
+          'match_key': '',
+          'scouter_name': '',
+          'match_notes': '',
+          'secret_team_key': '',
+        })).value();
+      this.scoutData.data = output;
+
+    }
+
   }
+
 
   public loadData(): void {
     const teamKey = this.fgSearch.value.teamKey;
