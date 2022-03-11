@@ -240,4 +240,5 @@ def get_opr_data(event_code):
     oprs.index = [team_dict[team] for team in event_teams]
     oprs = oprs.sort_index()
     oprs['teamNumber'] = oprs.index
+    oprs.sort_values(by=['totalPoints'], inplace=True, ascending=False)
     return oprs
