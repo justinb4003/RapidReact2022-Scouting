@@ -4,8 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import * as _ from 'lodash';
+import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
 
 @Component({
   selector: 'app-team-details',
@@ -17,6 +20,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   public fullOPRData: OPRData[] = [];
+  public fullScoutData: ScoutResult[] = [];
   public oprData = new MatTableDataSource<OPRData>();
   public displayedColumns: string[] = [];
   public columns: Array<any> = [];
@@ -35,7 +39,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
     'rp',
     'foulCount',
     'foulPoints',
-  ]
+  ];
 
   public fgEvent: FormGroup = new FormGroup({
     teamNumber: new FormControl(''),
@@ -45,6 +49,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   constructor(
     private appData: AppDataService,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +57,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
     if (tk) {
       this.fgEvent.get('teamNumber')?.setValue(tk);
     }
+    this.loadScoutData();
     this.loadOPRData();
     this.fgEvent.get('eventKey')?.valueChanges.subscribe((x) => {
       this.loadOPRData();
@@ -73,7 +79,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
     this.dataLoading = true;
     this.appData.getOPRData(this.fgEvent.get('eventKey')?.value).subscribe({
       next: (data) => {
-        console.log(JSON.stringify(data, null, 4));
+        // console.log(JSON.stringify(data, null, 4));
         // const columns = Object.keys(data[0]);
         const columns = this.oprColumnsMain;
         this.columns = columns.map(column => {
@@ -134,5 +140,30 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
 
   public exportCSV(): void {
     this.downloadFile(this.oprData.data);
+  }
+
+  public loadScoutData(): void {
+    const teamKey = this.fgEvent.value.teamKey;
+    const eventKey = this.fgEvent.value.eventKey;
+    this.dataLoading = true;
+    this.appData.getResults(teamKey).subscribe((res) => {
+      console.log(res);
+      this.fullScoutData = res;
+    });
+  }
+
+  public showTeamDetail(teamNumber: number): void {
+    console.log('clickly');
+    const passData = this.fullScoutData.filter(
+         (x) => x.scouting_team === teamNumber &&
+                x.event_key === this.fgEvent.value.eventKey,
+        );
+    console.log('full', this.fullScoutData);
+    console.log('pass', passData);
+    const dref = this.dialog.open(ScoutDetailComponent, {
+      height: '75vh',
+      width: '100%',
+      data: passData,
+    });
   }
 }

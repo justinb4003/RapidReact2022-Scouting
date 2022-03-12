@@ -67,6 +67,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setDisplayColumns();
+    this.loadData();
   }
 
   ngAfterViewInit(): void {
