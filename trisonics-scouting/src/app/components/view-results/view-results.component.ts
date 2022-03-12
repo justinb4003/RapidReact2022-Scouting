@@ -6,6 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as _ from 'lodash';
 import { _MatSlideToggleRequiredValidatorModule } from '@angular/material/slide-toggle';
+import { MatDialog } from '@angular/material/dialog';
+import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
 
 @Component({
   selector: 'app-view-results',
@@ -60,6 +62,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   constructor(
     public appData: AppDataService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -171,5 +174,17 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public exportCSV(): void {
     this.downloadFile(this.scoutData.data);
+  }
+
+  public showTeamDetail(teamNumber: number): void {
+    console.log('clickly');
+    const dref = this.dialog.open(ScoutDetailComponent, {
+      height: '75vh',
+      width: '100%',
+      data: this.fullScoutData.filter(
+         (x) => x.scouting_team === teamNumber &&
+                x.event_key === this.fgSearch.value.eventKey,
+        ),
+    });
   }
 }

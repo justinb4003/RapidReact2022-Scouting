@@ -43,6 +43,7 @@ import { ViewResultsComponent } from './components/view-results/view-results.com
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
+import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { TeamDetailsComponent } from './components/team-details/team-details.com
     LoginScreenComponent,
     ScoreMatchComponent,
     ViewResultsComponent,
-    TeamDetailsComponent
+    TeamDetailsComponent,
+    ScoutDetailComponent
   ],
   imports: [
     BrowserModule,
