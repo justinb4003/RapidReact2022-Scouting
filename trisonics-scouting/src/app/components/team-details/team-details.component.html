@@ -17,6 +17,11 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <div class="flex-row">
+    <button mat-raised-button color="ts-red" class="pm-button" (click)="this.exportCSV()">
+      Expoort CSV
+    </button>
+  </div>
   <ng-container>
     <div *ngIf="this.dataLoading">
       <mat-progress-bar color="primary" mode="indeterminate">
