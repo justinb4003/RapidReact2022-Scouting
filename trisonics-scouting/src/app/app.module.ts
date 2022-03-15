@@ -44,6 +44,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
 import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-detail.component';
+import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-de
     ScoreMatchComponent,
     ViewResultsComponent,
     TeamDetailsComponent,
-    ScoutDetailComponent
+    ScoutDetailComponent,
+    ScoutPitComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

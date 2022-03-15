@@ -3,11 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { ViewResultsComponent } from './components/view-results/view-results.component';
 import { ScoreMatchComponent } from './components/score-match/score-match.component';
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
+import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   {
     path: "score-match",
     component: ScoreMatchComponent,
+  },
+  {
+    path: "scout-pit",
+    component: ScoutPitComponent,
   },
   {
     path: "view-results",
@@ -20,6 +26,10 @@ const routes: Routes = [
   {
     path: "team-details/:teamKey",
     component: TeamDetailsComponent,
+  },
+  {
+    path: "settings",
+    component: SettingsComponent,
   },
 
 ];

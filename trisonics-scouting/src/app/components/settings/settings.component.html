@@ -1,0 +1,22 @@
+<form [formGroup]="this.fgSettings">
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team Data Key (secret, optional)</mat-label>
+      <input matInput placeholder="Secret Data Key" formControlName="teamKey">
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Your Name</mat-label>
+      <input matInput placeholder="Your Name" formControlName="scouterName">
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Event</mat-label>
+      <mat-select formControlName="eventKey">
+        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

@@ -1,0 +1,34 @@
+<form [formGroup]="this.fgScoutPit">
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team Number</mat-label>
+      <input matInput placeholder="Team number" formControlName="teamNumber">
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Drive Train</mat-label>
+      <mat-select formControlName="driveTrain">
+        <mat-option *ngFor="let e of this.appData.driveTrainList" [value]="e">{{e}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="lowGoal">Can shoot low goal</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="highGoal">Can shoot high goal</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="lowHang">Low Hang</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="midHang">Mid Hang</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="highHang">High Hang</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-checkbox formControlName="traversalHang">Traversal Hang</mat-checkbox>
+  </div>
+</form>

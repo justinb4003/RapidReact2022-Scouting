@@ -13,7 +13,11 @@
       <mat-nav-list>
         <a routerLink="/score-match" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
-          <mat-icon>dashboard</mat-icon>Scout!
+          <mat-icon>dashboard</mat-icon>Scout Match!
+        </a>
+        <a routerLink="/scout-pit" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>dashboard</mat-icon>Pit Scout!
         </a>
         <a routerLink="/view-results" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
@@ -22,6 +26,10 @@
         <a routerLink="/team-details" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
           <mat-icon>verified</mat-icon>OPRs
+        </a>
+        <a routerLink="/settings" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon>settings</mat-icon>Settings
         </a>
       </mat-nav-list>
    </div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { TBAEvent } from 'src/app/shared/models/tba-event.model';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
 
 @Injectable({
@@ -28,6 +29,38 @@ export class AppDataService {
   public finalHangPos: number = 0;
 
   public matchNotes: string = '';
+
+  public driveTrainList: string[] = [
+    'Tank (4 wheel)',
+    'Tank (treads)',
+    'Drop Center (6 wheel)',
+    'Drop Center (8 wheel)',
+    'Swerve',
+    'H drive',
+  ];
+
+  public eventList: TBAEvent[] = [
+    {
+      eventKey: '2022mifor',
+      eventName: 'Calvin (test)',
+      eventDate: null,
+    },
+    {
+      eventKey: '2022misjo',
+      eventName: 'St. Joe',
+      eventDate: new Date(2022, 3, 9),
+    },
+    {
+      eventKey: '2022miwmi',
+      eventName: 'GVSU',
+      eventDate: new Date(2022, 3, 25),
+    },
+    {
+      eventKey: '2022mist', // TODO: Get the right code
+      eventName: 'States',
+      eventDate: new Date(2022, 4, 13),
+    },
+  ];
 
   private baseUrl = environment.baseUrl;
 
