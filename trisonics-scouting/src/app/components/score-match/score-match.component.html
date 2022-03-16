@@ -1,5 +1,4 @@
 <form [formGroup]="this.fgMatch">
-  <!-- Match/Scouter level data -->
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Scouter Name</mat-label>
@@ -16,11 +15,8 @@
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Event</mat-label>
-      <!-- TODO: make this a list somewhere in code -->
       <mat-select formControlName="eventKey">
-        <mat-option value="2022mifor">Test</mat-option>
-        <mat-option value="2022misjo">St. Joe</mat-option>
-        <mat-option value="2022miwmi">GVSU</mat-option>
+        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -28,8 +24,10 @@
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Team you are Scouting</mat-label>
-      <input matInput placeholder="Observing" autocomplete="off"
-            formControlName="scoutingTeam">
+      <mat-select formControlName="scoutingTeam">
+        <mat-option value="">Select Team</mat-option>
+        <mat-option *ngFor="let t of this.teamList" [value]="t.number">{{t.number}} - {{t.name}}</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 

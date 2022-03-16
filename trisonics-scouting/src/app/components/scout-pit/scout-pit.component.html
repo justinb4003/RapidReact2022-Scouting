@@ -1,9 +1,38 @@
+<h1 mat-h1>Pit Scouting</h1>
 <form [formGroup]="this.fgScoutPit">
   <div class="flex-row">
     <mat-form-field >
-      <mat-label>Team Number</mat-label>
-      <input matInput placeholder="Team number" formControlName="teamNumber">
+      <mat-label>Scouter Name</mat-label>
+      <input matInput placeholder="Your Name" formControlName="scouterName">
     </mat-form-field>
+  </div>
+
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team Data Key (secret, optional)</mat-label>
+      <input matInput placeholder="Secret Data Key" formControlName="teamKey">
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Event</mat-label>
+      <mat-select formControlName="eventKey">
+        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team you are Scouting</mat-label>
+      <mat-select formControlName="scoutingTeam">
+        <mat-option value="">Select Team</mat-option>
+        <mat-option *ngFor="let t of this.teamList" [value]="t.number">{{t.number}} - {{t.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="flex-row section-header">
+    <h2 mat-h2>Chassis</h2>
   </div>
   <div class="flex-row">
     <mat-form-field >
@@ -14,10 +43,19 @@
     </mat-form-field>
   </div>
   <div class="flex-row">
+    <mat-checkbox formControlName="hasWheelOmni">Omni Wheels</mat-checkbox>
+  </div>
+  <div class="flex-row section-header">
+    <h2 mat-h2>Cargo Handling</h2>
+  </div>
+  <div class="flex-row">
     <mat-checkbox formControlName="lowGoal">Can shoot low goal</mat-checkbox>
   </div>
   <div class="flex-row">
     <mat-checkbox formControlName="highGoal">Can shoot high goal</mat-checkbox>
+  </div>
+  <div class="flex-row section-header">
+    <h2 mat-h2>End game</h2>
   </div>
   <div class="flex-row">
     <mat-checkbox formControlName="lowHang">Low Hang</mat-checkbox>

@@ -46,6 +46,7 @@ import { TeamDetailsComponent } from './components/team-details/team-details.com
 import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-detail.component';
 import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { GarvComponent } from './components/garv/garv.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     TeamDetailsComponent,
     ScoutDetailComponent,
     ScoutPitComponent,
-    SettingsComponent
+    SettingsComponent,
+    GarvComponent
   ],
   imports: [
     BrowserModule,

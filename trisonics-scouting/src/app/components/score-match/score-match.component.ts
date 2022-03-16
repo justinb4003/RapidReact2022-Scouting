@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 
 @Component({
@@ -12,6 +13,8 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
 export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public uploadError: boolean = false;
+
+  public teamList: TBATeam[] = [];
 
   public fgMatch: FormGroup = new FormGroup({
     autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
@@ -31,6 +34,15 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     const self = this;
+    this.loadData();
+  }
+
+  private loadData(): void {
+    console.log('this.app eventkey', this.appData.eventKey);
+    this.appData.getEventTeamList(this.appData.eventKey).subscribe((tl) => {
+      console.log('team list', tl)
+      this.teamList = tl;
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -47,6 +59,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     });
     this.fgMatch.get('eventKey')?.valueChanges.subscribe((x) => {
       this.appData.eventKey = x;
+      this.loadData();
     });
     this.fgMatch.get('match')?.valueChanges.subscribe((x) => {
       this.appData.match = x;

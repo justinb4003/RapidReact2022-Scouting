@@ -1,5 +1,5 @@
 export interface TBATeam {
-  teamNumber: number;
-  teamName: string;
-  teamLocation: string;
+  number: number;
+  name: string;
+  location: string;
 }

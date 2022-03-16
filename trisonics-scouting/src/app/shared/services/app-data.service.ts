@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { TBAEvent } from 'src/app/shared/models/tba-event.model';
+import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
+import { AppSettings } from 'src/app/shared/models/app-settings.model';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppDataService {
   public autoTarmac: boolean = false;
-  public scouterName: string = '';
-  public teamKey: string = '';
-  public eventKey: string = '2022misjo';
   public match: string = '';
   public scoutingTeam: number = 0;
   public autoHighGoal: number = 0;
@@ -39,6 +39,24 @@ export class AppDataService {
     'H drive',
   ];
 
+  public teamList: [ {eventKey: string, teams: TBATeam[]} ] = [
+    {
+      eventKey: '2022misjo',
+      teams: [
+        {
+          number: 4003,
+          name: 'Trisonics',
+          location: 'Allendale MI',
+        },
+        {
+          number: 2767,
+          name: 'Strykeforce',
+          location: 'Kalamazoo MI',
+        },
+      ],
+    },
+  ];
+
   public eventList: TBAEvent[] = [
     {
       eventKey: '2022mifor',
@@ -62,9 +80,69 @@ export class AppDataService {
     },
   ];
 
+  private _scouterName: string = '';
+  private _teamKey: string = '';
+  private _eventKey: string = '2022misjo';
+
   private baseUrl = environment.baseUrl;
 
-  constructor(private httpClient: HttpClient) { }
+  public get scouterName(): string {
+    return this._scouterName;
+  }
+
+  public get teamKey(): string {
+    return this._teamKey;
+  }
+
+  public get eventKey(): string {
+    return this._eventKey;
+  }
+
+  public set scouterName(v: string) {
+    this._scouterName = v;
+    this.saveSettings();
+  }
+
+  public set teamKey(v: string) {
+    this._teamKey = v;
+    this.saveSettings();
+  }
+
+  public set eventKey(v: string) {
+    this._eventKey = v;
+    this.saveSettings();
+  }
+
+  constructor(private httpClient: HttpClient) {
+    this.loadSettings();
+  }
+
+  private saveSettings(): void {
+    const d: AppSettings = {
+      scouterName: this.scouterName,
+      secretKey: this.teamKey,
+      eventKey: this.eventKey,
+    };
+    localStorage.setItem('appSettings', JSON.stringify(d));
+  }
+
+  private loadSettings(): void {
+    const rawJson = localStorage.getItem('appSettings') ?? '{}';
+    const d: AppSettings = JSON.parse(rawJson);
+    this.scouterName = d.scouterName;
+    this.eventKey = d.eventKey;
+    this.teamKey = d.secretKey;
+  }
+
+  public getEventTeamList(eventKey: string): Observable<TBATeam[]> {
+    const cached = this.teamList.find((x) => x.eventKey === eventKey);
+    if (cached) {
+      return of(cached.teams);
+    }
+    // TODO: Make a call out to our local API to hit TBA on our behalf
+    console.log('no cache hit on team list -- no data will come back');
+    return of([]);
+  }
 
   public getHelloWorld(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/HelloWorld`);
