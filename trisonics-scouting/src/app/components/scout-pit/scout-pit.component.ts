@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { TBATeam } from 'src/app/shared/models/tba-team.model';
+import { PitResult } from 'src/app/shared/models/pit-result.model copy';
 
 @Component({
   selector: 'app-scout-pit',
@@ -45,6 +46,32 @@ export class ScoutPitComponent implements OnInit {
       console.log('team list', tl)
       this.teamList = tl;
     });
+  }
+
+  public sendData(): void{
+    console.log("anything");
+    const ret = {
+      scouter_name: this.appData.scouterName,
+      secret_team_key: this.appData.teamKey,
+      event_key: this.appData.eventKey,
+      scouting_team: this.appData.scoutingTeam,
+      drive_train: this.fgScoutPit.get('driveTrain')?.value,
+      wheel_omni: this.fgScoutPit.get('hasWheelOmni')?.value,
+      wheel_inflated: this.fgScoutPit.get('hasWheelInflated')?.value,
+      wheel_mec: this.fgScoutPit.get('hasWheelMec')?.value,
+      wheel_solid: this.fgScoutPit.get('hasWheelSolid')?.value,
+    } as PitResult;
+    this.appData.postPitResults(ret).subscribe({
+      next: (data) => {
+        console.log('it worked');
+      },
+      error: (err) => {
+        console.log('Error uploading data: ', err);
+
+      }
+    });
+
+
   }
 
 }

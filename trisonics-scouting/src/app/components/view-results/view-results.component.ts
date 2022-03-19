@@ -70,16 +70,23 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
+  public tempfunc(x: any): void {
+    console.log('tempfunc called with', x);
+  }
+
+
+
   ngAfterViewInit(): void {
     this.scoutData.sort = this.sort;
     this.fgSearch.valueChanges.subscribe((x) => {
+      console.log('touched');
       this.setDisplayColumns();
       this.filterData();
     });
   }
 
   public setDisplayColumns(): void {
-    console.log('change');
+    // console.log('change');
     this.displayedColumns = this.allColumns;
     if (this.fgSearch.value.disoplayOPR) {
       this.displayedColumns = this.displayedColumns.concat(this.oprColumns);

@@ -152,6 +152,10 @@ export class AppDataService {
     return this.httpClient.post(`${this.baseUrl}/PostResults`, payload);
   }
 
+  public postPitResults(payload: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/PostPitResults`, payload);
+  }
+
   public getResults(secretTeamKey: string): Observable<ScoutResult[]> {
     let url = `${this.baseUrl}/GetResults`;
     if (secretTeamKey)  {

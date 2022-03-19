@@ -43,30 +43,12 @@
     </mat-form-field>
   </div>
   <div class="flex-row">
-    <mat-checkbox formControlName="hasWheelOmni">Omni Wheels</mat-checkbox>
+    <mat-checkbox class="dt-checkbox" formControlName="hasWheelOmni">Omni Wheels</mat-checkbox>
+    <mat-checkbox class="dt-checkbox" formControlName="hasWheelMec">Mechanim Wheels</mat-checkbox>
+    <mat-checkbox class="dt-checkbox" formControlName="hasWheelInflated">Inflated Wheels</mat-checkbox>
+    <mat-checkbox class="dt-checkbox" formControlName="hasWheelSolid">Solid Wheels</mat-checkbox>
   </div>
-  <div class="flex-row section-header">
-    <h2 mat-h2>Cargo Handling</h2>
+  <div class = "flex-row">
+    <button mat-raised-button color="ts-red" (click)="this.sendData()">Send Data</button>
   </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="lowGoal">Can shoot low goal</mat-checkbox>
-  </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="highGoal">Can shoot high goal</mat-checkbox>
-  </div>
-  <div class="flex-row section-header">
-    <h2 mat-h2>End game</h2>
-  </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="lowHang">Low Hang</mat-checkbox>
-  </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="midHang">Mid Hang</mat-checkbox>
-  </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="highHang">High Hang</mat-checkbox>
-  </div>
-  <div class="flex-row">
-    <mat-checkbox formControlName="traversalHang">Traversal Hang</mat-checkbox>
-  </div>
-</form>
+  </form>
