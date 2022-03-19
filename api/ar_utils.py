@@ -159,19 +159,18 @@ def get_event_teams_df(event_key):
     df = get_tba_url_as_df(f'/event/{event_key}/teams')
     return df    
 
-def get_container():
+def get_container(container_name='MatchResults'):
     endpoint = os.environ.get('COSMOS_ENDPOINT')
     key = os.environ.get('COSMOS_KEY')
     # Some hard-coded values for our datbase name and container for match results
     db_name = 'ScoutingData'
-    container_name = 'MatchResults'
     client = CosmosClient(endpoint, key)
     db = client.get_database_client(db_name)
     container = db.get_container_client(container_name)
     return container
 
 def get_scouting_data(secret_team_key=None, event_key=None):
-    container = get_container()
+    container = get_container('MatchResults')
     query = "SELECT * FROM c WHERE 1=1 "
     params = [
     ]

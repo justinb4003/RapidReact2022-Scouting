@@ -5,19 +5,13 @@ import azure.functions as func
 
 from azure.cosmos import CosmosClient
 
+from ..ar_utils import *
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Get the request body, interpreted as JSON into an python object
     payload = req.get_json()
-    # Grab the username and password from environment variables
-    endpoint = os.environ.get('COSMOS_ENDPOINT')
-    key = os.environ.get('COSMOS_KEY')
-    # Some hard-coded values for our datbase name and container for match results
-    db_name = 'ScoutingData'
-    container_name = 'MatchResults'
-    client = CosmosClient(endpoint, key)
-    db = client.get_database_client(db_name)
-    container = db.get_container_client(container_name)
+    container = get_container('MatchResults') 
     # Now that we have a connection to the container we can insert/update the data
     container.upsert_item(payload)
     return func.HttpResponse(
