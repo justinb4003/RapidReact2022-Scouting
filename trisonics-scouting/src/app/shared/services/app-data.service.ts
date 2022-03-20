@@ -39,28 +39,6 @@ export class AppDataService {
     'H drive',
   ];
 
-  public teamList!: [{ eventKey: string; teams: TBATeam[]; }];
-
-  /*
-  public teamList: [ {eventKey: string, teams: TBATeam[]} ] = [
-    {
-      eventKey: '2022misjo',
-      teams: [
-        {
-          number: 4003,
-          name: 'Trisonics',
-          location: 'Allendale MI',
-        },
-        {
-          number: 2767,
-          name: 'Strykeforce',
-          location: 'Kalamazoo MI',
-        },
-      ],
-    },
-  ];
-  */
-
   public eventList: TBAEvent[] = [
     {
       eventKey: '2022mifor',
@@ -139,13 +117,6 @@ export class AppDataService {
   }
 
   public getEventTeamList(eventKey: string): Observable<TBATeam[]> {
-    /*
-    const cached = this.teamList.find((x) => x.eventKey === eventKey);
-    if (cached) {
-      return of(cached.teams);
-    }
-    return of([])
-    */
     let url = `${this.baseUrl}/GetTeamsForEvent?event_key=${eventKey}`;
     return this.httpClient.get<TBATeam[]>(url);
   }
@@ -175,9 +146,4 @@ export class AppDataService {
     return this.httpClient.get<OPRData[]>(url);
   }
 
-
-  public geEventTeams(eventKey: string): Observable<TBATeam[]> {
-    let url = `${this.baseUrl}/GetTeamsForEvent?event_key=${eventKey}`;
-    return this.httpClient.get<TBATeam[]>(url);
-  }
 }
