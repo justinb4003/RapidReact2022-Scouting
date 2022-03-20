@@ -41,6 +41,10 @@ export class ScoutPitComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.fgScoutPit.get('eventKey')?.valueChanges.subscribe((eventKey) => {
+      this.appData.eventKey = eventKey;
+      this.loadData();
+    });
   }
 
   private loadData(): void {
