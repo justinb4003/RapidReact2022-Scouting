@@ -43,7 +43,8 @@ export class ScoutDetailComponent implements OnInit {
     this.teamNumber = this.data[0].scouting_team;
     this.detailData.data = this.data;
   }
-  ngAfterViewINit(): void {
+
+  ngAfterViewInit(): void {
     this.detailData.sort = this.sort;
   }
 
