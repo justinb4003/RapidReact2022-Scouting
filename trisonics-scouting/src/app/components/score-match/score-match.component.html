@@ -179,7 +179,7 @@
       <h4 mat-h4>Backup Data Transfer</h4>
     </div>
     <div class="flex-row">
-      <qrcode [qrdata]="this.qrGameString"></qrcode>
+      <qrcode [qrdata]="this.gameJSON"></qrcode>
     </div>
     <div class="flex-row">
       <h3 mat-h3>If you have a screenshot of the QR code and the data won't upload you can use the button below to reset the form</h3>
@@ -190,7 +190,7 @@
     <div class="flex-row">
       Or copy/paste text this to Justin... not sure how that's going to work just yet.
       <pre>
-        {{ this.datarGameStringFormatted}}
+        {{ this.gameJSONFormatted }}
       </pre>
     </div>
   </div>

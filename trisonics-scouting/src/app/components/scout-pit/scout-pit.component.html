@@ -26,7 +26,7 @@
     <mat-form-field >
       <mat-label>Team you are Scouting</mat-label>
       <mat-select formControlName="scoutingTeam">
-        <mat-option value="">Select Team</mat-option>
+        <mat-option value="0">Select Team</mat-option>
         <mat-option *ngFor="let t of this.teamList" [value]="t.number">{{t.number}} - {{t.name}}</mat-option>
       </mat-select>
     </mat-form-field>

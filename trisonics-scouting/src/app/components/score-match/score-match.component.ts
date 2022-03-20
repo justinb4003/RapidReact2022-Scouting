@@ -177,7 +177,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.appData.finalHangPos = +this.fgMatch.get('finalHangPos')?.value;
   }
 
-  private getGameData(): ScoutResult {
+  get matchData(): ScoutResult {
     const ret = {
       scouter_name: this.appData.scouterName,
       secret_team_key: this.appData.teamKey,
@@ -202,7 +202,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public uploadData(): void {
    if (this.fgMatch.valid) {
-    this.appData.postResults(this.getGameData()).subscribe({
+    this.appData.postResults(this.matchData).subscribe({
       next: (data) => {
         this.uploadError = false;
         this.snackbar.open('Success! Data uploaded!',
@@ -263,11 +263,11 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  get qrGameString(): string {
-    return JSON.stringify(this.getGameData());
+  get gameJSON(): string {
+    return JSON.stringify(this.matchData);
   }
 
-  get datarGameStringFormatted(): string {
-    return JSON.stringify(this.getGameData(), null, 4);
+  get gameJSONFormatted(): string {
+    return JSON.stringify(this.matchData, null, 4);
   }
 }

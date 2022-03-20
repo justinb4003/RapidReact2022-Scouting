@@ -16,7 +16,10 @@ export class ScoutPitComponent implements OnInit {
   public fgScoutPit: FormGroup = new FormGroup({
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey, Validators.required),
-    scoutingTeam: new FormControl(this.appData.scoutingTeam, Validators.required),
+    scoutingTeam: new FormControl(this.appData.scoutingTeam, [
+      Validators.required,
+      Validators.min(1),
+    ]),
     eventKey: new FormControl(this.appData.eventKey, Validators.required),
 
     driveTrain: new FormControl(''),
@@ -48,8 +51,7 @@ export class ScoutPitComponent implements OnInit {
     });
   }
 
-  public sendData(): void{
-    console.log("anything");
+  get pitData(): PitResult {
     const ret = {
       scouter_name: this.appData.scouterName,
       secret_team_key: this.appData.teamKey,
@@ -61,17 +63,34 @@ export class ScoutPitComponent implements OnInit {
       wheel_mec: this.fgScoutPit.get('hasWheelMec')?.value,
       wheel_solid: this.fgScoutPit.get('hasWheelSolid')?.value,
     } as PitResult;
-    this.appData.postPitResults(ret).subscribe({
-      next: (data) => {
-        console.log('it worked');
-      },
-      error: (err) => {
-        console.log('Error uploading data: ', err);
-
-      }
-    });
-
-
+    return ret;
   }
 
+  public sendData(): void{
+    if (this.fgScoutPit.valid) {
+      this.appData.postPitResults(this.pitData).subscribe({
+        next: (data) => {
+          console.log('it worked');
+        },
+        error: (err) => {
+          console.log('Error uploading data: ', err);
+
+        }
+      });
+    } else {
+      let fields: string[] = [];
+      if (!this.fgScoutPit.get('scouterName')?.valid) {
+        fields.push('scouter name');
+      }
+      if (!this.fgScoutPit.get('scoutingTeam')?.valid) {
+        fields.push('team you are scouting');
+      }
+      if (!this.fgScoutPit.get('eventKey')?.valid) {
+        fields.push('event you are scouting');
+      }
+
+      const msg = 'Please enter a value for ' + fields.join(', ');
+      alert(msg);
+    }
+  }
 }
