@@ -25,7 +25,7 @@
     <mat-form-field >
       <mat-label>Team you are Scouting</mat-label>
       <mat-select formControlName="scoutingTeam">
-        <mat-option value="">Select Team</mat-option>
+        <mat-option value="0">Select Team</mat-option>
         <mat-option *ngFor="let t of this.teamList" [value]="t.number">{{t.number}} - {{t.name}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -34,7 +34,7 @@
   <div class="flex-row">
     <mat-form-field >
       <mat-label>Match</mat-label>
-      <input matInput placeholder="Match" formControlName="match">
+      <input matInput type="number" placeholder="Match" formControlName="match">
     </mat-form-field>
   </div>
 
@@ -172,7 +172,7 @@
       </ng-container>
     </div>
     <div class="flex-row">
-      <button mat-raised-button class="upload-data-button" (click)="this.uploadData()">Upload Data</button>
+      <button mat-raised-button color="ts-red" class="upload-data-button" (click)="this.uploadData()">Upload Data</button>
     </div>
 
     <div class="flex-row score-label">
@@ -186,6 +186,12 @@
     </div>
     <div class="flex-row">
       <button mat-raised-button (click)="this.resetFormConfirm()">Clear Form</button>
+    </div>
+    <div class="flex-row">
+      Or copy/paste text this to Justin... not sure how that's going to work just yet.
+      <pre>
+        {{ this.datarGameStringFormatted}}
+      </pre>
     </div>
   </div>
 </form>

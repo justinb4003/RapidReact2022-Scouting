@@ -39,6 +39,9 @@ export class AppDataService {
     'H drive',
   ];
 
+  public teamList!: [{ eventKey: string; teams: TBATeam[]; }];
+
+  /*
   public teamList: [ {eventKey: string, teams: TBATeam[]} ] = [
     {
       eventKey: '2022misjo',
@@ -56,6 +59,7 @@ export class AppDataService {
       ],
     },
   ];
+  */
 
   public eventList: TBAEvent[] = [
     {
@@ -135,13 +139,15 @@ export class AppDataService {
   }
 
   public getEventTeamList(eventKey: string): Observable<TBATeam[]> {
+    /*
     const cached = this.teamList.find((x) => x.eventKey === eventKey);
     if (cached) {
       return of(cached.teams);
     }
-    // TODO: Make a call out to our local API to hit TBA on our behalf
-    console.log('no cache hit on team list -- no data will come back');
-    return of([]);
+    return of([])
+    */
+    let url = `${this.baseUrl}/GetTeamsForEvent?event_key=${eventKey}`;
+    return this.httpClient.get<TBATeam[]>(url);
   }
 
   public getHelloWorld(): Observable<any> {
@@ -167,5 +173,11 @@ export class AppDataService {
   public getOPRData(eventKey: string): Observable<OPRData[]> {
     let url = `${this.baseUrl}/GetOPRData?event_key=${eventKey}`;
     return this.httpClient.get<OPRData[]>(url);
+  }
+
+
+  public geEventTeams(eventKey: string): Observable<TBATeam[]> {
+    let url = `${this.baseUrl}/GetTeamsForEvent?event_key=${eventKey}`;
+    return this.httpClient.get<TBATeam[]>(url);
   }
 }

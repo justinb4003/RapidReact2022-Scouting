@@ -19,10 +19,16 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   public fgMatch: FormGroup = new FormGroup({
     autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
-    teamKey: new FormControl(this.appData.teamKey, Validators.required),
-    scoutingTeam: new FormControl(this.appData.scoutingTeam, Validators.required),
+    teamKey: new FormControl(this.appData.teamKey),
+    scoutingTeam: new FormControl(this.appData.scoutingTeam, [
+      Validators.required,
+      Validators.min(1),
+    ]),
     eventKey: new FormControl(this.appData.eventKey, Validators.required),
-    match: new FormControl(this.appData.match, Validators.required),
+    match: new FormControl(this.appData.match, [
+      Validators.required,
+      Validators.pattern("^[1-9][0-9]*$"), // Fun with regex
+    ]),
     finalHangPos: new FormControl(this.appData.finalHangPos, Validators.required),
     matchNotes: new FormControl(this.appData.matchNotes),
   });
@@ -195,7 +201,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   }
 
   public uploadData(): void {
-    // Nice way to demonstrate how async timing works out.
+   if (this.fgMatch.valid) {
     this.appData.postResults(this.getGameData()).subscribe({
       next: (data) => {
         this.uploadError = false;
@@ -211,6 +217,24 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
           'Close', { duration: 5000, panelClass: ['snackbar-error'] });
       }
     });
+   } else {
+    let fields: string[] = [];
+    if (!this.fgMatch.get('scouterName')?.valid) {
+      fields.push('scouter name');
+    }
+    if (!this.fgMatch.get('scoutingTeam')?.valid) {
+      fields.push('team you are scouting');
+    }
+    if (!this.fgMatch.get('eventKey')?.valid) {
+      fields.push('event you are scouting');
+    }
+    if (!this.fgMatch.get('match')?.valid) {
+      fields.push('match number');
+    }
+
+    const msg = 'Please enter a value for ' + fields.join(', ');
+    alert(msg);
+   }
   }
 
   public resetForm(): void {
@@ -241,5 +265,9 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   get qrGameString(): string {
     return JSON.stringify(this.getGameData());
+  }
+
+  get datarGameStringFormatted(): string {
+    return JSON.stringify(this.getGameData(), null, 4);
   }
 }
