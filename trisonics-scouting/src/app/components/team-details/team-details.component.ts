@@ -47,7 +47,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   });
 
   constructor(
-    private appData: AppDataService,
+    public appData: AppDataService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
   ) { }

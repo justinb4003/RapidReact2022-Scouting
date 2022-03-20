@@ -1,6 +1,4 @@
-<div>
-  <h2 mat-h2>Results</h2>
-</div>
+<h1 class="mat-h1">Scouting Results</h1>
 <form [formGroup]="this.fgSearch">
   <!-- Match/Scouter level data -->
   <div class="flex-row">
@@ -22,9 +20,7 @@
     <mat-form-field >
       <mat-label>Event</mat-label>
       <mat-select formControlName="eventKey">
-        <mat-option value="2022mifor">Test</mat-option>
-        <mat-option value="2022misjo">St. Joe</mat-option>
-        <mat-option value="2022miwmi">GVSU</mat-option>
+        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
