@@ -39,8 +39,11 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     ) {}
 
   public ngOnInit(): void {
-    const self = this;
     this.loadData();
+    this.fgMatch.get('eventKey')?.valueChanges.subscribe((eventKey) => {
+      this.appData.eventKey = eventKey;
+      this.loadData();
+    });
   }
 
   private loadData(): void {
