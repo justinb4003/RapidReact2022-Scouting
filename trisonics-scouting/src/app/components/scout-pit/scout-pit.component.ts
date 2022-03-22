@@ -97,4 +97,10 @@ export class ScoutPitComponent implements OnInit {
       alert(msg);
     }
   }
+
+  public uploadImage($event: any): void {
+    console.log('uploading image');
+    const file = $event.target.files[0];
+    console.log(file);
+  }
 }

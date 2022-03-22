@@ -48,7 +48,15 @@
     <mat-checkbox class="dt-checkbox" formControlName="hasWheelInflated">Inflated Wheels</mat-checkbox>
     <mat-checkbox class="dt-checkbox" formControlName="hasWheelSolid">Solid Wheels</mat-checkbox>
   </div>
-  <div class = "flex-row">
+  <div class="flex-row">
+    <input #uploader type="file" accept="image" capture
+      class="image-upload"
+      (click)="uploadImage($event)" />
+    <button mat-raised-button color="ts-red"
+      class="upload-button"
+      (click)="uploader.click()">Add Photo</button>
+  </div>
+  <div class="flex-row">
     <button mat-raised-button color="ts-red" (click)="this.sendData()">Send Data</button>
   </div>
   </form>
