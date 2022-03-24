@@ -65,7 +65,7 @@ export class AppDataService {
 
   private _scouterName: string = '';
   private _teamKey: string = '';
-  private _eventKey: string = '2022misjo';
+  private _eventKey: string = '2022miwmi';
 
   private baseUrl = environment.baseUrl;
 
