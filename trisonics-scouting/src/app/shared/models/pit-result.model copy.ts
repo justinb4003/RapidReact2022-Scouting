@@ -9,4 +9,5 @@ export interface PitResult {
   wheel_mec: boolean,
   wheel_inflated: boolean,
   wheel_solid: boolean,
+  images: string[],
 }

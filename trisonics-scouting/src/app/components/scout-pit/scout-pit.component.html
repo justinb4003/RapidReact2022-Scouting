@@ -51,10 +51,15 @@
   <div class="flex-row">
     <input #uploader type="file" accept="image" capture
       class="image-upload"
-      (click)="uploadImage($event)" />
+      (change)="uploadImage($event)" />
     <button mat-raised-button color="ts-red"
       class="upload-button"
       (click)="uploader.click()">Add Photo</button>
+  </div>
+  <div class="flex-row">
+    <div *ngFor="let img of this.imageList">
+      <img [src]="img" class="image-container" />
+    </div>
   </div>
   <div class="flex-row">
     <button mat-raised-button color="ts-red" (click)="this.sendData()">Send Data</button>

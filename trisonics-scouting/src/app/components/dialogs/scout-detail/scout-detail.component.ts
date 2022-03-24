@@ -2,7 +2,9 @@ import { Component, Inject, ViewChild, OnInit } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { PitResult } from 'src/app/shared/models/pit-result.model copy';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { AppDataService } from 'src/app/shared/services/app-data.service';
 
 @Component({
   selector: 'app-scout-detail',
@@ -15,6 +17,8 @@ export class ScoutDetailComponent implements OnInit {
   public detailData = new MatTableDataSource<ScoutResult>();
 
   public teamNumber: number = 0;
+
+  public pitResults: PitResult[] = [];
 
   public displayedColumns = [
     'auton_tarmac',
@@ -36,11 +40,17 @@ export class ScoutDetailComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ScoutResult[],
+    public appData: AppDataService,
   ) { }
 
   ngOnInit(): void {
     console.log(this.data);
     this.teamNumber = this.data[0].scouting_team;
+    // Get the pit scouting data from here
+    this.appData.getPitResults('').subscribe((x) => {
+
+    });
+
     this.detailData.data = this.data;
   }
 

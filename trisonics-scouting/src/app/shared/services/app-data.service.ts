@@ -8,6 +8,7 @@ import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
 import { AppSettings } from 'src/app/shared/models/app-settings.model';
 import * as _ from 'lodash';
+import { PitResult } from '../models/pit-result.model copy';
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +140,14 @@ export class AppDataService {
       url += `?secret_team_key=${secretTeamKey}`;
     }
     return this.httpClient.get<ScoutResult[]>(url);
+  }
+
+  public getPitResults(secretTeamKey: string): Observable<PitResult[]> {
+    let url = `${this.baseUrl}/GetPitResults`;
+    if (secretTeamKey)  {
+      url += `?secret_team_key=${secretTeamKey}`;
+    }
+    return this.httpClient.get<PitResult[]>(url);
   }
 
   public getOPRData(eventKey: string): Observable<OPRData[]> {

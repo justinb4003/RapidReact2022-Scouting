@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { PitResult } from 'src/app/shared/models/pit-result.model copy';
+import { ConnectableObservable } from 'rxjs';
 
 @Component({
   selector: 'app-scout-pit',
@@ -12,6 +13,8 @@ import { PitResult } from 'src/app/shared/models/pit-result.model copy';
 export class ScoutPitComponent implements OnInit {
 
   public teamList: TBATeam[] = [];
+
+  public imageList: string[] = [];
 
   public fgScoutPit: FormGroup = new FormGroup({
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
@@ -48,9 +51,7 @@ export class ScoutPitComponent implements OnInit {
   }
 
   private loadData(): void {
-    console.log('this.app eventkey', this.appData.eventKey);
     this.appData.getEventTeamList(this.appData.eventKey).subscribe((tl) => {
-      console.log('team list', tl)
       this.teamList = tl;
     });
   }
@@ -66,6 +67,7 @@ export class ScoutPitComponent implements OnInit {
       wheel_inflated: this.fgScoutPit.get('hasWheelInflated')?.value,
       wheel_mec: this.fgScoutPit.get('hasWheelMec')?.value,
       wheel_solid: this.fgScoutPit.get('hasWheelSolid')?.value,
+      images: this.imageList,
     } as PitResult;
     return ret;
   }
@@ -100,7 +102,10 @@ export class ScoutPitComponent implements OnInit {
 
   public uploadImage($event: any): void {
     console.log('uploading image');
-    const file = $event.target.files[0];
-    console.log(file);
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      this.imageList.push(fileReader.result as string);
+    }
+    fileReader.readAsDataURL($event.target.files[0]);
   }
 }
