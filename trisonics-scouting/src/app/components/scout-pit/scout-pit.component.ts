@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { PitResult } from 'src/app/shared/models/pit-result.model copy';
-import { ConnectableObservable } from 'rxjs';
 
 @Component({
   selector: 'app-scout-pit',
@@ -42,6 +42,7 @@ export class ScoutPitComponent implements OnInit {
 
   constructor(
     public appData: AppDataService,
+    public snackbar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +79,7 @@ export class ScoutPitComponent implements OnInit {
       scouter_name: this.appData.scouterName,
       secret_team_key: this.appData.teamKey,
       event_key: this.appData.eventKey,
-      scouting_team: this.appData.scoutingTeam,
+      scouting_team: this.fgScoutPit.get('scoutingTeam')?.value,
       drive_train: this.fgScoutPit.get('driveTrain')?.value,
       wheel_omni: this.fgScoutPit.get('hasWheelOmni')?.value,
       wheel_inflated: this.fgScoutPit.get('hasWheelInflated')?.value,
@@ -89,14 +90,22 @@ export class ScoutPitComponent implements OnInit {
     return ret;
   }
 
+  public resetForm(): void {
+    this.fgScoutPit.get('scoutingTeam')?.setValue('');
+    this.imageList = [];
+  }
+
   public sendData(): void{
     if (this.fgScoutPit.valid) {
       this.appData.postPitResults(this.pitData).subscribe({
         next: (data) => {
-          console.log('it worked');
-        },
+          this.snackbar.open('Success! Data uploaded!',
+            'Close', { duration: 5000, panelClass: ['snackbar-success'] });
+          this.resetForm();
+          },
         error: (err) => {
-          console.log('Error uploading data: ', err);
+          this.snackbar.open('Error uploading data, please try again.',
+            'Close', { duration: 5000, panelClass: ['snackbar-error'] });
 
         }
       });
