@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
+import { PitResult } from 'src/app/shared/models/pit-result.model copy';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +21,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public htmlData: string = '';
   public fullScoutData: ScoutResult[] = [];
+  public pitData: PitResult[] = [];
   public scoutData = new MatTableDataSource<ScoutResult>();
   public pageReady: boolean = false;
 
@@ -155,6 +157,9 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
       this.filterData();
       this.pageReady = true;
       this.dataLoading = false;
+    });
+    this.appData.getPitResults('', eventKey, '').subscribe((res) => {
+      this.pitData = res;
     });
   }
 
