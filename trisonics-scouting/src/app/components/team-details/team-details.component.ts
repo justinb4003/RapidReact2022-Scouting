@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as _ from 'lodash';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
+import { TBATeam } from 'src/app/shared/models/tba-team.model';
 
 @Component({
   selector: 'app-team-details',
@@ -58,9 +59,9 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
       this.fgEvent.get('teamNumber')?.setValue(tk);
     }
     this.loadScoutData();
-    this.loadOPRData();
+    this.loadData();
     this.fgEvent.get('eventKey')?.valueChanges.subscribe((x) => {
-      this.loadOPRData();
+      this.loadData();
     })
     this.fgEvent.get('teamNumber')?.valueChanges.subscribe((x) => {
       this.filterOPRData();
@@ -75,9 +76,17 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
 
   }
 
-  public loadOPRData(): void {
+  public loadData(): void {
+    const eventKey = this.fgEvent.get('eventKey')?.value
+    this.appData.getEventTeamList(eventKey).subscribe((teamList) => {
+      this.loadOPRData(eventKey, teamList);
+    });
+
+  }
+
+  public loadOPRData(eventKey: string, teamList: TBATeam[]): void {
     this.dataLoading = true;
-    this.appData.getOPRData(this.fgEvent.get('eventKey')?.value).subscribe({
+    this.appData.getOPRData(eventKey).subscribe({
       next: (data) => {
         // console.log(JSON.stringify(data, null, 4));
         // const columns = Object.keys(data[0]);
@@ -99,9 +108,12 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
           row.autoCargoUpper = (row.autoCargoUpperBlue + row.autoCargoUpperRed + row.autoCargoUpperNear + row.autoCargoUpperFar);
           row.teleopCargoLower = (row.teleopCargoLowerBlue + row.teleopCargoLowerRed + row.teleopCargoLowerNear + row.teleopCargoLowerFar)
           row.teleopCargoUpper = (row.teleopCargoUpperBlue + row.teleopCargoUpperRed + row.teleopCargoUpperNear + row.teleopCargoUpperFar);
+          row.teamName = teamList.find((t) => t.number === row.teamNumber)?.name!;
+
         })
         this.displayedColumns = this.columns.map(c => c.columnDef);
         _.remove(this.displayedColumns, c => c === 'teamNumber');
+        this.displayedColumns.unshift('teamName');
         this.displayedColumns.unshift('teamNumber');
         this.displayedColumns.unshift('position');
         this.oprData.data = data;

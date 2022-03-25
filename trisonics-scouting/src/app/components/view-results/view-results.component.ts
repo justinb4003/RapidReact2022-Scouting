@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { _MatSlideToggleRequiredValidatorModule } from '@angular/material/slide-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
+import { TBATeam } from 'src/app/shared/models/tba-team.model';
 
 @Component({
   selector: 'app-view-results',
@@ -27,8 +28,11 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public dataLoading: boolean = false;
 
+  public teamList: TBATeam[] = [];
+
   public allColumns = [
     'scouting_team',
+    'team_name',
     'auton_tarmac',
     'auton_human_player',
     'auton_high_goals',
@@ -123,6 +127,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     _(this.scoutData.data).groupBy('scouting_team')
       .map((objs, key) => ({
           'scouting_team': +key,
+          'team_name': this.teamList.find((t) => t.number === +key)?.name,
           'auton_tarmac': _.meanBy(objs, 'auton_tarmac'),
           'auton_human_player': _.meanBy(objs, 'auton_human_player'),
           'auton_high_goals': _.meanBy(objs, 'auton_high_goals'),
@@ -151,16 +156,22 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     const teamKey = this.fgSearch.value.teamKey;
     const eventKey = this.fgSearch.value.eventKey;
     this.dataLoading = true;
-    this.appData.getResults(teamKey).subscribe((res) => {
-      console.log(res);
-      this.fullScoutData = res;
-      this.filterData();
-      this.pageReady = true;
-      this.dataLoading = false;
-    });
-    this.appData.getPitResults('', eventKey, '').subscribe((res) => {
-      this.pitData = res;
-    });
+    this.appData.getEventTeamList(eventKey).subscribe((teamList) => {
+      this.teamList = teamList;
+      this.appData.getResults(teamKey).subscribe((res) => {
+        console.log(res);
+        res.forEach((row) => {
+          row.team_name = teamList.find((t) => t.number === row.scouting_team)?.name!;
+        });
+        this.fullScoutData = res;
+        this.filterData();
+        this.pageReady = true;
+        this.dataLoading = false;
+      });
+      this.appData.getPitResults('', eventKey, '').subscribe((res) => {
+        this.pitData = res;
+      });
+    })
   }
 
   public downloadFile(data: any) {

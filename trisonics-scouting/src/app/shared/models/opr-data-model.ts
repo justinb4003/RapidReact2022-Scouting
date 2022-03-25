@@ -1,5 +1,6 @@
 export interface OPRData {
   teamNumber: number,
+  teamName: string,
   adjustPoints: number,
   autoCargoLower: number;
   autoCargoUpper: number;

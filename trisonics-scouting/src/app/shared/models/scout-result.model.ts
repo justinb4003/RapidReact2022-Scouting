@@ -4,6 +4,7 @@ export interface ScoutResult {
   event_key: string,
   match_key: string,
   scouting_team: number,
+  team_name: string | undefined,
   auton_tarmac: number | boolean,
   auton_high_goals: number,
   auton_high_miss: number,
