@@ -33,6 +33,7 @@ export class AppDataService {
 
   public driveTrainList: string[] = [
     'Tank (4 wheel)',
+    'Tank (6 wheel)',
     'Tank (treads)',
     'Drop Center (6 wheel)',
     'Drop Center (8 wheel)',
