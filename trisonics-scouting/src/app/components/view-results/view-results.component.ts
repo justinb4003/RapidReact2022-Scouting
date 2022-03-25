@@ -53,7 +53,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public fgSearch: FormGroup = new FormGroup({
     teamKey: new FormControl(this.appData.teamKey),
-    eventKey: new FormControl('2022misjo'),
+    eventKey: new FormControl('2022miwmi'),
     displayAuton: new FormControl(true),
     displayTeleop: new FormControl(true),
     displayEndGame: new FormControl(true),

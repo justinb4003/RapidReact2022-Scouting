@@ -43,7 +43,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
 
   public fgEvent: FormGroup = new FormGroup({
     teamNumber: new FormControl(''),
-    eventKey: new FormControl('2022misjo'),
+    eventKey: new FormControl('2022miwmi'),
   });
 
   constructor(
