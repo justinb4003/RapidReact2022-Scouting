@@ -76,9 +76,9 @@ export class ScoutPitComponent implements OnInit {
 
   get pitData(): PitResult {
     const ret = {
-      scouter_name: this.appData.scouterName,
-      secret_team_key: this.appData.teamKey,
-      event_key: this.appData.eventKey,
+      scouter_name: this.fgScoutPit.get('scouterName')?.value,
+      secret_team_key: this.fgScoutPit.get('teamKey')?.value,
+      event_key: this.fgScoutPit.get('scouterName')?.value,
       scouting_team: this.fgScoutPit.get('scoutingTeam')?.value,
       drive_train: this.fgScoutPit.get('driveTrain')?.value,
       wheel_omni: this.fgScoutPit.get('hasWheelOmni')?.value,
