@@ -26,12 +26,22 @@
       <mat-progress-bar color="primary" mode="indeterminate">
       </mat-progress-bar>
     </div>
-    <table mat-table matSort [dataSource]="this.oprData" class="mat-elevation-z8">
+    <table mat-table matSort matSortStart="desc" [dataSource]="this.oprData" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>
+          #
+        </th>
+        <td mat-cell *matCellDef="let i = index">
+          <span class="click-link">{{ i+1 }}</span>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="teamNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Team
         </th>
-        <td mat-cell *matCellDef="let element"(click)="this.showTeamDetail(element.teamNumber)">
+        <td mat-cell *matCellDef="let element" (click)="this.showTeamDetail(element.teamNumber)">
           <span class="click-link">{{element.teamNumber}}</span>
         </td>
       </ng-container>

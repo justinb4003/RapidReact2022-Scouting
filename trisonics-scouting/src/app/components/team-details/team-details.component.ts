@@ -103,6 +103,7 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
         this.displayedColumns = this.columns.map(c => c.columnDef);
         _.remove(this.displayedColumns, c => c === 'teamNumber');
         this.displayedColumns.unshift('teamNumber');
+        this.displayedColumns.unshift('position');
         this.oprData.data = data;
         this.dataLoading = false;
 
