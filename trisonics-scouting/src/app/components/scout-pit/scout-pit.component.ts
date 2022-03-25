@@ -16,6 +16,8 @@ export class ScoutPitComponent implements OnInit {
 
   public imageList: string[] = [];
 
+  public pitResultList: PitResult[] = [];
+
   public fgScoutPit: FormGroup = new FormGroup({
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey, Validators.required),
@@ -48,6 +50,21 @@ export class ScoutPitComponent implements OnInit {
       this.appData.eventKey = eventKey;
       this.loadData();
     });
+    this.fgScoutPit.get('scoutingTeam')?.valueChanges.subscribe((teamKey) => {
+      this.loadPitData(teamKey);
+    });
+  }
+
+  private loadPitData(teamKey: string): void {
+    this.appData.getPitResults(this.appData.teamKey, this.appData.eventKey, teamKey).subscribe((data) => {
+      console.log('pit data', JSON.stringify(data, null, 4));
+      this.pitResultList = data;
+    });
+  }
+
+  public viewPitResult(pr: PitResult): void {
+    console.log('clickly');
+
   }
 
   private loadData(): void {

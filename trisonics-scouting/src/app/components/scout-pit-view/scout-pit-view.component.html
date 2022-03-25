@@ -1,0 +1,9 @@
+<div class="flex-row">
+  {{ this.pitResult.scouter_name}} recorded {{this.pitResult.drive_train}} as the drive train with {{this.wheelType}} wheels.
+</div>
+<div class="flex-row">
+  <div *ngFor="let img of this.pitResult.images">
+    <img [src]="img" class="image-container" />
+  </div>
+</div>
+

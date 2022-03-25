@@ -46,11 +46,6 @@ export class ScoutDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.teamNumber = this.data[0].scouting_team;
-    // Get the pit scouting data from here
-    this.appData.getPitResults('').subscribe((x) => {
-
-    });
-
     this.detailData.data = this.data;
   }
 

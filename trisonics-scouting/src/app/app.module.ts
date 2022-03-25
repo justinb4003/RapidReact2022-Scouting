@@ -47,6 +47,7 @@ import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-de
 import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { GarvComponent } from './components/garv/garv.component';
+import { ScoutPitViewComponent } from './components/scout-pit-view/scout-pit-view.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { GarvComponent } from './components/garv/garv.component';
     ScoutDetailComponent,
     ScoutPitComponent,
     SettingsComponent,
-    GarvComponent
+    GarvComponent,
+    ScoutPitViewComponent
   ],
   imports: [
     BrowserModule,

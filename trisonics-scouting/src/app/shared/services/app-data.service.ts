@@ -142,10 +142,16 @@ export class AppDataService {
     return this.httpClient.get<ScoutResult[]>(url);
   }
 
-  public getPitResults(secretTeamKey: string): Observable<PitResult[]> {
-    let url = `${this.baseUrl}/GetPitResults`;
+  public getPitResults(secretTeamKey: string, eventKey: string, teamKey: string): Observable<PitResult[]> {
+    let url = `${this.baseUrl}/GetPitResults?param=none`;
     if (secretTeamKey)  {
-      url += `?secret_team_key=${secretTeamKey}`;
+      url += `&secret_team_key=${secretTeamKey}`;
+    }
+    if (eventKey)  {
+      url += `&event_key=${eventKey}`;
+    }
+    if (teamKey)  {
+      url += `&team_key=${teamKey}`;
     }
     return this.httpClient.get<PitResult[]>(url);
   }

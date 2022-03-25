@@ -31,6 +31,12 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <div class="flex-row">
+    <div *ngFor="let pr of this.pitResultList">
+    <app-scout-pit-view [pitResult]="pr">
+    </app-scout-pit-view>
+    </div>
+  </div>
   <div class="flex-row section-header">
     <h2 class="mat-h2">Chassis</h2>
   </div>
