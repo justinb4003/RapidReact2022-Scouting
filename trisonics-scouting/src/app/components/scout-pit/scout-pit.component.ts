@@ -104,7 +104,7 @@ export class ScoutPitComponent implements OnInit {
           this.resetForm();
           },
         error: (err) => {
-          this.snackbar.open('Error uploading data, please try again.',
+          this.snackbar.open(`Error uploading data: ${err.error.message}`,
             'Close', { duration: 5000, panelClass: ['snackbar-error'] });
 
         }
