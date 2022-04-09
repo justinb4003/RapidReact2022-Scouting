@@ -39,12 +39,19 @@
       <mat-toolbar-row class="main-toolbar">
         <button mat-icon-button [fxShow]="!media.isActive('gt-sm')"
                 (click)="this.displaySidenavMenu()"><mat-icon aria-label="Menu">menu</mat-icon></button>
+        <div class="data-key-header">
+          <span class="mat-body">Data Key:</span>
+          <span class="mat-body data-key-text">{{this.displayTeamKey}}</span>
+          <mat-icon
+            (mousedown)="this.enableDisplayTeamKey()">visibility</mat-icon>
+        </div>
         <span class="toolbar-spacer"></span>
         <body class="mat-body">
           <span *ngIf="this.appData.scouterName">
-            Welcome, {{this.appData.scouterName}}!
+            Welcome, {{this.appData.scouterName}}! You are scouting the {{this.appData.eventName}} event.
           </span>
         </body>
+        <mat-icon (click)="this.goToSettings()">settings</mat-icon>
       </mat-toolbar-row>
     </mat-toolbar>
     <main class="main-router-outlet">

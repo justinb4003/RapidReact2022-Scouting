@@ -82,6 +82,10 @@ export class AppDataService {
     return this._eventKey;
   }
 
+  public get eventName(): string {
+    return this.eventList.find(e => e.eventKey === this._eventKey)?.eventName ?? '';
+  }
+
   public set scouterName(v: string) {
     this._scouterName = v;
     this.saveSettings();
