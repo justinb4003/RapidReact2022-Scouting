@@ -1,29 +1,7 @@
 <h1 class="mat-h1">Pit Scouting</h1>
 <form [formGroup]="this.fgScoutPit">
   <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Scouter Name</mat-label>
-      <input matInput placeholder="Your Name" formControlName="scouterName">
-    </mat-form-field>
-  </div>
-
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Team Data Key (secret, optional)</mat-label>
-      <input matInput placeholder="Secret Data Key" formControlName="teamKey">
-    </mat-form-field>
-  </div>
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Event</mat-label>
-      <mat-select formControlName="eventKey">
-        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field class="scout-input">
       <mat-label>Team you are Scouting</mat-label>
       <mat-select formControlName="scoutingTeam">
         <mat-option value="0">Select Team</mat-option>
@@ -41,7 +19,7 @@
     <h2 class="mat-h2">Chassis</h2>
   </div>
   <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field class="scout-input">
       <mat-label>Drive Train</mat-label>
       <mat-select formControlName="driveTrain">
         <mat-option *ngFor="let e of this.appData.driveTrainList" [value]="e">{{e}}</mat-option>
@@ -49,10 +27,24 @@
     </mat-form-field>
   </div>
   <div class="flex-row">
-    <mat-checkbox class="dt-checkbox" formControlName="hasWheelOmni">Omni Wheels</mat-checkbox>
-    <mat-checkbox class="dt-checkbox" formControlName="hasWheelMec">Mechanim Wheels</mat-checkbox>
-    <mat-checkbox class="dt-checkbox" formControlName="hasWheelInflated">Inflated Wheels</mat-checkbox>
-    <mat-checkbox class="dt-checkbox" formControlName="hasWheelSolid">Solid Wheels</mat-checkbox>
+      <mat-checkbox class="dt-checkbox" formControlName="hasWheelOmni">Omni Wheels</mat-checkbox>
+      <mat-checkbox class="dt-checkbox" formControlName="hasWheelMec">Mechanim Wheels</mat-checkbox>
+      <mat-checkbox class="dt-checkbox" formControlName="hasWheelInflated">Inflated Wheels</mat-checkbox>
+      <mat-checkbox class="dt-checkbox" formControlName="hasWheelSolid">Solid Wheels</mat-checkbox>
+  </div>
+  <div class="flex-row section-header">
+    <h2 class="mat-h2">Robot Notes</h2>
+  </div>
+  <div class="flex-row">
+    <mat-form-field class="scout-input">
+      <mat-label>Notes</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="10"
+                formControlName="robotNotes"></textarea>
+    </mat-form-field>
   </div>
   <div class="flex-row">
     <input #uploader type="file" accept="image" capture
@@ -69,8 +61,5 @@
   </div>
   <div class="flex-row">
     <button mat-raised-button color="ts-red" (click)="this.sendData()">Send Data</button>
-  </div>
-  <div class="flex-row">
-    Updated 11:06AM
   </div>
   </form>

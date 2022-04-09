@@ -38,6 +38,7 @@ export class ScoutPitComponent implements OnInit {
     highHang: new FormControl(false),
     midHang: new FormControl(false),
     traversalHang: new FormControl(false),
+    robotNotes: new FormControl(''),
   });
 
   constructor(
@@ -85,6 +86,7 @@ export class ScoutPitComponent implements OnInit {
       wheel_inflated: this.fgScoutPit.get('hasWheelInflated')?.value,
       wheel_mec: this.fgScoutPit.get('hasWheelMec')?.value,
       wheel_solid: this.fgScoutPit.get('hasWheelSolid')?.value,
+      robot_notes: this.fgScoutPit.get('robotNotes')?.value,
       images: this.imageList,
     } as PitResult;
     return ret;

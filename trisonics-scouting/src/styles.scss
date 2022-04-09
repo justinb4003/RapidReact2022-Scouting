@@ -13,3 +13,16 @@
 .mat-row:nth-child(odd){
   background-color: lightgray;
 }
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
