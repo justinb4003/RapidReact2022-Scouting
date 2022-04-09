@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TBATeam } from 'src/app/shared/models/tba-team.model';
-import { PitResult } from 'src/app/shared/models/pit-result.model copy';
+import { PitResult } from 'src/app/shared/models/pit-result.model';
 
 @Component({
   selector: 'app-scout-pit',

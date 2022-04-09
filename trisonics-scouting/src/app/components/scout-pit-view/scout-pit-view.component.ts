@@ -1,6 +1,6 @@
 import { _resolveDirectionality } from '@angular/cdk/bidi/directionality';
 import { Component, OnInit, Input } from '@angular/core';
-import { PitResult } from 'src/app/shared/models/pit-result.model copy';
+import { PitResult } from 'src/app/shared/models/pit-result.model';
 
 @Component({
   selector: 'app-scout-pit-view',

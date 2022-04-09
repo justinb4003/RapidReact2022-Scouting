@@ -8,7 +8,7 @@ import { TBATeam } from 'src/app/shared/models/tba-team.model';
 import { OPRData } from 'src/app/shared/models/opr-data-model';
 import { AppSettings } from 'src/app/shared/models/app-settings.model';
 import * as _ from 'lodash';
-import { PitResult } from '../models/pit-result.model copy';
+import { PitResult } from '../models/pit-result.model';
 
 @Injectable({
   providedIn: 'root'

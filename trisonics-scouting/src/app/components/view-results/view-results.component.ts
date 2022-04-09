@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
-import { PitResult } from 'src/app/shared/models/pit-result.model copy';
+import { PitResult } from 'src/app/shared/models/pit-result.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
