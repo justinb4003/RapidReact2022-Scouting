@@ -18,6 +18,10 @@ export class ScoutPitComponent implements OnInit {
 
   public pitResultList: PitResult[] = [];
 
+  public showExisting: boolean = false;
+
+  public pitDataLoading: boolean = false;
+
   public fgScoutPit: FormGroup = new FormGroup({
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey, Validators.required),
@@ -39,6 +43,7 @@ export class ScoutPitComponent implements OnInit {
     midHang: new FormControl(false),
     traversalHang: new FormControl(false),
     robotRating: new FormControl(0),
+    skipRating: new FormControl(false),
     robotNotes: new FormControl(''),
   });
 
@@ -56,12 +61,22 @@ export class ScoutPitComponent implements OnInit {
     this.fgScoutPit.get('scoutingTeam')?.valueChanges.subscribe((teamKey) => {
       this.loadPitData(teamKey);
     });
+    this.fgScoutPit.get('skipRating')?.valueChanges.subscribe((skipRating) => {
+      if (skipRating) {
+        this.fgScoutPit.get('robotRating')?.disable();
+      } else {
+        this.fgScoutPit.get('robotRating')?.enable();
+      }
+    });
   }
 
   private loadPitData(teamKey: string): void {
+    this.showExisting = true;
+    this.pitDataLoading = true;
     this.appData.getPitResults(this.appData.teamKey, this.appData.eventKey, teamKey).subscribe((data) => {
       console.log('pit data', JSON.stringify(data, null, 4));
       this.pitResultList = data;
+      this.pitDataLoading = false;
     });
   }
 
@@ -91,6 +106,9 @@ export class ScoutPitComponent implements OnInit {
       robot_notes: this.fgScoutPit.get('robotNotes')?.value,
       images: this.imageList,
     } as PitResult;
+    if (this.fgScoutPit.get('skipRating')?.value === true) {
+      ret.robot_rating = null;
+    }
     return ret;
   }
 

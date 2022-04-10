@@ -11,6 +11,8 @@
       An empty value gives you everything recored by anybody
       in the app.
     </p>
+  </div>
+  <div class="flex-row">
     <mat-form-field >
       <mat-label>Team Key (optional)</mat-label>
       <input matInput placeholder="Secret Key" formControlName="teamKey">
@@ -45,6 +47,14 @@
   </div>
   <div class="flex-row">
     <mat-checkbox class="game-section" formControlName="displaySummary">Summary/Group Data by Team</mat-checkbox>
+  </div>
+  <div class="flex-row">
+    <mat-form-field >
+      <mat-label>Team Filter</mat-label>
+      <mat-select formControlName="teamFilter" multiple>
+        <mat-option *ngFor="let t of this.teamList" [value]="t.number">{{t.number}} ({{t.name}})</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </form>
 <ng-container>

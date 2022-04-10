@@ -9,12 +9,6 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div class="flex-row">
-    <div *ngFor="let pr of this.pitResultList">
-      <app-scout-pit-view [pitResult]="pr">
-      </app-scout-pit-view>
-    </div>
-  </div>
   <div class="flex-row section-header">
     <h2 class="mat-h2">Chassis</h2>
   </div>
@@ -43,6 +37,7 @@
   <div class="flex-row">
     <mat-slider class="scout-input" thumbLabel
       min="-10" max="10" step="0.1" tickInterval="1" value="0" formControlName="robotRating"></mat-slider>
+    <mat-checkbox class="dt-checkbox" formControlName="skipRating">Skip Rating</mat-checkbox>
   </div>
   <div class="flex-row section-header">
     <h2 class="mat-h2">Robot Notes</h2>
@@ -65,8 +60,6 @@
     <button mat-raised-button color="ts-red"
       class="upload-button"
       (click)="uploaderNew.click()">Take New Photo</button>
-  </div>
-  <div class="flex-row">
     <input #uploaderGallery type="file" accept="image"
       class="image-upload"
       (change)="uploadImage($event)" />
@@ -83,3 +76,22 @@
     <button mat-raised-button color="ts-red" (click)="this.sendData()">Send Data</button>
   </div>
   </form>
+  <div class="flex-row section-header" *ngIf="this.showExisting">
+    <div>
+      <h2 class="mat-h2">Existing Data</h2>
+    </div>
+    <div class="flex-row">
+      <div *ngIf="this.pitDataLoading">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    </div>
+    <p class="mat-body" *ngIf="!this.pitDataLoading && this.pitResultList.length === 0">
+      No existing data available.
+    </p>
+    <div class="flex-row">
+      <div *ngFor="let pr of this.pitResultList">
+        <app-scout-pit-view [pitResult]="pr">
+        </app-scout-pit-view>
+      </div>
+    </div>
+  </div>

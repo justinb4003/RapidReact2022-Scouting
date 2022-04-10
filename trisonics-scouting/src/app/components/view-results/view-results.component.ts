@@ -22,6 +22,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public htmlData: string = '';
   public fullScoutData: ScoutResult[] = [];
+  public fullPitData: PitResult[] = [];
   public pitData: PitResult[] = [];
   public scoutData = new MatTableDataSource<ScoutResult>();
   public pageReady: boolean = false;
@@ -64,6 +65,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     displayOPR: new FormControl(true),
     displayNotes: new FormControl(true),
     displaySummary: new FormControl(false),
+    teamFilter: new FormControl(''),
   });
 
   constructor(
@@ -82,8 +84,12 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
       console.log('touched');
       this.setDisplayColumns();
       this.filterData();
+
     });
     this.fgSearch.get('eventKey')?.valueChanges.subscribe((x) => {
+      this.appData.getEventTeamList(x).subscribe((teamList) => {
+        this.teamList = _.sortBy(teamList, 'number');
+      });
       this.loadPitData(x);
     });
   }
@@ -111,12 +117,19 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   public filterData(): void {
     const eventKey = this.fgSearch.value.eventKey;
     const summary = this.fgSearch.value.displaySummary;
+    const teamFilter = this.fgSearch.value.teamFilter;
+    let data = this.fullScoutData;
+    this.pitData = this.fullPitData;
     if (eventKey) {
-      const data = this.fullScoutData.filter((x) => x.event_key === eventKey);
-      this.scoutData.data = data;
-    } else {
-      this.scoutData.data = this.fullScoutData;
+      data = data.filter((x) => x.event_key === eventKey);
     }
+
+    if (teamFilter.length > 0) {
+      data = data.filter((x) => teamFilter.indexOf(x.scouting_team) > -1);
+      this.pitData = this.pitData.filter((x) => teamFilter.indexOf(x.scouting_team) > -1);
+    }
+
+    this.scoutData.data = data;
 
     // Check summation now
     if (summary) {
@@ -153,24 +166,24 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     const eventKey = this.fgSearch.value.eventKey;
     this.dataLoading = true;
     this.appData.getEventTeamList(eventKey).subscribe((teamList) => {
-      this.teamList = teamList;
+      this.teamList = _.sortBy(teamList, 'number');
       this.appData.getResults(teamKey).subscribe((res) => {
         console.log(res);
         res.forEach((row) => {
           row.team_name = teamList.find((t) => t.number === row.scouting_team)?.name!;
         });
         this.fullScoutData = res;
+        this.loadPitData(eventKey);
         this.filterData();
         this.pageReady = true;
         this.dataLoading = false;
       });
-      this.loadPitData(eventKey);
     })
   }
 
   public loadPitData(eventKey: string): void {
     this.appData.getPitResults('', eventKey, '').subscribe((res) => {
-      this.pitData = res;
+      this.fullPitData = res;
     });
   }
 
