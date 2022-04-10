@@ -48,7 +48,7 @@
         <span class="toolbar-spacer"></span>
         <body class="mat-body">
           <span *ngIf="this.appData.scouterName">
-            Welcome, {{this.appData.scouterName}}! You are scouting the {{this.appData.eventName}} event.
+            {{this.appData.scouterName}} scouting {{this.appData.eventName}}
           </span>
         </body>
         <mat-icon (click)="this.goToSettings()">settings</mat-icon>

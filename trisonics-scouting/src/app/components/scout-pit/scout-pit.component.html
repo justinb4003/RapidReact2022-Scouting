@@ -59,20 +59,20 @@
     </mat-form-field>
   </div>
   <div class="flex-row">
-    <input #uploader type="file" accept="image" capture
+    <input #uploaderNew type="file" accept="image" capture
       class="image-upload"
       (change)="uploadImage($event)" />
     <button mat-raised-button color="ts-red"
       class="upload-button"
-      (click)="uploader.click()">Take New Photo</button>
+      (click)="uploaderNew.click()">Take New Photo</button>
   </div>
   <div class="flex-row">
-    <input #uploader type="file" accept="image"
+    <input #uploaderGallery type="file" accept="*/*"
       class="image-upload"
       (change)="uploadImage($event)" />
     <button mat-raised-button color="ts-red"
       class="upload-button"
-      (click)="uploader.click()">Upload Photo</button>
+      (click)="uploaderGallery.click()">Upload Photo</button>
   </div>
   <div class="flex-row">
     <div *ngFor="let img of this.imageList">

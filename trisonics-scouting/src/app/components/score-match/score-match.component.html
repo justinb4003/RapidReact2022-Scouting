@@ -1,29 +1,7 @@
 <h1 class="mat-h1">Match Scouting</h1>
 <form [formGroup]="this.fgMatch">
   <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Scouter Name</mat-label>
-      <input matInput placeholder="Your Name" formControlName="scouterName">
-    </mat-form-field>
-  </div>
-
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Team Data Key (secret, optional)</mat-label>
-      <input matInput placeholder="Secret Data Key" formControlName="teamKey">
-    </mat-form-field>
-  </div>
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Event</mat-label>
-      <mat-select formControlName="eventKey">
-        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field class="scout-input">
       <mat-label>Team you are Scouting</mat-label>
       <mat-select formControlName="scoutingTeam">
         <mat-option value="0">Select Team</mat-option>
@@ -33,7 +11,7 @@
   </div>
 
   <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field class="scout-input">
       <mat-label>Match</mat-label>
       <input matInput type="number" placeholder="Match" formControlName="match">
     </mat-form-field>
@@ -156,7 +134,7 @@
       <h2 class="mat-h2">Match Notes</h2>
     </div>
     <div class="flex-row">
-      <mat-form-field>
+      <mat-form-field class="scout-input">
         <mat-label>Notes</mat-label>
         <textarea matInput
                   cdkTextareaAutosize
