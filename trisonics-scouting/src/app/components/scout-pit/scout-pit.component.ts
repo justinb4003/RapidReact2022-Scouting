@@ -87,6 +87,7 @@ export class ScoutPitComponent implements OnInit {
       wheel_inflated: this.fgScoutPit.get('hasWheelInflated')?.value,
       wheel_mec: this.fgScoutPit.get('hasWheelMec')?.value,
       wheel_solid: this.fgScoutPit.get('hasWheelSolid')?.value,
+      robot_rating: this.fgScoutPit.get('robotRating')?.value,
       robot_notes: this.fgScoutPit.get('robotNotes')?.value,
       images: this.imageList,
     } as PitResult;
@@ -138,5 +139,4 @@ export class ScoutPitComponent implements OnInit {
     }
     fileReader.readAsDataURL($event.target.files[0]);
   }
-
 }
