@@ -33,6 +33,18 @@
       <mat-checkbox class="dt-checkbox" formControlName="hasWheelSolid">Solid Wheels</mat-checkbox>
   </div>
   <div class="flex-row section-header">
+    <h2 class="mat-h2">Robot Pick Rating</h2>
+  </div>
+  <div class="flex-row">
+    <p class="mat-body">
+      A 10 means a must pick robot, a -10 is a do-not-pick robot.
+    </p>
+  </div>
+  <div class="flex-row">
+    <mat-slider class="scout-input" thumbLabel
+      min="-10" max="10" step="0.1" tickInterval="1" value="0" formControlName="robotRating"></mat-slider>
+  </div>
+  <div class="flex-row section-header">
     <h2 class="mat-h2">Robot Notes</h2>
   </div>
   <div class="flex-row">
@@ -52,7 +64,15 @@
       (change)="uploadImage($event)" />
     <button mat-raised-button color="ts-red"
       class="upload-button"
-      (click)="uploader.click()">Add Photo</button>
+      (click)="uploader.click()">Take New Photo</button>
+  </div>
+  <div class="flex-row">
+    <input #uploader type="file" accept="image"
+      class="image-upload"
+      (change)="uploadImage($event)" />
+    <button mat-raised-button color="ts-red"
+      class="upload-button"
+      (click)="uploader.click()">Upload Photo</button>
   </div>
   <div class="flex-row">
     <div *ngFor="let img of this.imageList">

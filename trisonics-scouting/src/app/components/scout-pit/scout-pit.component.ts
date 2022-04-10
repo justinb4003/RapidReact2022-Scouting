@@ -38,6 +38,7 @@ export class ScoutPitComponent implements OnInit {
     highHang: new FormControl(false),
     midHang: new FormControl(false),
     traversalHang: new FormControl(false),
+    robotRating: new FormControl(0),
     robotNotes: new FormControl(''),
   });
 
@@ -137,4 +138,5 @@ export class ScoutPitComponent implements OnInit {
     }
     fileReader.readAsDataURL($event.target.files[0]);
   }
+
 }

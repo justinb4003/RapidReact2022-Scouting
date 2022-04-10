@@ -1,12 +1,16 @@
-<div class="flex-row">
-  <h3 clas="mat-h3">{{this.pitResult.scouting_team}}</h3>
-</div>
-<div class="flex-row">
-  {{ this.pitResult.scouter_name}} recorded {{this.pitResult.drive_train}} as the drive train with {{this.wheelType}} wheels.
-</div>
-<div class="flex-row">
-  <div *ngFor="let img of this.pitResult.images">
-    <img [src]="img" class="image-container" />
+<mat-card>
+  <mat-card-title>
+     {{this.teamDisplayName}} by {{this.pitResult.scouter_name}}
+  </mat-card-title>
+  <mat-card-content>
+    {{this.pitResult.robot_notes}}
+  </mat-card-content>
+  <div class="flex-row" *ngIf="this.pitResult.drive_train">
+    {{this.pitResult.drive_train}} / {{this.wheelType}} wheels.
   </div>
-</div>
-
+  <div class="flex-row">
+    <div *ngFor="let img of this.pitResult.images">
+      <img [src]="img" class="image-container" />
+    </div>
+  </div>
+</mat-card>

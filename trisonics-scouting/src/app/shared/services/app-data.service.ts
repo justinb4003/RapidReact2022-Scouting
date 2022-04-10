@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { TBAEvent } from 'src/app/shared/models/tba-event.model';
@@ -30,6 +31,8 @@ export class AppDataService {
   public finalHangPos: number = 0;
 
   public matchNotes: string = '';
+
+
 
   public driveTrainList: string[] = [
     'Tank (4 wheel)',
@@ -63,6 +66,8 @@ export class AppDataService {
       eventDate: new Date(2022, 4, 13),
     },
   ];
+
+  private _eventTeamsCache: { [eventKey: string]: TBATeam[] } = {};
 
   private _scouterName: string = '';
   private _teamKey: string = '';
@@ -112,6 +117,7 @@ export class AppDataService {
       eventKey: this.eventKey,
     };
     localStorage.setItem('appSettings', JSON.stringify(d));
+    localStorage.setItem('_eventTeamsCache', JSON.stringify(this._eventTeamsCache));
   }
 
   private loadSettings(): void {
@@ -120,11 +126,22 @@ export class AppDataService {
     this.scouterName = d.scouterName;
     this.eventKey = d.eventKey;
     this.teamKey = d.secretKey;
+    const teamCacheJson = localStorage.getItem('_eventTeamsCache') ?? '{}';
+    this._eventTeamsCache = JSON.parse(teamCacheJson);
   }
 
   public getEventTeamList(eventKey: string): Observable<TBATeam[]> {
+    console.log('team list for', eventKey);
+    if (this._eventTeamsCache[eventKey]) {
+      console.log('using cache');
+      return of(this._eventTeamsCache[eventKey]);
+    }
+    console.log('using loookup');
     let url = `${this.baseUrl}/GetTeamsForEvent?event_key=${eventKey}`;
-    return this.httpClient.get<TBATeam[]>(url);
+    return this.httpClient.get<TBATeam[]>(url).pipe(tap((teams) => {
+      console.log('caching', teams);
+      this._eventTeamsCache[eventKey] = teams;
+    }));
   }
 
   public getHelloWorld(): Observable<any> {

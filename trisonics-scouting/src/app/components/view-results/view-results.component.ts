@@ -76,18 +76,15 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
-  public tempfunc(x: any): void {
-    console.log('tempfunc called with', x);
-  }
-
-
-
   ngAfterViewInit(): void {
     this.scoutData.sort = this.sort;
     this.fgSearch.valueChanges.subscribe((x) => {
       console.log('touched');
       this.setDisplayColumns();
       this.filterData();
+    });
+    this.fgSearch.get('eventKey')?.valueChanges.subscribe((x) => {
+      this.loadPitData(x);
     });
   }
 
@@ -151,7 +148,6 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   }
 
-
   public loadData(): void {
     const teamKey = this.fgSearch.value.teamKey;
     const eventKey = this.fgSearch.value.eventKey;
@@ -168,10 +164,14 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
         this.pageReady = true;
         this.dataLoading = false;
       });
-      this.appData.getPitResults('', eventKey, '').subscribe((res) => {
-        this.pitData = res;
-      });
+      this.loadPitData(eventKey);
     })
+  }
+
+  public loadPitData(eventKey: string): void {
+    this.appData.getPitResults('', eventKey, '').subscribe((res) => {
+      this.pitData = res;
+    });
   }
 
   public downloadFile(data: any) {
