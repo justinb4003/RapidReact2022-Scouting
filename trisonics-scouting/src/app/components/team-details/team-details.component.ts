@@ -22,10 +22,13 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
 
   public fullOPRData: OPRData[] = [];
   public fullScoutData: ScoutResult[] = [];
+  public filteredOPRData: OPRData[] = [];
+  public filteredScoutData: ScoutResult[] = [];
   public oprData = new MatTableDataSource<OPRData>();
   public displayedColumns: string[] = [];
   public columns: Array<any> = [];
   public dataLoading: boolean = false;
+  public teamList: TBATeam[] = [];
 
   public oprColumnsMain: string[] = [
     'teamNumber',
@@ -43,8 +46,8 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   ];
 
   public fgEvent: FormGroup = new FormGroup({
-    teamNumber: new FormControl(''),
-    eventKey: new FormControl('2022miwmi'),
+    eventKey: new FormControl(this.appData.eventKey),
+    teamFilter: new FormControl(''),
   });
 
   constructor(
@@ -62,8 +65,11 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
     this.loadData();
     this.fgEvent.get('eventKey')?.valueChanges.subscribe((x) => {
       this.loadData();
+      this.appData.getEventTeamList(x).subscribe((teamList) => {
+        this.teamList = _.sortBy(teamList, 'number');
+      });
     })
-    this.fgEvent.get('teamNumber')?.valueChanges.subscribe((x) => {
+    this.fgEvent.get('teamFilter')?.valueChanges.subscribe((x) => {
       this.filterOPRData();
     });
   }
@@ -73,12 +79,19 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
   }
 
   public filterOPRData(): void {
+    this.filteredOPRData = this.fullOPRData;
+    if (this.fgEvent.get('teamFilter')?.value) {
+      const teamFilter = this.fgEvent.get('teamFilter')?.value ?? [];
+      this.filteredOPRData = this.fullOPRData.filter((x) => teamFilter.indexOf(x.teamNumber) > -1);
+    }
+    this.oprData.data = this.filteredOPRData;
 
   }
 
   public loadData(): void {
     const eventKey = this.fgEvent.get('eventKey')?.value
     this.appData.getEventTeamList(eventKey).subscribe((teamList) => {
+      this.teamList = teamList;
       this.loadOPRData(eventKey, teamList);
     });
 
@@ -116,7 +129,8 @@ export class TeamDetailsComponent implements OnInit, AfterViewInit {
         this.displayedColumns.unshift('teamName');
         this.displayedColumns.unshift('teamNumber');
         this.displayedColumns.unshift('position');
-        this.oprData.data = data;
+        this.fullOPRData = data;
+        this.filterOPRData();
         this.dataLoading = false;
 
       },

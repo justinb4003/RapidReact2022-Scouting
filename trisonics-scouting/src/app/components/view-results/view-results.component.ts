@@ -58,13 +58,13 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
   public fgSearch: FormGroup = new FormGroup({
     teamKey: new FormControl(this.appData.teamKey),
-    eventKey: new FormControl('2022miwmi'),
+    eventKey: new FormControl(this.appData.eventKey),
     displayAuton: new FormControl(true),
     displayTeleop: new FormControl(true),
     displayEndGame: new FormControl(true),
     displayOPR: new FormControl(true),
     displayNotes: new FormControl(true),
-    displaySummary: new FormControl(false),
+    displaySummary: new FormControl(true),
     teamFilter: new FormControl(''),
   });
 
@@ -74,11 +74,12 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.setDisplayColumns();
-    this.loadData();
   }
 
   ngAfterViewInit(): void {
+    this.setDisplayColumns();
+    this.loadData();
+
     this.scoutData.sort = this.sort;
     this.fgSearch.valueChanges.subscribe((x) => {
       console.log('touched');
@@ -87,10 +88,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
 
     });
     this.fgSearch.get('eventKey')?.valueChanges.subscribe((x) => {
-      this.appData.getEventTeamList(x).subscribe((teamList) => {
-        this.teamList = _.sortBy(teamList, 'number');
-      });
-      this.loadPitData(x);
+      this.loadData();
     });
   }
 
@@ -111,6 +109,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
     }
     if (!this.fgSearch.value.displayNotes) {
       this.displayedColumns = this.displayedColumns.filter((x) => x !== 'match_notes');
+      this.displayedColumns = this.displayedColumns.filter((x) => x !== 'scouter_name');
     }
   }
 
@@ -156,9 +155,7 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
           'secret_team_key': '',
         })).value();
       this.scoutData.data = output;
-
     }
-
   }
 
   public loadData(): void {
@@ -173,18 +170,15 @@ export class ViewResultsComponent implements OnInit, AfterViewInit {
           row.team_name = teamList.find((t) => t.number === row.scouting_team)?.name!;
         });
         this.fullScoutData = res;
-        this.loadPitData(eventKey);
-        this.filterData();
-        this.pageReady = true;
-        this.dataLoading = false;
+        this.appData.getPitResults('', eventKey, '').subscribe((res) => {
+          this.fullPitData = res;
+          this.pitData = res;
+          this.filterData();
+          this.pageReady = true;
+          this.dataLoading = false;
+        });
       });
     })
-  }
-
-  public loadPitData(eventKey: string): void {
-    this.appData.getPitResults('', eventKey, '').subscribe((res) => {
-      this.fullPitData = res;
-    });
   }
 
   public downloadFile(data: any) {

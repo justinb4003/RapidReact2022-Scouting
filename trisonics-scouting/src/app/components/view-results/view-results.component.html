@@ -190,8 +190,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
     <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div class="flex-row">
-    <div *ngFor="let pr of this.pitData">
+  <div class="flex-col">
+    <div *ngFor="let pr of this.pitData" class="pit-card">
       <app-scout-pit-view [pitResult]="pr">
       </app-scout-pit-view>
     </div>

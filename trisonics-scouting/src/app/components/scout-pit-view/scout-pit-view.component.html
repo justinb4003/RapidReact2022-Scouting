@@ -6,14 +6,16 @@
     <strong>Rating:</strong> {{this.pitResult.robot_rating }}
   </mat-card-subtitle>
   <mat-card-content>
-    {{this.pitResult.robot_notes}}
-  </mat-card-content>
-  <div class="flex-row" *ngIf="this.pitResult.drive_train">
-    {{this.pitResult.drive_train}} / {{this.wheelType}} wheels.
-  </div>
-  <div class="flex-row">
-    <div *ngFor="let img of this.pitResult.images">
-      <img [src]="img" class="image-container" />
+    <div class="flex-row" *ngIf="this.pitResult.robot_notes">
+      {{this.pitResult.robot_notes}}
     </div>
-  </div>
+    <div class="flex-row" *ngIf="this.pitResult.drive_train">
+      {{this.pitResult.drive_train}} / {{this.wheelType}} wheels.
+    </div>
+    <div class="flex-row">
+      <div *ngFor="let img of this.pitResult.images">
+        <img [src]="img" class="image-container" />
+      </div>
+    </div>
+  </mat-card-content>
 </mat-card>
