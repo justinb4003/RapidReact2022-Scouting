@@ -32,8 +32,6 @@ export class AppDataService {
 
   public matchNotes: string = '';
 
-
-
   public driveTrainList: string[] = [
     'Tank (4 wheel)',
     'Tank (6 wheel)',
@@ -61,8 +59,28 @@ export class AppDataService {
       eventDate: new Date(2022, 3, 25),
     },
     {
-      eventKey: '2022mist', // TODO: Get the right code
+      eventKey: '2022micmp',
       eventName: 'States',
+      eventDate: new Date(2022, 4, 13),
+    },
+    {
+      eventKey: '2022micmp1',
+      eventName: 'States - DTE',
+      eventDate: new Date(2022, 4, 13),
+    },
+    {
+      eventKey: '2022micmp2',
+      eventName: 'States - Ford',
+      eventDate: new Date(2022, 4, 13),
+    },
+    {
+      eventKey: '2022micmp3',
+      eventName: 'States - APTIV',
+      eventDate: new Date(2022, 4, 13),
+    },
+    {
+      eventKey: '2022micmp4',
+      eventName: 'States - Consumers',
       eventDate: new Date(2022, 4, 13),
     },
   ];
