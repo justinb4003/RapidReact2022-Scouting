@@ -49,6 +49,7 @@ import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { GarvComponent } from './components/garv/garv.component';
 import { ScoutPitViewComponent } from './components/scout-pit-view/scout-pit-view.component';
+import { HeldDataComponent } from './components/held-data/held-data.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ScoutPitViewComponent } from './components/scout-pit-view/scout-pit-vie
     ScoutPitComponent,
     SettingsComponent,
     GarvComponent,
-    ScoutPitViewComponent
+    ScoutPitViewComponent,
+    HeldDataComponent
   ],
   imports: [
     BrowserModule,

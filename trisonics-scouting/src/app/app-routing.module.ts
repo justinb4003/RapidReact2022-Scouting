@@ -5,6 +5,7 @@ import { ScoreMatchComponent } from './components/score-match/score-match.compon
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
 import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { HeldDataComponent } from './components/held-data/held-data.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: "",
     component: SettingsComponent,
+  },
+  {
+    path: "helddata",
+    component: HeldDataComponent,
   },
 
 ];

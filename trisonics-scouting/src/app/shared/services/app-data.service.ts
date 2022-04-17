@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
 import { TBAEvent } from 'src/app/shared/models/tba-event.model';
@@ -87,6 +87,10 @@ export class AppDataService {
 
   private _eventTeamsCache: { [eventKey: string]: TBATeam[] } = {};
 
+  private _heldScoutData: ScoutResult[] = [];
+
+  private _heldPitData: PitResult[] = [];
+
   private _scouterName: string = '';
   private _teamKey: string = '';
   private _eventKey: string = '2022miwmi';
@@ -136,21 +140,28 @@ export class AppDataService {
     };
     localStorage.setItem('appSettings', JSON.stringify(d));
     localStorage.setItem('_eventTeamsCache', JSON.stringify(this._eventTeamsCache));
+    localStorage.setItem('_heldScoutData', JSON.stringify(this._heldScoutData));
+    localStorage.setItem('_heldPitData', JSON.stringify(this._heldPitData));
   }
 
   private loadSettings(): void {
     const rawJson = localStorage.getItem('appSettings') ?? '{}';
     const d: AppSettings = JSON.parse(rawJson);
-    this.scouterName = d.scouterName;
-    this.eventKey = d.eventKey;
-    this.teamKey = d.secretKey;
-    const teamCacheJson = localStorage.getItem('_eventTeamsCache') ?? '{}';
+    this._scouterName = d.scouterName;
+    this._eventKey = d.eventKey;
+    this._teamKey = d.secretKey;
+    const teamCacheJson = localStorage.getItem('_eventTeamsCache') ?? '[]';
     this._eventTeamsCache = JSON.parse(teamCacheJson);
+    const scoutDataJson = localStorage.getItem('_heldScoutData') ?? '[]';
+    this._heldScoutData = JSON.parse(scoutDataJson);
+    const pitDataJson = localStorage.getItem('_heldPitData') ?? '[]';
+    this._heldPitData = JSON.parse(pitDataJson);
   }
 
-  public getEventTeamList(eventKey: string): Observable<TBATeam[]> {
+  public getEventTeamList(eventKey: string, options?: {force?: boolean}): Observable<TBATeam[]> {
     console.log('team list for', eventKey);
-    if (this._eventTeamsCache[eventKey]) {
+    const force = options?.force ?? false;
+    if (!force && this._eventTeamsCache[eventKey] && this._eventTeamsCache[eventKey].length > 0) {
       console.log('using cache');
       return of(this._eventTeamsCache[eventKey]);
     }
@@ -159,6 +170,7 @@ export class AppDataService {
     return this.httpClient.get<TBATeam[]>(url).pipe(tap((teams) => {
       console.log('caching', teams);
       this._eventTeamsCache[eventKey] = teams;
+      this.saveSettings();
     }));
   }
 
@@ -166,12 +178,55 @@ export class AppDataService {
     return this.httpClient.get(`${this.baseUrl}/HelloWorld`);
   }
 
+  get heldScoutData(): ScoutResult[] {
+    return this._heldScoutData;
+  }
+
+  get heldPitData(): PitResult[] {
+    return this._heldPitData;
+  }
+
+  public cacheResults(payload: ScoutResult): void {
+    this._heldScoutData.push(payload);
+    this.saveSettings();
+  }
+
+  public unCacheResults(payload: ScoutResult): void {
+    _.remove(this._heldScoutData,
+      { event_key: payload.event_key,
+        scouter_name: payload.scouter_name,
+        scouting_team: payload.scouting_team,
+      })
+    this.saveSettings();
+  }
+
+  public cachePitResults(payload: PitResult): void {
+    this._heldPitData.push(payload);
+    this.saveSettings();
+  }
+
+  public unCachePitResults(payload: PitResult): void {
+    _.remove(this._heldPitData,
+      { event_key: payload.event_key,
+        match_key: payload.match_key,
+        scouter_name: payload.scouter_name,
+        scouting_team: payload.scouting_team,
+      })
+    this.saveSettings();
+  }
+
   public postResults(payload: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/PostResults`, payload);
+    this.cacheResults(payload);
+    return this.httpClient.post(`${this.baseUrl}/PostResults`, payload).pipe(tap((r) => {
+      this.unCacheResults(payload);
+    }));
   }
 
   public postPitResults(payload: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/PostPitResults`, payload);
+    this.cachePitResults(payload);
+    return this.httpClient.post(`${this.baseUrl}/PostPitResults`, payload).pipe(tap((r) => {
+      this.unCachePitResults(payload);
+    }));
   }
 
   public getResults(secretTeamKey: string): Observable<ScoutResult[]> {
@@ -200,5 +255,4 @@ export class AppDataService {
     let url = `${this.baseUrl}/GetOPRData?event_key=${eventKey}`;
     return this.httpClient.get<OPRData[]>(url);
   }
-
 }

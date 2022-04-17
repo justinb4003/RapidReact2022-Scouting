@@ -1,23 +1,49 @@
 <h1 class="mat-h1">Settings</h1>
 <form [formGroup]="this.fgSettings">
   <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field>
       <mat-label>Team Data Key (secret, optional)</mat-label>
       <input matInput placeholder="Secret Data Key" formControlName="teamKey">
     </mat-form-field>
   </div>
   <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field>
       <mat-label>Your Name</mat-label>
       <input matInput placeholder="Your Name" formControlName="scouterName">
     </mat-form-field>
   </div>
   <div class="flex-row">
-    <mat-form-field >
+    <mat-form-field>
       <mat-label>Event</mat-label>
       <mat-select formControlName="eventKey">
         <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
+  <div class="flex-row" *ngIf="this.teamListLoading">
+    <p class="mat-body">
+      Loading teams from The Blue Alliance...
+    </p>
+    <!-- why isn't this showing? -->
+    <mat-progress-spinner class="team-list-spinner">
+    </mat-progress-spinner>
+  </div>
+  <ng-container *ngIf="!this.teamListLoading">
+    <div class="flex-row">
+      <p class="mat-body">
+        Teams found for this event: {{ this.teamList.length }}
+      </p>
+      <div class="flex-row" *ngIf="!this.teamListLoading">
+      </div>
+    </div>
+    <div class="flex-row" *ngIf="!this.teamListLoading">
+      <button mat-raised-button color="ts-red" (click)="this.forceTeamReload()">Force Update</button>
+    </div>
+    <div class="flex-row" *ngIf="!this.teamListLoading">
+      <ul>
+        <li *ngFor="let t of this.teamList">{{t.number}} - {{t.name}}</li>
+      </ul>
+    </div>
+
+  </ng-container>
 </form>

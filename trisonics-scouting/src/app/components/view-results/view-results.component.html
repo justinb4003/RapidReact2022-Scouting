@@ -2,31 +2,6 @@
 <form [formGroup]="this.fgSearch">
   <!-- Match/Scouter level data -->
   <div class="flex-row">
-    <p>
-      If you want to filter data to only show data
-      that was entered by a group you know, use the
-      secret key here.
-    </p>
-    <p>
-      An empty value gives you everything recored by anybody
-      in the app.
-    </p>
-  </div>
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Team Key (optional)</mat-label>
-      <input matInput placeholder="Secret Key" formControlName="teamKey">
-    </mat-form-field>
-  </div>
-  <div class="flex-row">
-    <mat-form-field >
-      <mat-label>Event</mat-label>
-      <mat-select formControlName="eventKey">
-        <mat-option *ngFor="let e of this.appData.eventList" [value]="e.eventKey">{{e.eventName}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="flex-row">
     <button mat-raised-button color="ts-red" class="data-button" (click)="this.loadData()">
       Load Data
     </button>
