@@ -44,6 +44,36 @@ export class AppDataService {
 
   public eventList: TBAEvent[] = [
     {
+      eventKey: '2022carv',
+      eventName: 'Worlds - Carver',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
+      eventKey: '2022gal',
+      eventName: 'Worlds - Galileo',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
+      eventKey: '2022hop',
+      eventName: 'Worlds - Hopper',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
+      eventKey: '2022new',
+      eventName: 'Worlds - Newton',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
+      eventKey: '2022roe',
+      eventName: 'Worlds - Roebling',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
+      eventKey: '2022tur',
+      eventName: 'Worlds - Turing',
+      eventDate: new Date(2022, 4, 20),
+    },
+    {
       eventKey: '2022mifor',
       eventName: 'Calvin (test)',
       eventDate: null,

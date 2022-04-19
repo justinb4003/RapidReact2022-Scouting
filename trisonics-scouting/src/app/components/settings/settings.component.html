@@ -41,7 +41,11 @@
     </div>
     <div class="flex-row" *ngIf="!this.teamListLoading">
       <ul>
-        <li *ngFor="let t of this.teamList">{{t.number}} - {{t.name}}</li>
+        <li *ngFor="let t of this.teamList">
+          <span class="mat-body">
+            {{t.number}} - {{t.name}}
+          </span>
+        </li>
       </ul>
     </div>
 
