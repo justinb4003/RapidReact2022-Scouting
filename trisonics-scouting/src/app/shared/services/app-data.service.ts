@@ -216,6 +216,7 @@ export class AppDataService {
   }
 
   public postResults(payload: any): Observable<any> {
+    this.unCacheResults(payload);
     this.cacheResults(payload);
     return this.httpClient.post(`${this.baseUrl}/PostResults`, payload).pipe(tap((r) => {
       this.unCacheResults(payload);
@@ -223,6 +224,7 @@ export class AppDataService {
   }
 
   public postPitResults(payload: any): Observable<any> {
+    this.unCachePitResults(payload);
     this.cachePitResults(payload);
     return this.httpClient.post(`${this.baseUrl}/PostPitResults`, payload).pipe(tap((r) => {
       this.unCachePitResults(payload);

@@ -1,19 +1,21 @@
-<ng-container *ngIf="this.hasScoutData">
+<ng-container *ngIf="this.hasScoutData || this.hasPitData">
   <div class="flex-row">
     <button mat-raised-button color="ts-red" (click)="this.uploadData()">Send Data</button>
   </div>
+</ng-container>
+<ng-container *ngIf="this.hasScoutData">
   <h1 class="mat-h1">Match Data</h1>
   <div class="flex-row">
     <ul>
       <li *ngFor="let sd of this.appData.heldScoutData">
-        {{sd.scouting_team}}
+        <span class="mat-body">Scouted {{sd.scouting_team}} in match {{sd.match_key}}</span>
       </li>
     </ul>
   </div>
 </ng-container>
 <ng-container *ngIf="!this.hasScoutData">
   <h2 class="mat-h2">
-    All Scout data uploaded!11!!1!
+    All Scout data uploaded!
   </h2>
 </ng-container>
 
@@ -23,12 +25,12 @@
   <h1 class="mat-h1">Pit Data</h1>
   <ul>
     <li *ngFor="let sd of this.appData.heldPitData">
-      {{sd.scouting_team}}
+      <span class="mat-body">{{sd.scouting_team}}</span>
     </li>
   </ul>
 </ng-container>
 <ng-container *ngIf="!this.hasPitData">
   <h2 class="mat-h2">
-    All Pit data uploaded!!onez!!1!
+    All Pit data uploaded!
   </h2>
 </ng-container>
