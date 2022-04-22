@@ -176,7 +176,7 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     params = [
     ]
     if (secret_team_key is not None):
-        query += "AND LOWER(c.secret_team_key) = LOWER(@secret_team_key) " 
+        query += "AND TRIM(LOWER(c.secret_team_key)) = TRIM(LOWER(@secret_team_key)) " 
         params.append({'name': '@secret_team_key', 'value': secret_team_key})
     if (event_key is not None):
         query += "AND c.event_key = @event_key " 
