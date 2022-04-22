@@ -183,7 +183,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   get matchData(): ScoutResult {
     const ret = {
       scouter_name: this.appData.scouterName,
-      secret_team_key: this.appData.teamKey,
+      secret_team_key: this.appData.teamKey.toLowerCase().trim(),
       event_key: this.appData.eventKey,
       match_key: this.appData.match,
       scouting_team: this.appData.scoutingTeam,
