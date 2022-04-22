@@ -1,6 +1,7 @@
 import os
 import io
 import json
+import math
 import requests
 
 import numpy as np
@@ -175,7 +176,7 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     params = [
     ]
     if (secret_team_key is not None):
-        query += "AND c.secret_team_key = @secret_team_key " 
+        query += "AND LOWER(c.secret_team_key) = LOWER(@secret_team_key) " 
         params.append({'name': '@secret_team_key', 'value': secret_team_key})
     if (event_key is not None):
         query += "AND c.event_key = @event_key " 
@@ -244,6 +245,22 @@ def get_opr_data(event_code):
 
     event_teams = list(set(teams_in_match))
     teams_in_match = {team: 0 for team in event_teams}
+    
+    # build lookup df for each team's matches in order
+    team_match_numbers = {
+        'match_num': [],
+        'team_key': []
+    }
+    for match, row in quals.iterrows():
+        for color in ['blue', 'red']:
+            alliance = row['alliances'][color]
+            teams = alliance['surrogate_team_keys'] + alliance['team_keys']
+            for t in teams:
+                mn = row['match_number']
+                team_match_numbers['match_num'].append(mn)
+                team_match_numbers['team_key'].append(t)
+    tmn_df = pd.DataFrame.from_dict(team_match_numbers)
+    tmn_df['match_of_tournament'] = tmn_df.sort_values(by='match_num').groupby('team_key').cumcount()+1
 
     ## compute oprs
 
@@ -255,10 +272,12 @@ def get_opr_data(event_code):
             teams = alliance['surrogate_team_keys'] + alliance['team_keys']
             team_matrix_row = teams_in_match.copy()
             for team in teams:
-                team_matrix_row[team] = 1
+                mot = tmn_df.loc[(tmn_df['team_key'] == team) & (tmn_df['match_num'] == row['match_number']), 'match_of_tournament'].values[0]
+                # Use tanh to make the 12th match more important than the 1st, emphasis on later matches
+                team_matrix_row[team] = math.tanh(mot) 
             team_matrix.append(team_matrix_row)
 
-            scores = row['score_breakdown'][color]  # Problem here, row['score_breakdown'] is None
+            scores = row['score_breakdown'][color]
             score_matrix.append(scores)
 
     team_df = pd.DataFrame(team_matrix)
