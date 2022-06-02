@@ -11,6 +11,10 @@
         <img src="./assets/trisonics_logo.png" alt="Trisonics Logo" class="trisonics-logo">
       </div>
       <mat-nav-list>
+        <a routerLink="/time-keeper" mat-list-item routerLinkActive="active" class="menu-link"
+          (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
+          <mat-icon class="menu-icon">work_history</mat-icon>Time Keeper
+        </a>
         <a routerLink="/score-match" mat-list-item routerLinkActive="active" class="menu-link"
           (click)="this.sidenav.mode === 'side' || this.sidenav.close()">
           <mat-icon class="menu-icon">dashboard</mat-icon>Scout Match

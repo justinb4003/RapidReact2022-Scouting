@@ -6,8 +6,13 @@ import { TeamDetailsComponent } from './components/team-details/team-details.com
 import { ScoutPitComponent } from './components/scout-pit/scout-pit.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HeldDataComponent } from './components/held-data/held-data.component';
+import { TimeKeeperComponent } from './components/time-keeper/time-keeper.component';
 
 const routes: Routes = [
+  {
+    path: "time-keeper",
+    component: TimeKeeperComponent,
+  },
   {
     path: "score-match",
     component: ScoreMatchComponent,

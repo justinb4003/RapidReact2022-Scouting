@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:7071/api',
+  baseUrl: 'http://192.168.1.60:7071/api',
   // baseUrl: 'https://www.frcscout.org/api',
 };
 

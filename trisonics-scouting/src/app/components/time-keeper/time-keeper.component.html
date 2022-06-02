@@ -1,0 +1,27 @@
+<div>
+    <mat-slide-toggle class="primary-slider"
+        (change)="this.processToggle()"
+        [(ngModel)]="this.statusIn">
+    </mat-slide-toggle>
+</div>
+<div>
+    <h1 class="mat-h1">
+        {{statusText}}
+    </h1>
+</div>
+<div>
+    <h1 class="mat-h1">
+        {{timeElapsed}}
+    </h1>
+</div>
+<div>
+    <mat-list>
+        <mat-list-item *ngFor="let te of this.timeEntriesReversed">
+            {{formatIntime(te.in_datetime)}}
+            to 
+            {{formatOuttime(te.out_datetime)}}
+            &nbsp;&nbsp;
+            {{formatDuration(te)}}
+        </mat-list-item>
+    </mat-list>
+</div>
