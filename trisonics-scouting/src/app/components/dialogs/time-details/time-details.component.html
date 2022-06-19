@@ -1,0 +1,28 @@
+<form [formGroup]="this.fgSubmit">
+  <div class="flex-row">
+    <mat-form-field class="scout-input">
+      <mat-label>Subteams</mat-label>
+      <mat-select formControlName="subteams" multiple>
+        <mat-option value='design'>Design</mat-option>
+        <mat-option value='build'>Build</mat-option>
+        <mat-option value='programming'>Programming</mat-option>
+        <mat-option value='chairman'>Chairman's</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <mat-form-field class="scout-input">
+      <mat-label>Notes</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="10"
+                formControlName="notes"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="flex-row">
+    <button mat-raised-button color="ts-red" mat-dialog-close
+      (click)="submitTime()">Submit</button>
+  </div>
+</form>

@@ -9,4 +9,5 @@ export interface TimeEntry {
     account_name: string,
     secret_team_key: string,
     notes: string | null,
+    subteams: string[] | null,
 }

@@ -1,11 +1,14 @@
 import { DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, interval } from 'rxjs';
+import { Subscription, interval, Observable, firstValueFrom } from 'rxjs';
 import { TimeEntry } from 'src/app/shared/models/time-entry.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { TimeDataService } from 'src/app/shared/services/time-data.service';
 import { v4 as uuidv4 } from 'uuid';
 import * as _ from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
+import { TimeDetailsComponent } from '../dialogs/time-details/time-details.component';
 
 @Component({
   selector: 'app-time-keeper',
@@ -27,22 +30,43 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
   constructor(
     public appData: AppDataService,
     public timeData: TimeDataService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
+    /*
     this.displaySubscription = interval(250).subscribe((x) => {
       this.setTimeElapsed();
     });
-    // TOOD: Pull all existing entries from Cosmos
-    // find most recent, and if it is current enough
-    // set itid to the active currentUUID value.
+    */
+    this.timeData.getTimeEntries(this.appData.scouterName, this.appData.teamKey).subscribe((tel) => {
+      this.timeEntries = tel;
+      // JJB: Bad hack here for fixing Date handing in JSON
+      this.timeEntries.forEach((te) => {
+        if (typeof te.in_datetime === 'string') {
+          te.in_datetime = new Date(te.in_datetime);
+        }
+        if (typeof te.out_datetime === 'string') {
+          te.out_datetime = new Date(te.out_datetime);
+        }
+      });
+      // console.log(this.timeEntries);
+      // TODO: Pull all existing entries from Cosmos
+      // find most recent, and if it is current enough
+      const newestFirst = _.orderBy(this.timeEntries, ['in_datetime'], ['desc']);
+      if (newestFirst.length > 0 && newestFirst[0].out_datetime == null) {
+        // set itid to the active currentUUID value.
+        this.currentUUID = newestFirst[0].id;
+        this.statusIn = true;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.displaySubscription.unsubscribe();
   }
 
-  public processToggle(): void {
+  public async processToggle(): Promise<void> {
     if (this.statusIn) {
       this.currentUUID = uuidv4();
       const te: TimeEntry = {
@@ -55,17 +79,25 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
         out_lng: null,
         account_name: this.appData.scouterName,
         secret_team_key: this.appData.teamKey,
-        notes: 'trial run',
+        notes: null,
+        subteams: null,
       };
-      // TODO: Push this to Cosmos
       this.timeEntries.push(te);
+      await firstValueFrom(this.timeData.postTimeEntry(te));
     } else {
       var te = this.timeEntries.find((te) => te.id === this.currentUUID);
       if (te) {
         te.out_datetime = new Date();
-        // TODO: Push this to Cosmos
+        await firstValueFrom(this.timeData.postTimeEntry(te));
+        const dref = this.dialog.open(TimeDetailsComponent, {
+          height: '75vh',
+          width: '100%',
+          data: te,
+        });
+        dref.afterClosed().subscribe(async () => {
+          await firstValueFrom(this.timeData.postTimeEntry(te));
+        });
       }
-
     }
   }
 
@@ -89,6 +121,7 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     if (te.out_datetime == null) {
       return '';
     }
+    // return 'duration';
     const elapsed = te.out_datetime.getTime() - te.in_datetime.getTime();
     return new Date(elapsed).toISOString().slice(11, -1);
   }
@@ -102,12 +135,12 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     const now = new Date().getTime();
     const inms = this.currentTimeEntry.in_datetime.getTime();
     const elapsed = now - inms;
-    console.log(now, inms);
-    console.log(elapsed);
     this.timeElapsed = new Date(elapsed).toISOString().slice(11, -1);
   }
 
   public formatIntime(in_datetime: Date): string {
+    console.log('formattingin time', in_datetime);
+    // return in_datetime.toString();
     return in_datetime.toLocaleDateString('en-us',
       {
         weekday: 'long',
@@ -122,12 +155,13 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
   public formatOuttime(out_datetime: Date | null): string {
     if (out_datetime == null) {
       return '';
+    } else {
+      console.log(out_datetime, typeof out_datetime);
+      return out_datetime.toLocaleTimeString('en-us',
+        {
+          hour: 'numeric',
+          minute: 'numeric',
+        });
     }
-    return out_datetime.toLocaleTimeString('en-us',
-      {
-        hour: 'numeric',
-        minute: 'numeric',
-      });
   }
-
 }

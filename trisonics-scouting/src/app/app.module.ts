@@ -51,6 +51,7 @@ import { GarvComponent } from './components/garv/garv.component';
 import { ScoutPitViewComponent } from './components/scout-pit-view/scout-pit-view.component';
 import { HeldDataComponent } from './components/held-data/held-data.component';
 import { TimeKeeperComponent } from './components/time-keeper/time-keeper.component';
+import { TimeDetailsComponent } from './components/dialogs/time-details/time-details.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { TimeKeeperComponent } from './components/time-keeper/time-keeper.compon
     GarvComponent,
     ScoutPitViewComponent,
     HeldDataComponent,
-    TimeKeeperComponent
+    TimeKeeperComponent,
+    TimeDetailsComponent
   ],
   imports: [
     BrowserModule,
