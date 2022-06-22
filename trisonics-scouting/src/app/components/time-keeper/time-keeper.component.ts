@@ -34,11 +34,9 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    /*
-    this.displaySubscription = interval(250).subscribe((x) => {
+    this.displaySubscription = interval(2500).subscribe((x) => {
       this.setTimeElapsed();
     });
-    */
     this.timeData.getTimeEntries(this.appData.scouterName, this.appData.teamKey).subscribe((tel) => {
       this.timeEntries = tel;
       // JJB: Bad hack here for fixing Date handing in JSON
@@ -51,10 +49,9 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
         }
       });
       // console.log(this.timeEntries);
-      // TODO: Pull all existing entries from Cosmos
       // find most recent, and if it is current enough
       const newestFirst = _.orderBy(this.timeEntries, ['in_datetime'], ['desc']);
-      if (newestFirst.length > 0 && newestFirst[0].out_datetime == null) {
+      if (newestFirst.length > 0 && newestFirst[0].out_datetime == null && this.recentEnough(newestFirst[0].in_datetime)) {
         // set itid to the active currentUUID value.
         this.currentUUID = newestFirst[0].id;
         this.statusIn = true;
@@ -64,6 +61,11 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.displaySubscription.unsubscribe();
+  }
+
+  public recentEnough(ts: Date): boolean {
+
+    return true;
   }
 
   public async processToggle(): Promise<void> {
@@ -121,9 +123,10 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     if (te.out_datetime == null) {
       return '';
     }
-    // return 'duration';
-    const elapsed = te.out_datetime.getTime() - te.in_datetime.getTime();
-    return new Date(elapsed).toISOString().slice(11, -1);
+    const elapsed = (te.out_datetime.getTime() - te.in_datetime.getTime()) / 1000;
+    const hours = Math.floor(elapsed / 3600);
+    const minutes = Math.floor( (elapsed-(hours*3600)) / 60 );
+    return String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0');
   }
 
   public setTimeElapsed(): void {
@@ -134,12 +137,14 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     // TODO: Improve date to string handling
     const now = new Date().getTime();
     const inms = this.currentTimeEntry.in_datetime.getTime();
-    const elapsed = now - inms;
-    this.timeElapsed = new Date(elapsed).toISOString().slice(11, -1);
+    const elapsed = (now - inms) / 1000;
+    const hours = Math.floor(elapsed / 3600);
+    const minutes = Math.floor( (elapsed-(hours*3600)) / 60 );
+    this.timeElapsed = String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0');
   }
 
   public formatIntime(in_datetime: Date): string {
-    console.log('formattingin time', in_datetime);
+    // console.log('formattingin time', in_datetime);
     // return in_datetime.toString();
     return in_datetime.toLocaleDateString('en-us',
       {
@@ -156,7 +161,7 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     if (out_datetime == null) {
       return '';
     } else {
-      console.log(out_datetime, typeof out_datetime);
+      // console.log(out_datetime, typeof out_datetime);
       return out_datetime.toLocaleTimeString('en-us',
         {
           hour: 'numeric',
