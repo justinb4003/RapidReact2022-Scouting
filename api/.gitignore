@@ -21,7 +21,7 @@ project.lock.json
 /data
 .secrets
 appsettings.json
-
+setenv
 node_modules
 dist
 

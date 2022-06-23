@@ -192,6 +192,22 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     df.drop_duplicates(inplace=True, ignore_index=True, keep='last')
     return df
 
+def get_time_entries(secret_team_key=None, account_name=None):
+    container = get_container('TimeTracking')
+    query = "SELECT * FROM c WHERE 1=1 "
+    params = [
+    ]
+    query += "AND c.secret_team_key = @secret_team_key " 
+    params.append({'name': '@secret_team_key', 'value': secret_team_key})
+    query += "AND c.account_name = @account_name " 
+    params.append({'name': '@account_name', 'value': account_name})
+    print(query)
+    print(params)
+    items = container.query_items(query=query, parameters=params,
+                                  enable_cross_partition_query=True)
+
+    return list(items)
+
 def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
     container = get_container('PitResults')
     query = "SELECT * FROM c WHERE 1=1 "

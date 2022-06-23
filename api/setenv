@@ -1,3 +1,5 @@
 export COSMOS_ENDPOINT=https://trisonics-scouting.documents.azure.com:443/
 export COSMOS_KEY=2JY3ncalrujpk6ZM6Qno8bHwP0eMVVCsJ1uSJ53Msp02fp0UvZZNQRBmWf7JCCq3XGgtqfyqtWnQNi3swyifkg==
 export TBA_KEY=VUdGT41tnb2MLMfXSX0QvPSDDyi0aMVzmxLTWar8wjCmZvNFZfZiq7sHfhAtWgbO
+export FRCAPI_KEY=29cb3230-9ec8-4b10-a029-5ec4446583e5
+export BLOB_CONN=DefaultEndpointsProtocol=https;AccountName=scoutdata;AccountKey=sfZCMyLZO9G20y6v490cnzZHuHYXVM7/LXXTTTgQFBGMT9zk0XruPUnKM/oCV6IEQSUDLLhgsaLl+ASt1jU2yg==;EndpointSuffix=core.windows.net
