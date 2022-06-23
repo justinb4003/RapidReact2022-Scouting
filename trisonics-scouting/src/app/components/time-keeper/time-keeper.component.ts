@@ -17,6 +17,8 @@ import { TimeDetailsComponent } from '../dialogs/time-details/time-details.compo
 })
 export class TimeKeeperComponent implements OnInit, OnDestroy {
 
+  public dataLoaded: boolean = false;
+
   public statusIn: boolean = false;
 
   public timeEntries: TimeEntry[] = [];
@@ -49,6 +51,7 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
         }
       });
       // console.log(this.timeEntries);
+      this.dataLoaded = true;
       // find most recent, and if it is current enough
       const newestFirst = _.orderBy(this.timeEntries, ['in_datetime'], ['desc']);
       if (newestFirst.length > 0 && newestFirst[0].out_datetime == null && this.recentEnough(newestFirst[0].in_datetime)) {

@@ -17,7 +17,6 @@ export class TimeDataService {
   ) { }
   
   public postTimeEntry(payload: any): Observable<any> {
-    console.error(payload);
     return this.httpClient.post(`${this.baseUrl}/PostTimeEntry`, payload);
   }
 

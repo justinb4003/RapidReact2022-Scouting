@@ -14,7 +14,14 @@
         {{timeElapsed}}
     </h1>
 </div>
-<div>
+<div *ngIf="!this.dataLoaded">
+    <mat-progress-spinner mode="indeterminate">
+    </mat-progress-spinner>
+</div>
+<div *ngIf="this.dataLoaded">
+    <div *ngIf="this.timeEntriesReversed.length === 0">
+        <h3 class="mat-h3">No entries yet. Welcome to the system!</h3>
+    </div>
     <mat-card *ngFor="let te of this.timeEntriesReversed" class="time-entry mat-elevation-z4">
         <mat-card-title>
             {{formatIntime(te.in_datetime)}}
