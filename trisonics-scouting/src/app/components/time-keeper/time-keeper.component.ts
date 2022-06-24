@@ -1,6 +1,6 @@
 import { DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, interval, Observable, firstValueFrom } from 'rxjs';
+import { Subscription, take, interval, Observable, firstValueFrom } from 'rxjs';
 import { TimeEntry } from 'src/app/shared/models/time-entry.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 import { TimeDataService } from 'src/app/shared/services/time-data.service';
@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { ScoutDetailComponent } from '../dialogs/scout-detail/scout-detail.component';
 import { TimeDetailsComponent } from '../dialogs/time-details/time-details.component';
+import { GeolocationService } from '@ng-web-apis/geolocation';
 
 @Component({
   selector: 'app-time-keeper',
@@ -33,6 +34,7 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
     public appData: AppDataService,
     public timeData: TimeDataService,
     public dialog: MatDialog,
+    public geolocation: GeolocationService,
   ) { }
 
   ngOnInit(): void {
@@ -72,38 +74,42 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
   }
 
   public async processToggle(): Promise<void> {
-    if (this.statusIn) {
-      this.currentUUID = uuidv4();
-      const te: TimeEntry = {
-        id: this.currentUUID,
-        in_datetime: new Date(),
-        in_lat: 0,
-        in_lng: 0,
-        out_datetime: null,
-        out_lat: null,
-        out_lng: null,
-        account_name: this.appData.scouterName,
-        secret_team_key: this.appData.teamKey,
-        notes: null,
-        subteams: null,
-      };
-      this.timeEntries.push(te);
-      await firstValueFrom(this.timeData.postTimeEntry(te));
-    } else {
-      var te = this.timeEntries.find((te) => te.id === this.currentUUID);
-      if (te) {
-        te.out_datetime = new Date();
+    this.geolocation.pipe(take(1)).subscribe(async (pos) => {
+      if (this.statusIn) {
+        this.currentUUID = uuidv4();
+        const te: TimeEntry = {
+          id: this.currentUUID,
+          in_datetime: new Date(),
+          in_lat: pos.coords.latitude,
+          in_lng: pos.coords.longitude,
+          out_datetime: null,
+          out_lat: null,
+          out_lng: null,
+          account_name: this.appData.scouterName,
+          secret_team_key: this.appData.teamKey,
+          notes: null,
+          subteams: null,
+        };
+        this.timeEntries.push(te);
         await firstValueFrom(this.timeData.postTimeEntry(te));
-        const dref = this.dialog.open(TimeDetailsComponent, {
-          height: '75vh',
-          width: '100%',
-          data: te,
-        });
-        dref.afterClosed().subscribe(async () => {
+      } else {
+        var te = this.timeEntries.find((te) => te.id === this.currentUUID);
+        if (te) {
+          te.out_datetime = new Date();
+          te.out_lat = pos.coords.latitude;
+          te.out_lng = pos.coords.longitude;
           await firstValueFrom(this.timeData.postTimeEntry(te));
-        });
+          const dref = this.dialog.open(TimeDetailsComponent, {
+            height: '75vh',
+            width: '100%',
+            data: te,
+          });
+          dref.afterClosed().subscribe(async () => {
+            await firstValueFrom(this.timeData.postTimeEntry(te));
+          });
+        }
       }
-    }
+    });
   }
 
   get statusText(): string {
