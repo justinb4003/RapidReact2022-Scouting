@@ -27,7 +27,7 @@ export class TimeKeeperComponent implements OnInit, OnDestroy {
 
   public timeElapsed: string = '';
   
-  private displaySubscription: Subscription;
+  private displaySubscription!: Subscription;
 
   constructor(
     public appData: AppDataService,
