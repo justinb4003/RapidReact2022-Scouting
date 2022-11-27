@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CdkTableModule } from '@angular/cdk/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -52,6 +52,7 @@ import { ScoutPitViewComponent } from './components/scout-pit-view/scout-pit-vie
 import { HeldDataComponent } from './components/held-data/held-data.component';
 import { TimeKeeperComponent } from './components/time-keeper/time-keeper.component';
 import { TimeDetailsComponent } from './components/dialogs/time-details/time-details.component';
+import { ErrorCatchingInterceptor } from './interceptors/error-catching.interceptor';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,13 @@ import { TimeDetailsComponent } from './components/dialogs/time-details/time-det
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorCatchingInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
