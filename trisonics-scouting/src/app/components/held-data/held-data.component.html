@@ -1,7 +1,15 @@
-<ng-container *ngIf="this.hasScoutData || this.hasPitData">
+<ng-container *ngIf="this.hasScoutData || this.hasPitData || this.hasTimeData">
   <div class="flex-row">
     <button mat-raised-button color="ts-red" (click)="this.uploadData()">Send Data</button>
   </div>
+</ng-container>
+<ng-container *ngIf="this.hasTimeData">
+  <h1 class="mat-h1">Time Data: {{ this.timeData.heldData.length }} entries</h1>
+</ng-container>
+<ng-container *ngIf="!this.hasTimeData">
+  <h2 class="mat-h2">
+    All time data uploaded!
+  </h2>
 </ng-container>
 <ng-container *ngIf="this.hasScoutData">
   <h1 class="mat-h1">Match Data</h1>

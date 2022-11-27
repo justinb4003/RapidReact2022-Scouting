@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { ConnectableObservable, Observable, of } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ScoutResult } from 'src/app/shared/models/scout-result.model';
@@ -185,7 +185,7 @@ export class AppDataService {
     const scoutDataJson = localStorage.getItem('_heldScoutData') ?? '[]';
     this._heldScoutData = JSON.parse(scoutDataJson);
     const pitDataJson = localStorage.getItem('_heldPitData') ?? '[]';
-    this._heldPitData = JSON.parse(pitDataJson);
+    this._heldPitData = JSON.parse(pitDataJson).splice(0, 1);
   }
 
   public getEventTeamList(eventKey: string, options?: {force?: boolean}): Observable<TBATeam[]> {
@@ -231,17 +231,16 @@ export class AppDataService {
   }
 
   public cachePitResults(payload: PitResult): void {
-    this._heldPitData.push(payload);
-    this.saveSettings();
+     this._heldPitData.push(payload);
+     this.saveSettings();
   }
 
   public unCachePitResults(payload: PitResult): void {
     _.remove(this._heldPitData,
       { event_key: payload.event_key,
-        match_key: payload.match_key,
         scouter_name: payload.scouter_name,
         scouting_team: payload.scouting_team,
-      })
+      });
     this.saveSettings();
   }
 

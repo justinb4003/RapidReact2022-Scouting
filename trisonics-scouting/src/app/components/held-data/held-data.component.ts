@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
+import { TimeDataService } from 'src/app/shared/services/time-data.service';
 
 @Component({
   selector: 'app-held-data',
@@ -10,6 +11,7 @@ export class HeldDataComponent implements OnInit {
 
   constructor(
     public appData: AppDataService,
+    public timeData: TimeDataService,
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +30,11 @@ export class HeldDataComponent implements OnInit {
       });
     });
 
+    this.timeData.heldData.forEach((te) => {
+      this.timeData.postTimeEntry(te).subscribe((r) => {
+        console.log('updated time entry', te.id);
+      });
+    });
   }
 
   get hasScoutData(): boolean {
@@ -36,6 +43,10 @@ export class HeldDataComponent implements OnInit {
 
   get hasPitData(): boolean {
     return this.appData.heldPitData.length > 0;
+  }
+
+  get hasTimeData(): boolean {
+    return this.timeData.heldData.length > 0;
   }
 
 }

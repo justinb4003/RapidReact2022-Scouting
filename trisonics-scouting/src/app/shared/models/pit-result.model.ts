@@ -2,7 +2,6 @@ export interface PitResult {
   scouter_name: string,
   secret_team_key: string,
   event_key: string,
-  match_key: string,
   scouting_team: number,
   drive_train: string,
   wheel_omni: boolean,
