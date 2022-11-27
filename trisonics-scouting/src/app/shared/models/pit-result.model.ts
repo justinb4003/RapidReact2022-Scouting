@@ -12,4 +12,5 @@ export interface PitResult {
   robot_rating: number | null,
   robot_notes: string,
   images: string[],
+  image_names: string[],
 }

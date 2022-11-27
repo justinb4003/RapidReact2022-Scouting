@@ -1,5 +1,6 @@
 from ar_utils import *
 
+pit = get_pit_data('4003data', '2022mifor', 1711)
+print(pit)
 
-oprs = get_opr_data('2022misjo')
-print(oprs)
+

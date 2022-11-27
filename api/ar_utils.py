@@ -231,7 +231,19 @@ def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
     items = container.query_items(query=query, parameters=params,
                                   enable_cross_partition_query=True)
 
-    df = pd.DataFrame(items)
+    results = []
+    for item in items:
+        newitem = dict(item)
+        if 'image_names' in newitem:
+            newimages = []
+            for image in newitem['image_names']:
+                newurl = f'{os.environ.get("BLOB_PUB_URL")}/{image}'
+                print(newurl)
+                newimages.append(newurl)
+            newitem['image_names'] = newimages;
+        results.append(newitem)
+        print(json.dumps(dict(newitem), sort_keys=True, indent=4))
+    df = pd.DataFrame(results)
     df = df[df.columns.drop(list(df.filter(regex='^_')))]
     if df.empty:
         return None

@@ -13,7 +13,7 @@
       {{this.pitResult.drive_train}} / {{this.wheelType}} wheels.
     </div>
     <div class="flex-row">
-      <div *ngFor="let img of this.pitResult.images">
+      <div *ngFor="let img of this.pitResult.image_names">
         <img [src]="img" class="image-container" />
       </div>
     </div>
