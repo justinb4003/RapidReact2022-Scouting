@@ -53,6 +53,7 @@ import { HeldDataComponent } from './components/held-data/held-data.component';
 import { TimeKeeperComponent } from './components/time-keeper/time-keeper.component';
 import { TimeDetailsComponent } from './components/dialogs/time-details/time-details.component';
 import { ErrorCatchingInterceptor } from './interceptors/error-catching.interceptor';
+import { HttpErrorDialogComponent } from './components/dialogs/http-error-dialog/http-error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ErrorCatchingInterceptor } from './interceptors/error-catching.intercep
     ScoutPitViewComponent,
     HeldDataComponent,
     TimeKeeperComponent,
-    TimeDetailsComponent
+    TimeDetailsComponent,
+    HttpErrorDialogComponent
   ],
   imports: [
     BrowserModule,
