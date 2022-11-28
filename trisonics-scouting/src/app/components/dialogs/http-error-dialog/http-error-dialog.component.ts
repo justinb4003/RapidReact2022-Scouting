@@ -16,6 +16,7 @@ export class HttpErrorDialogComponent {
     console.log(this.httpError);
   }
 
+  // TODO: Fill in the rest of these with explanations that make sense to students
   get errorMeaning(): string {
     switch (this.httpError.status) {
       case 0:
