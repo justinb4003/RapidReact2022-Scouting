@@ -1,30 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AppDataService } from './shared/services/app-data.service';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MediaObserver } from '@angular/flex-layout';
-import { Router } from '@angular/router';
+import { AppDataService } from './shared/services/app-data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'trisonics-scouting';
 
-  private teamKeyVisible: boolean = false;
+  private teamKeyVisible = false;
 
   @ViewChild('sidenav', { static: true })
-  public sidenav: MatSidenav;
+  public sidenav!: MatSidenav;
 
   constructor(
     public appData: AppDataService,
     public media: MediaObserver,
     public router: Router,
-    ) { }
-
-  public ngOnInit(): void {
-  }
+  ) { }
 
   public displaySidenavMenu(): void {
     this.sidenav.open();
@@ -49,7 +46,6 @@ export class AppComponent implements OnInit {
 
   public goToSettings(): void {
     this.router.navigate(['/settings']);
-
   }
 
   get displayTeamKey(): string {
@@ -61,5 +57,6 @@ export class AppComponent implements OnInit {
     }
     return 'none set!';
   }
-
 }
+
+export default AppComponent;

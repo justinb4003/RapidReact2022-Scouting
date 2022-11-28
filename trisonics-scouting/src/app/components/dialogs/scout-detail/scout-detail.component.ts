@@ -1,5 +1,7 @@
-import { Component, Inject, ViewChild, OnInit } from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {
+  Component, Inject, ViewChild, OnInit,
+} from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PitResult } from 'src/app/shared/models/pit-result.model';
@@ -9,14 +11,14 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
 @Component({
   selector: 'app-scout-detail',
   templateUrl: './scout-detail.component.html',
-  styleUrls: ['./scout-detail.component.scss']
+  styleUrls: ['./scout-detail.component.scss'],
 })
 export class ScoutDetailComponent implements OnInit {
+  @ViewChild(MatSort) sort!: MatSort;
 
-  @ViewChild(MatSort) sort: MatSort;
   public detailData = new MatTableDataSource<ScoutResult>();
 
-  public teamNumber: number = 0;
+  public teamNumber = 0;
 
   public pitResults: PitResult[] = [];
 
@@ -52,5 +54,6 @@ export class ScoutDetailComponent implements OnInit {
   ngAfterViewInit(): void {
     this.detailData.sort = this.sort;
   }
-
 }
+
+export default ScoutDetailComponent;

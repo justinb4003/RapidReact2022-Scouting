@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import * as _ from 'lodash';
 import { TimeEntry } from 'src/app/shared/models/time-entry.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TimeDataService {
   private baseUrl = environment.baseUrl;
@@ -16,7 +16,7 @@ export class TimeDataService {
   private _heldTimeData: TimeEntry[] = [];
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
   ) {
     this.loadData();
   }
@@ -37,7 +37,8 @@ export class TimeDataService {
 
   public getTimeEntries(accountName: string, secretTeamKey: string): Observable<TimeEntry[]> {
     return this.httpClient.get<TimeEntry[]>(
-      `${this.baseUrl}/GetTimeEntries?account_name=${accountName}&secret_team_key=${secretTeamKey}`);
+      `${this.baseUrl}/GetTimeEntries?account_name=${accountName}&secret_team_key=${secretTeamKey}`,
+    );
   }
 
   public cacheResults(payload: TimeEntry): void {
@@ -46,7 +47,7 @@ export class TimeDataService {
   }
 
   public unCacheResults(payload: TimeEntry): void {
-    _.remove(this._heldTimeData, { id: payload.id, });
+    _.remove(this._heldTimeData, { id: payload.id });
     this.saveData();
   }
 
@@ -58,3 +59,5 @@ export class TimeDataService {
     return this._heldTimeData;
   }
 }
+
+export default TimeDataService;

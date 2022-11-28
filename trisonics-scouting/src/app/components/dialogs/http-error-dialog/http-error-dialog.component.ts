@@ -1,15 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, ViewChild, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-http-error-dialog',
   templateUrl: './http-error-dialog.component.html',
-  styleUrls: ['./http-error-dialog.component.scss']
+  styleUrls: ['./http-error-dialog.component.scss'],
 })
 export class HttpErrorDialogComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public httpError: HttpErrorResponse,
+    @Inject(MAT_DIALOG_DATA)
+    public httpError: HttpErrorResponse,
   ) { }
 
   ngOnInit(): void {
@@ -25,11 +26,10 @@ export class HttpErrorDialogComponent {
         return 'The server could not find what you asked for.';
       case 500:
         return 'The API code we called tossed an error. Bad programmer!';
+      default:
+        return 'Undefined';
     }
-
-    return 'Undefined';
   }
 }
 
-
-
+export default HttpErrorDialogComponent;

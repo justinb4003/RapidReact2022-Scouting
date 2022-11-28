@@ -1,15 +1,17 @@
-<div align="center">
-  <h1>HTTP Communication Error</h1>
-</div>
-<div>
-  <strong>Error code:</strong> {{httpError.status}}
-</div>
-<div>
-  <strong>Error message:</strong> {{httpError.statusText}}
-</div>
-<div>
-  <strong>Meaning:</strong> {{this.errorMeaning}}
-</div>
-<!--
-  TODO: Add more data like URL we were accessing, method, etc.
--->
+<ng-container>
+  <div align="center">
+    <h1>HTTP Communication Error</h1>
+  </div>
+  <div>
+    <strong>Error code:</strong> {{httpError.status}}
+  </div>
+  <div>
+    <strong>Error message:</strong> {{httpError.statusText}}
+  </div>
+  <div>
+    <strong>Meaning:</strong> {{this.errorMeaning}}
+  </div>
+  <!--
+    TODO: Add more data like URL we were accessing, method, etc.
+  -->
+</ng-container>

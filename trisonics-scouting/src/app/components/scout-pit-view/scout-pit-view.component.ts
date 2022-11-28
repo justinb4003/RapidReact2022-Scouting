@@ -1,25 +1,24 @@
-import { _resolveDirectionality } from '@angular/cdk/bidi/directionality';
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PitResult } from 'src/app/shared/models/pit-result.model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 
 @Component({
   selector: 'app-scout-pit-view',
   templateUrl: './scout-pit-view.component.html',
-  styleUrls: ['./scout-pit-view.component.scss']
+  styleUrls: ['./scout-pit-view.component.scss'],
 })
-export class ScoutPitViewComponent implements OnInit, AfterViewInit {
-
+export class ScoutPitViewComponent implements OnInit {
   @Input() public pitResult!: PitResult;
 
-  public nickname: string = '...loading..';
+  public nickname = '...loading..';
+
   constructor(
     private appData: AppDataService,
   ) { }
 
   public ngOnInit(): void {
-    this.appData.getEventTeamList(this.pitResult.event_key).subscribe(teams => {
-      const team = teams.find(t => t.number == this.pitResult.scouting_team);
+    this.appData.getEventTeamList(this.pitResult.event_key).subscribe((teams) => {
+      const team = teams.find((t) => t.number === this.pitResult.scouting_team);
       if (team) {
         this.nickname = team.name;
         console.log('setting nickname ', this.nickname);
@@ -27,9 +26,6 @@ export class ScoutPitViewComponent implements OnInit, AfterViewInit {
         console.log('no team found for ', this.pitResult.scouting_team);
       }
     });
-  }
-
-  public ngAfterViewInit(): void {
   }
 
   get wheelType(): string {
@@ -42,7 +38,7 @@ export class ScoutPitViewComponent implements OnInit, AfterViewInit {
     } else if (pr.wheel_omni) {
       retVal = 'omni';
     } else if (pr.wheel_mec) {
-      retVal = 'mecanum'
+      retVal = 'mecanum';
     }
 
     return retVal;
@@ -52,3 +48,5 @@ export class ScoutPitViewComponent implements OnInit, AfterViewInit {
     return `${this.pitResult.scouting_team} (${this.nickname})`;
   }
 }
+
+export default ScoutPitViewComponent;

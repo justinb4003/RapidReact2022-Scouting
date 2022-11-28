@@ -1,12 +1,9 @@
+/* eslint-disable import/prefer-default-export */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { QRCodeModule } from 'angularx-qrcode';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,10 +35,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { LoginScreenComponent } from './components/login-screen/login-screen.component';
 import { ScoreMatchComponent } from './components/score-match/score-match.component';
 import { ViewResultsComponent } from './components/view-results/view-results.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
 import { ScoutDetailComponent } from './components/dialogs/scout-detail/scout-detail.component';
@@ -70,7 +69,7 @@ import { HttpErrorDialogComponent } from './components/dialogs/http-error-dialog
     HeldDataComponent,
     TimeKeeperComponent,
     TimeDetailsComponent,
-    HttpErrorDialogComponent
+    HttpErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,16 +115,17 @@ import { HttpErrorDialogComponent } from './components/dialogs/http-error-dialog
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorCatchingInterceptor,
-      multi: true
+      multi: true,
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
+
 export class AppModule { }

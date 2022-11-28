@@ -8,19 +8,18 @@ import { PitResult } from 'src/app/shared/models/pit-result.model';
 @Component({
   selector: 'app-scout-pit',
   templateUrl: './scout-pit.component.html',
-  styleUrls: ['./scout-pit.component.scss']
+  styleUrls: ['./scout-pit.component.scss'],
 })
 export class ScoutPitComponent implements OnInit {
-
   public teamList: TBATeam[] = [];
 
   public imageList: string[] = [];
 
   public pitResultList: PitResult[] = [];
 
-  public showExisting: boolean = false;
+  public showExisting = false;
 
-  public pitDataLoading: boolean = false;
+  public pitDataLoading = false;
 
   public fgScoutPit: FormGroup = new FormGroup({
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
@@ -73,16 +72,17 @@ export class ScoutPitComponent implements OnInit {
   private loadPitData(teamKey: string): void {
     this.showExisting = true;
     this.pitDataLoading = true;
-    this.appData.getPitResults(this.appData.teamKey, this.appData.eventKey, teamKey).subscribe((data) => {
-      console.log('pit data', JSON.stringify(data, null, 4));
-      this.pitResultList = data;
-      this.pitDataLoading = false;
-    });
+    this.appData
+      .getPitResults(this.appData.teamKey, this.appData.eventKey, teamKey)
+      .subscribe((data) => {
+        console.log('pit data', JSON.stringify(data, null, 4));
+        this.pitResultList = data;
+        this.pitDataLoading = false;
+      });
   }
 
   public viewPitResult(pr: PitResult): void {
-    console.log('clickly');
-
+    console.log('clickly', pr);
   }
 
   private loadData(): void {
@@ -117,23 +117,28 @@ export class ScoutPitComponent implements OnInit {
     this.imageList = [];
   }
 
-  public sendData(): void{
+  public sendData(): void {
     if (this.fgScoutPit.valid) {
       this.appData.postPitResults(this.pitData).subscribe({
-        next: (data) => {
-          this.snackbar.open('Success! Data uploaded!',
-            'Close', { duration: 5000, panelClass: ['snackbar-success'] });
+        next: () => {
+          this.snackbar.open(
+            'Success! Data uploaded!',
+            'Close',
+            { duration: 5000, panelClass: ['snackbar-success'] },
+          );
           this.resetForm();
-          },
+        },
         error: (err) => {
           alert(err.error.message);
-          this.snackbar.open(`Error uploading data`,
-            'Close', { duration: 5000, panelClass: ['snackbar-error'] });
-
-        }
+          this.snackbar.open(
+            'Error uploading data',
+            'Close',
+            { duration: 5000, panelClass: ['snackbar-error'] },
+          );
+        },
       });
     } else {
-      let fields: string[] = [];
+      const fields: string[] = [];
       if (!this.fgScoutPit.get('scouterName')?.valid) {
         fields.push('scouter name');
       }
@@ -143,8 +148,7 @@ export class ScoutPitComponent implements OnInit {
       if (!this.fgScoutPit.get('eventKey')?.valid) {
         fields.push('event you are scouting');
       }
-
-      const msg = 'Please enter a value for ' + fields.join(', ');
+      const msg = `Please enter a value for ${fields.join(', ')}`;
       alert(msg);
     }
   }
@@ -152,9 +156,11 @@ export class ScoutPitComponent implements OnInit {
   public uploadImage($event: any): void {
     console.log('uploading image');
     const fileReader = new FileReader();
-    fileReader.onload = (e) => {
+    fileReader.onload = () => {
       this.imageList.push(fileReader.result as string);
-    }
+    };
     fileReader.readAsDataURL($event.target.files[0]);
   }
 }
+
+export default ScoutPitComponent;

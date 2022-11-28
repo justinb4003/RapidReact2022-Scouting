@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,6 @@ import { HttpErrorDialogComponent } from '../components/dialogs/http-error-dialo
 
 @Injectable()
 export class ErrorCatchingInterceptor implements HttpInterceptor {
-
   constructor(
     private dialog: MatDialog,
   ) {}
@@ -20,25 +19,28 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
       .pipe(
-      catchError((error: HttpErrorResponse) => {
+        catchError((error: HttpErrorResponse) => {
           let errorMsg = '';
           if (error.error instanceof ErrorEvent) {
-              console.log('This is client side error');
-              errorMsg = `Error: ${error.error.message}`;
+            console.log('This is client side error');
+            errorMsg = `Error: ${error.error.message}`;
           } else {
-              console.log('This is server side error');
-              errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-            const ref = this.dialog.open(HttpErrorDialogComponent,
+            console.log('This is server side error');
+            errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+            const ref = this.dialog.open(
+              HttpErrorDialogComponent,
               {
                 height: '70vh',
                 width: '100%',
                 data: error,
-              }
+              },
             );
           }
           console.error(errorMsg);
           return throwError(errorMsg);
-      }),
-    )
+        }),
+      );
   }
 }
+
+export default ErrorCatchingInterceptor;
