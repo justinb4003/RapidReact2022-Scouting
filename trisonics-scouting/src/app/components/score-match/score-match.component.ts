@@ -8,11 +8,10 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
 @Component({
   selector: 'app-score-match',
   templateUrl: './score-match.component.html',
-  styleUrls: ['./score-match.component.scss']
+  styleUrls: ['./score-match.component.scss'],
 })
 export class ScoreMatchComponent implements OnInit, AfterViewInit {
-
-  public uploadError: boolean = false;
+  public uploadError = false;
 
   public teamList: TBATeam[] = [];
 
@@ -27,7 +26,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     eventKey: new FormControl(this.appData.eventKey, Validators.required),
     match: new FormControl(this.appData.match, [
       Validators.required,
-      Validators.pattern("^[1-9][0-9]*$"), // Fun with regex
+      Validators.pattern('^[1-9][0-9]*$'), // Fun with regex to force only numbers as valid input
     ]),
     finalHangPos: new FormControl(this.appData.finalHangPos, Validators.required),
     matchNotes: new FormControl(this.appData.matchNotes),
@@ -36,7 +35,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   constructor(
     public appData: AppDataService,
     public snackbar: MatSnackBar,
-    ) {}
+  ) {}
 
   public ngOnInit(): void {
     this.loadData();
@@ -49,7 +48,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   private loadData(): void {
     console.log('this.app eventkey', this.appData.eventKey);
     this.appData.getEventTeamList(this.appData.eventKey).subscribe((tl) => {
-      console.log('team list', tl)
+      console.log('team list', tl);
       this.teamList = tl;
     });
   }
@@ -128,6 +127,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       this.appData.autoHighGoalmiss -= 1;
     }
   }
+
   public autoLowGoalmissInc(): void {
     this.appData.autoLowGoalmiss += 1;
   }
@@ -137,6 +137,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       this.appData.autoLowGoalmiss -= 1;
     }
   }
+
   public teleopLowGoalsInc(): void {
     this.appData.teleopLowGoal += 1;
   }
@@ -156,6 +157,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       this.appData.teleopLowGoal -= 1;
     }
   }
+
   public teleopHighGoalmissInc(): void {
     this.appData.teleopHighGoalmiss += 1;
   }
@@ -165,6 +167,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       this.appData.teleopHighGoalmiss -= 1;
     }
   }
+
   public teleopLowGoalmissInc(): void {
     this.appData.teleopLowGoalmiss += 1;
   }
@@ -176,8 +179,9 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   }
 
   public updateFinalHangPos(): void {
-    // The + forces the value to be a number.
-    this.appData.finalHangPos = +this.fgMatch.get('finalHangPos')?.value;
+    // The + forces the value to be a number type.
+    const c = this.fgMatch.get('finalHangPos');
+    this.appData.finalHangPos = c ? c.value : 0;
   }
 
   get matchData(): ScoutResult {
@@ -204,40 +208,46 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   }
 
   public uploadData(): void {
-   if (this.fgMatch.valid) {
-    this.appData.postResults(this.matchData).subscribe({
-      next: (data) => {
-        this.uploadError = false;
-        this.snackbar.open('Success! Data uploaded!',
-          'Close', { duration: 5000, panelClass: ['snackbar-success'] });
-        // Reset form controls that should be reset between matches
-        this.resetForm();
-      },
-      error: (err) => {
-        console.log('Error uploading data: ', err);
-        this.uploadError = true;
-        this.snackbar.open('Error uploading data, please try again.',
-          'Close', { duration: 5000, panelClass: ['snackbar-error'] });
+    if (this.fgMatch.valid) {
+      this.appData.postResults(this.matchData).subscribe({
+        next: (data) => {
+          this.uploadError = false;
+          this.snackbar.open(
+            'Success! Data uploaded!',
+            'Close',
+            { duration: 5000, panelClass: ['snackbar-success'] },
+          );
+          // Reset form controls that should be reset between matches
+          this.resetForm();
+        },
+        error: (err) => {
+          console.log('Error uploading data: ', err);
+          this.uploadError = true;
+          this.snackbar.open(
+            'Error uploading data, please try again.',
+            'Close',
+            { duration: 5000, panelClass: ['snackbar-error'] },
+          );
+        },
+      });
+    } else {
+      const fields: string[] = [];
+      if (!this.fgMatch.get('scouterName')?.valid) {
+        fields.push('scouter name');
       }
-    });
-   } else {
-    let fields: string[] = [];
-    if (!this.fgMatch.get('scouterName')?.valid) {
-      fields.push('scouter name');
-    }
-    if (!this.fgMatch.get('scoutingTeam')?.valid) {
-      fields.push('team you are scouting');
-    }
-    if (!this.fgMatch.get('eventKey')?.valid) {
-      fields.push('event you are scouting');
-    }
-    if (!this.fgMatch.get('match')?.valid) {
-      fields.push('match number');
-    }
+      if (!this.fgMatch.get('scoutingTeam')?.valid) {
+        fields.push('team you are scouting');
+      }
+      if (!this.fgMatch.get('eventKey')?.valid) {
+        fields.push('event you are scouting');
+      }
+      if (!this.fgMatch.get('match')?.valid) {
+        fields.push('match number');
+      }
 
-    const msg = 'Please enter a value for ' + fields.join(', ');
-    alert(msg);
-   }
+      const msg = 'Please enter a value for ' + fields.join(', ');
+      alert(msg);
+    }
   }
 
   public resetForm(): void {
@@ -274,3 +284,5 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     return JSON.stringify(this.matchData, null, 4);
   }
 }
+
+export default ScoreMatchComponent;

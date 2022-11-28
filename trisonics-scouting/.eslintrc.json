@@ -49,6 +49,7 @@
         "prefer-destructuring": "off",
         "class-methods-use-this": "off",
         "no-underscore-dangle": "off"
+        "prefer-template": "off"
       }
     }
   ]
