@@ -38,42 +38,6 @@
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.humanGoalsInc()">+</button>
     </div>
 
-    <div class="flex-row score-label">
-      <h4 mat-h4>Auto High Goals</h4>
-    </div>
-    <div class="flex-row" score-label>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalDec()">-</button>
-      <span class="score">{{ this.appData.autoHighGoal }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Auto low Goals</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalDec()">-</button>
-      <span class="score">{{ this.appData.autoLowGoal }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalsInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Auto High Goal Miss</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalmissDec()">-</button>
-      <span class="score">{{ this.appData.autoHighGoalmiss }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoHighGoalmissInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Auto Low Goal Miss</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissDec()">-</button>
-      <span class="score">{{ this.appData.autoLowGoalmiss }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.autoLowGoalmissInc()">+</button>
-    </div>
-
     <!-- Teleop Controls -->
     <div class="flex-row game-section">
       <h2 class="mat-h2">Teleop</h2>
@@ -86,33 +50,6 @@
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalDec()">-</button>
       <span class="score">{{ this.appData.teleopHighGoal }}</span>
       <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Teleop low Goals</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalDec()">-</button>
-      <span class="score">{{ this.appData.teleopLowGoal }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalsInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Teleop High Goal Miss</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalmissDec()">-</button>
-      <span class="score">{{ this.appData.teleopHighGoalmiss }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopHighGoalmissInc()">+</button>
-    </div>
-
-    <div class="flex-row score-label">
-      <h4 mat-h4>Teleop Low Goal Miss</h4>
-    </div>
-    <div class="flex-row">
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalmissDec()">-</button>
-      <span class="score">{{ this.appData.teleopLowGoalmiss }}</span>
-      <button mat-raised-button color="ts-red" class="pm-button" (click)="this.teleopLowGoalmissInc()">+</button>
     </div>
 
     <!-- End game controls-->

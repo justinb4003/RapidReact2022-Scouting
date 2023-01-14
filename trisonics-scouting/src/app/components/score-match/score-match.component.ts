@@ -88,16 +88,6 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.appData.autoTarmac = this.fgMatch.get('autoTarmac')?.value;
   }
 
-  public autoHighGoalInc(): void {
-    this.appData.autoHighGoal += 1;
-  }
-
-  public autoHighGoalDec(): void {
-    if (this.appData.autoHighGoal > 0) {
-      this.appData.autoHighGoal -= 1;
-    }
-  }
-
   public humanGoalsDec(): void {
     if (this.appData.humanGoals > 0) {
       this.appData.humanGoals -= 1;
