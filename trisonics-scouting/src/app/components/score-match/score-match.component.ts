@@ -16,7 +16,8 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   public teamList: TBATeam[] = [];
 
   public fgMatch: FormGroup = new FormGroup({
-    autoTarmac: new FormControl(this.appData.autoTarmac, Validators.required),
+    autoCommunity: new FormControl(this.appData.autoCommunity, Validators.required),
+    endgameDocked: new FormControl(this.appData.endgameDock, Validators.required),
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey),
     scoutingTeam: new FormControl(this.appData.scoutingTeam, [
@@ -28,7 +29,6 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
       Validators.required,
       Validators.pattern('^[1-9][0-9]*$'), // Fun with regex to force only numbers as valid input
     ]),
-    finalHangPos: new FormControl(this.appData.finalHangPos, Validators.required),
     matchNotes: new FormControl(this.appData.matchNotes),
   });
 
@@ -84,127 +84,167 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
     this.appData.matchNotes = notes;
   }
 
-  public toggleAutoTarmac(): void {
-    this.appData.autoTarmac = this.fgMatch.get('autoTarmac')?.value;
+  public toggleAutoCommunity(): void {
+    this.appData.autoCommunity = this.fgMatch.get('autoTarmac')?.value;
   }
 
-  public autoHighGoalInc(): void {
-    this.appData.autoHighGoal += 1;
+  public toggleEndgameDocked(): void {
+    this.appData.endgameDock = this.fgMatch.get('endgameDocked')?.value;
   }
 
-  public autoHighGoalDec(): void {
-    if (this.appData.autoHighGoal > 0) {
-      this.appData.autoHighGoal -= 1;
+  public autoCubeHighInc(): void {
+    this.appData.autoCubeHigh += 1;
+  }
+
+  public autoCubeHighDec(): void {
+    if (this.appData.autoCubeHigh > 0) {
+      this.appData.autoCubeHigh -= 1;
     }
   }
 
-  public humanGoalsDec(): void {
-    if (this.appData.humanGoals > 0) {
-      this.appData.humanGoals -= 1;
+  public autoCubeMediumInc(): void {
+    this.appData.autoCubeMedium += 1;
+  }
+
+  public autoCubeMediumDec(): void {
+    if (this.appData.autoCubeMedium > 0) {
+      this.appData.autoCubeMedium -= 1;
     }
   }
 
-  public humanGoalsInc(): void {
-    this.appData.humanGoals += 1;
+  public autoCubeLowInc(): void {
+    this.appData.autoCubeLow += 1;
   }
 
-  public autoLowGoalsInc(): void {
-    this.appData.autoLowGoal += 1;
-  }
-
-  public autoLowGoalDec(): void {
-    if (this.appData.autoLowGoal > 0) {
-      this.appData.autoLowGoal -= 1;
+  public autoCubeLowDec(): void {
+    if (this.appData.autoCubeLow > 0) {
+      this.appData.autoCubeLow -= 1;
     }
   }
 
-  public autoHighGoalmissInc(): void {
-    this.appData.autoHighGoalmiss += 1;
+  public autoConeHighInc(): void {
+    this.appData.autoConeHigh += 1;
   }
 
-  public autoHighGoalmissDec(): void {
-    if (this.appData.autoHighGoalmiss > 0) {
-      this.appData.autoHighGoalmiss -= 1;
+  public autoConeHighDec(): void {
+    if (this.appData.autoConeHigh > 0) {
+      this.appData.autoConeHigh -= 1;
     }
   }
 
-  public autoLowGoalmissInc(): void {
-    this.appData.autoLowGoalmiss += 1;
+  public autoConeMediumInc(): void {
+    this.appData.autoConeMedium += 1;
   }
 
-  public autoLowGoalmissDec(): void {
-    if (this.appData.autoLowGoalmiss > 0) {
-      this.appData.autoLowGoalmiss -= 1;
+  public autoConeMediumDec(): void {
+    if (this.appData.autoConeMedium > 0) {
+      this.appData.autoConeMedium -= 1;
     }
   }
 
-  public teleopLowGoalsInc(): void {
-    this.appData.teleopLowGoal += 1;
+  public autoConeLowInc(): void {
+    this.appData.autoConeLow += 1;
   }
 
-  public teleopHighGoalInc(): void {
-    this.appData.teleopHighGoal += 1;
+  public autoConeLowDec(): void {
+    if (this.appData.autoConeLow > 0) {
+      this.appData.autoConeLow -= 1;
+    }
+  }
+  
+  public teleopCubeHighInc(): void {
+    this.appData.teleopCubeHigh += 1;
   }
 
-  public teleopHighGoalDec(): void {
-    if (this.appData.teleopHighGoal > 0) {
-      this.appData.teleopHighGoal -= 1;
+  public teleopCubeHighDec(): void {
+    if (this.appData.teleopCubeHigh > 0) {
+      this.appData.teleopCubeHigh -= 1;
     }
   }
 
-  public teleopLowGoalDec(): void {
-    if (this.appData.teleopLowGoal > 0) {
-      this.appData.teleopLowGoal -= 1;
+  public teleopCubeMediumInc(): void {
+    this.appData.teleopCubeMedium += 1;
+  }
+
+  public teleopCubeMediumDec(): void {
+    if (this.appData.teleopCubeMedium > 0) {
+      this.appData.teleopCubeMedium -= 1;
     }
   }
 
-  public teleopHighGoalmissInc(): void {
-    this.appData.teleopHighGoalmiss += 1;
+  public teleopCubeLowInc(): void {
+    this.appData.teleopCubeLow += 1;
   }
 
-  public teleopHighGoalmissDec(): void {
-    if (this.appData.teleopHighGoalmiss > 0) {
-      this.appData.teleopHighGoalmiss -= 1;
+  public teleopCubeLowDec(): void {
+    if (this.appData.teleopCubeLow > 0) {
+      this.appData.teleopCubeLow -= 1;
     }
   }
 
-  public teleopLowGoalmissInc(): void {
-    this.appData.teleopLowGoalmiss += 1;
+  public teleopConeHighInc(): void {
+    this.appData.teleopConeHigh += 1;
   }
 
-  public teleopLowGoalmissDec(): void {
-    if (this.appData.teleopLowGoalmiss > 0) {
-      this.appData.teleopLowGoalmiss -= 1;
+  public teleopConeHighDec(): void {
+    if (this.appData.teleopConeHigh > 0) {
+      this.appData.teleopConeHigh -= 1;
     }
   }
 
-  public updateFinalHangPos(): void {
-    // The + forces the value to be a number type.
-    const c = this.fgMatch.get('finalHangPos');
-    this.appData.finalHangPos = c ? c.value : 0;
+  public teleopConeMediumInc(): void {
+    this.appData.teleopConeMedium += 1;
   }
+
+  public teleopConeMediumDec(): void {
+    if (this.appData.teleopConeMedium > 0) {
+      this.appData.teleopConeMedium -= 1;
+    }
+  }
+
+  public teleopConeLowInc(): void {
+    this.appData.teleopConeLow += 1;
+  }
+
+  public teleopConeLowDec(): void {
+    if (this.appData.teleopConeLow > 0) {
+      this.appData.teleopConeLow -= 1;
+    }
+  }
+
+  public endgameBuddyInc(): void {
+    this.appData.buddyBots += 1;
+  }
+
+  public endgameBuddyDec(): void {
+    if (this.appData.buddyBots > 0) {
+      this.appData.buddyBots -= 1;
+    }
+  }
+
 
   get matchData(): ScoutResult {
-    const ret = {
-      scouter_name: this.appData.scouterName,
-      secret_team_key: this.appData.teamKey.toLowerCase().trim(),
-      event_key: this.appData.eventKey,
-      match_key: this.appData.match,
-      scouting_team: this.appData.scoutingTeam,
-      auton_tarmac: this.appData.autoTarmac,
-      auton_high_goals: this.appData.autoHighGoal,
-      auton_high_miss: this.appData.autoHighGoalmiss,
-      auton_low_goals: this.appData.autoLowGoal,
-      auton_low_miss: this.appData.autoLowGoalmiss,
-      auton_human_player: this.appData.humanGoals,
-      teleop_high_goals: this.appData.teleopHighGoal,
-      teleop_high_miss: this.appData.teleopHighGoalmiss,
-      teleop_low_goals: this.appData.teleopLowGoal,
-      teleop_low_miss: this.appData.teleopLowGoalmiss,
-      final_hang_pos: this.appData.finalHangPos,
-      match_notes: this.appData.matchNotes,
-    } as ScoutResult;
-    return ret;
+    // const ret = {
+    //   scouter_name: this.appData.scouterName,
+    //   secret_team_key: this.appData.teamKey.toLowerCase().trim(),
+    //   event_key: this.appData.eventKey,
+    //   match_key: this.appData.match,
+    //   scouting_team: this.appData.scoutingTeam,
+    //   auton_tarmac: this.appData.autoCommunity,
+    //   auton_high_goals: this.appData.autoHighGoal,
+    //   auton_high_miss: this.appData.autoHighGoalmiss,
+    //   auton_low_goals: this.appData.autoLowGoal,
+    //   auton_low_miss: this.appData.autoLowGoalmiss,
+    //   auton_human_player: this.appData.humanGoals,
+    //   teleop_high_goals: this.appData.teleopHighGoal,
+    //   teleop_high_miss: this.appData.teleopHighGoalmiss,
+    //   teleop_low_goals: this.appData.teleopLowGoal,
+    //   teleop_low_miss: this.appData.teleopLowGoalmiss,
+    //   final_hang_pos: this.appData.finalHangPos,
+    //   match_notes: this.appData.matchNotes,
+    // } as ScoutResult;
+    // return ret;
+    return {} as ScoutResult;
   }
 
   public uploadData(): void {
@@ -251,24 +291,7 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   }
 
   public resetForm(): void {
-    this.fgMatch.get('autoTarmac')?.setValue(false);
-    this.fgMatch.get('scoutingTeam')?.setValue('');
-    this.fgMatch.get('match')?.setValue('');
-    this.fgMatch.get('finalHangPos')?.setValue(0);
-    this.fgMatch.get('matchNotes')?.setValue('');
-
-    // Now flip the numeric controls back to 0
-    this.appData.autoHighGoal = 0;
-    this.appData.autoHighGoalmiss = 0;
-    this.appData.autoLowGoal = 0;
-    this.appData.autoLowGoalmiss = 0;
-    this.appData.humanGoals = 0;
-    this.appData.teleopHighGoal = 0;
-    this.appData.teleopHighGoalmiss = 0;
-    this.appData.teleopLowGoal = 0;
-    this.appData.teleopLowGoalmiss = 0;
   }
-
   public resetFormConfirm(): void {
     const resp = confirm('Are you sure you want to clear the form?');
     if (resp) {

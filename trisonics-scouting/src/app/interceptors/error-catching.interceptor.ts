@@ -27,6 +27,7 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
           } else {
             console.log('This is server side error');
             errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+            /*
             const ref = this.dialog.open(
               HttpErrorDialogComponent,
               {
@@ -35,6 +36,7 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
                 data: error,
               },
             );
+            */
           }
           console.error(errorMsg);
           return throwError(errorMsg);

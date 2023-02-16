@@ -40,32 +40,47 @@ export class AppDataService {
   We are also able to hook into changes to the data and force them to storage
   in the event that we need to reload the application entirely.
   */
-  public autoTarmac = false;
+  public autoCommunity = false;
 
   public match = '';
 
   public scoutingTeam = 0;
 
-  public autoHighGoal = 0;
+  public autoCubeHigh = 0;
 
-  public autoHighGoalmiss = 0;
+  public autoCubeMedium = 0;
 
-  public autoLowGoal = 0;
+  public autoCubeLow = 0;
 
-  public autoLowGoalmiss = 0;
+  public autoConeHigh = 0;
 
-  public humanGoals = 0;
+  public autoConeMedium = 0;
 
-  public teleopHighGoal = 0;
+  public autoConeLow = 0;
 
-  public teleopHighGoalmiss = 0;
+  public teleopCubeHigh = 0;
 
-  public teleopLowGoal = 0;
+  public teleopCubeMedium = 0;
 
-  public teleopLowGoalmiss = 0;
+  public teleopCubeLow = 0;
 
-  public finalHangPos = 0;
+  public teleopConeHigh = 0;
 
+  public teleopConeMedium = 0;
+
+  public teleopConeLow = 0;
+
+  public autoDock = false;
+
+  public autoEngaged = false;
+
+  public endgameDock = false;
+
+  public endgameEngaged = false;
+
+  public buddyBots = 0;
+
+ 
   public matchNotes = '';
 
   /*
