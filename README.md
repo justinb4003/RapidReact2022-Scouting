@@ -1,4 +1,4 @@
-# Trisonics Scouting Application Overview
+# Trisonics Scouting Application Overview - Updated for 2023
 This repository consists of three related projects. Under the 'api' directory
 you'll find an Azure Function v4 projedct written in Python that acts as the
 data layer for the application. This handles connections back to our Cosmos
