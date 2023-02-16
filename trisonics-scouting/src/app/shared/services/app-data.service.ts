@@ -106,74 +106,24 @@ export class AppDataService {
   */
   public eventList: TBAEvent[] = [
     {
-      eventKey: '2022carv',
-      eventName: 'Worlds - Carver',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022gal',
-      eventName: 'Worlds - Galileo',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022hop',
-      eventName: 'Worlds - Hopper',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022new',
-      eventName: 'Worlds - Newton',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022roe',
-      eventName: 'Worlds - Roebling',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022tur',
-      eventName: 'Worlds - Turing',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022mifor',
+      eventKey: '2023mifor',
       eventName: 'Calvin (test)',
       eventDate: null,
     },
     {
-      eventKey: '2022misjo',
-      eventName: 'St. Joe',
-      eventDate: new Date(2022, 3, 9),
+      eventKey: '2023mista',
+      eventName: 'Standish',
+      eventDate: null,
     },
     {
-      eventKey: '2022miwmi',
+      eventKey: '2023miwmi',
       eventName: 'GVSU',
-      eventDate: new Date(2022, 3, 25),
+      eventDate: null,
     },
     {
-      eventKey: '2022micmp',
+      eventKey: '2023micmp',
       eventName: 'States',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp1',
-      eventName: 'States - DTE',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp2',
-      eventName: 'States - Ford',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp3',
-      eventName: 'States - APTIV',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp4',
-      eventName: 'States - Consumers',
-      eventDate: new Date(2022, 4, 13),
+      eventDate: null,
     },
   ];
 
@@ -212,7 +162,7 @@ export class AppDataService {
   /*
   A default event that is only set to this because it's a handy spot for testing
   */
-  private _eventKey = '2022miwmi';
+  private _eventKey = '2023mifor';
 
   // Shorthand to prevent using the full name to the environment setting
   private baseUrl = environment.baseUrl;
