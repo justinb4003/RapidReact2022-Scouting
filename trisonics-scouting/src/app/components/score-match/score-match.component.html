@@ -30,6 +30,20 @@
     </div>
 
     <div class="flex-row score-label">
+      <mat-slide-toggle formControlName="autoDocked" color="primary"
+        (change)="this.toggleAutoDocked()"> <!-- docked on ramp -->
+        Robot Docked
+      </mat-slide-toggle>
+    </div>
+
+    <div class="flex-row score-label">
+      <mat-slide-toggle formControlName="autoEngaged" color="primary"
+        (change)="this.toggleAutoEngaged()"> <!-- engaged on ramp -->
+        Robot Engaged
+      </mat-slide-toggle>
+    </div>
+
+    <div class="flex-row score-label">
       <h4 mat-h4>Cube High Goal</h4>
     </div>
     <div class="flex-row">
@@ -152,6 +166,21 @@
         Robot Docked
       </mat-slide-toggle>
     </div>
+
+    <div class="flex-row score-label">
+      <mat-slide-toggle formControlName="endgameEngaged" color="primary"
+        (change)="this.toggleEndgameEngaged()"> <!-- engaged on ramp -->
+        Robot Engaged
+      </mat-slide-toggle>
+    </div>
+
+    <div class="flex-row score-label">
+      <mat-slide-toggle formControlName="endgameParked" color="primary"
+        (change)="this.toggleEndgameParked()"> <!-- parked in the community -->
+        Robot Parked
+      </mat-slide-toggle>
+    </div>
+
 
 
     

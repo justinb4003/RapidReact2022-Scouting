@@ -70,13 +70,15 @@ export class AppDataService {
 
   public teleopConeLow = 0;
 
-  public autoDock = false;
+  public autoDocked = false;
 
   public autoEngaged = false;
 
   public endgameDock = false;
 
   public endgameEngaged = false;
+
+  public endgameParked = false;
 
   public buddyBots = 0;
 

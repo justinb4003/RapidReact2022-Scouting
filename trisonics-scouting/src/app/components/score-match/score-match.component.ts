@@ -18,6 +18,8 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   public fgMatch: FormGroup = new FormGroup({
     autoCommunity: new FormControl(this.appData.autoCommunity, Validators.required),
     endgameDocked: new FormControl(this.appData.endgameDock, Validators.required),
+    autoEngaged: new FormControl(this.appData.autoEngaged, Validators.required),
+    endGameParked: new FormControl(this.appData.endgameParked, Validators.required),
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey),
     scoutingTeam: new FormControl(this.appData.scoutingTeam, [
@@ -90,6 +92,22 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
   public toggleEndgameDocked(): void {
     this.appData.endgameDock = this.fgMatch.get('endgameDocked')?.value;
+  }
+
+  public toggleAutoDocked(): void {
+    this.appData.autoDocked = this.fgMatch.get('autoDocked')?.value;
+  }
+
+  public toggleAutoEngaged(): void {
+    this.appData.autoEngaged = this.fgMatch.get('autoEngaged')?.value;
+  }
+
+  public toggleEndgameParked(): void {
+    this.appData.autoEngaged = this.fgMatch.get('endgameParked')?.value;
+  }
+
+  public toggleEndgameEngaged(): void {
+    this.appData.autoEngaged = this.fgMatch.get('endgameEngaged')?.value;
   }
 
   public autoCubeHighInc(): void {
