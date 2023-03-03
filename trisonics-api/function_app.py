@@ -10,14 +10,15 @@ import numpy as np
 import pandas as pd
 import azure.functions as func
 
-from azure.storage.blob import BlobServiceClient, BlobClient, ContentSettings, ContainerClient, __version__
+from azure.storage.blob import BlobClient, ContentSettings
 from azure.cosmos import CosmosClient
 from uuid import uuid4
 
 app = func.FunctionApp()
 
+
 @app.function_name(name="HelloWorld")
-@app.route(route="hello") # HTTP Trigger
+@app.route(route="hello")  # HTTP Trigger
 def hello_world(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse("HelloWorld function processed a request!!!")
 
@@ -26,7 +27,7 @@ def hello_world(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="GetOPRData")
 def get_opr_data(req: func.HttpRequest) -> func.HttpResponse:
     event_key = req.params.get('event_key')
-    df = get_opr_data(event_key)
+    df = http_get_opr_data(event_key)
     json_obj = df.to_json(orient='records')
     return func.HttpResponse(
         json_obj,
@@ -44,7 +45,8 @@ def get_pit_results(req: func.HttpRequest) -> func.HttpResponse:
     print(f'Team key: {team_key}')
     print(f'Event key: {event_key}')
     logging.error('getting pit data now')
-    df = get_pit_data(secret_team_key='', event_key=event_key, team_key=team_key)
+    df = get_pit_data(secret_team_key='', event_key=event_key,
+                      team_key=team_key)
     if df is not None:
         json_obj = df.to_json(orient='records')
     else:
@@ -60,7 +62,8 @@ def get_pit_results(req: func.HttpRequest) -> func.HttpResponse:
 def get_results(req: func.HttpRequest) -> func.HttpResponse:
     secret_team_key = req.params.get('secret_team_key')
     event_key = req.params.get('event_key')
-    df = get_scouting_data(secret_team_key=secret_team_key, event_key=event_key)
+    df = get_scouting_data(secret_team_key=secret_team_key,
+                           event_key=event_key)
     json_obj = df.to_json(orient='records')
     return func.HttpResponse(
         json_obj,
@@ -81,11 +84,12 @@ def get_teams_for_event(req: func.HttpRequest) -> func.HttpResponse:
             'name': row['nickname'],
             'locaton': row['school_name']
         })
-    json_obj = json.dumps(ret) 
+    json_obj = json.dumps(ret)
     return func.HttpResponse(
         json_obj,
         status_code=200
     )
+
 
 @app.function_name(name="GetTimeEntries")
 @app.route(route="GetTimeEntries")
@@ -94,7 +98,8 @@ def get_time_entries(req: func.HttpRequest) -> func.HttpResponse:
     account_name = req.params.get('account_name')
     print(f'Secret team key: {secret_team_key}')
     print(f'Account name: {account_name}')
-    ret = get_time_entries(secret_team_key=secret_team_key, account_name=account_name)
+    ret = cosmos_get_time_entries(secret_team_key=secret_team_key,
+                                  account_name=account_name)
     return func.HttpResponse(
         json.dumps(ret),
         status_code=200
@@ -113,22 +118,25 @@ def post_pit_results(req: func.HttpRequest) -> func.HttpResponse:
         header, b64data = i.split(',', 2)
         _, encoding = header.split(':', 2)
         mimetype, algo = encoding.split(';')
-        filetype, fileext = mimetype.split('/', 2) 
+        filetype, fileext = mimetype.split('/', 2)
         filedata = base64.b64decode(b64data)
         logging.info(fileext)
         # upload to blob storage
         logging.info(blob_conn)
-        filename = f'{uuid4()}.{fileext}' 
+        filename = f'{uuid4()}.{fileext}'
         blob_client = BlobClient.from_connection_string(
             conn_str=blob_conn,
             container_name='images',
             blob_name=filename,
         )
-        ret = blob_client.upload_blob(data=filedata, content_settings=ContentSettings(content_type=mimetype))
+        blob_client.upload_blob(
+            data=filedata,
+            content_settings=ContentSettings(content_type=mimetype)
+        )
         payload['image_names'].append(filename)
     del payload['images']
-    container = get_container('PitResults') 
-    # Now that we have a connection to the container we can insert/update the data
+    container = get_container('PitResults')
+    # Now that we have a connection to the container we can insert/update data
     container.upsert_item(payload)
     return func.HttpResponse(
             json.dumps(payload),
@@ -141,8 +149,8 @@ def post_pit_results(req: func.HttpRequest) -> func.HttpResponse:
 def post_results(req: func.HttpRequest) -> func.HttpResponse:
     # Get the request body, interpreted as JSON into an python object
     payload = req.get_json()
-    container = get_container('MatchResults') 
-    # Now that we have a connection to the container we can insert/update the data
+    container = get_container('MatchResults')
+    # Now that we have a connection to the container we can insert/update data
     container.upsert_item(payload)
     return func.HttpResponse(
             json.dumps(payload),
@@ -155,8 +163,8 @@ def post_results(req: func.HttpRequest) -> func.HttpResponse:
 def post_time_entry(req: func.HttpRequest) -> func.HttpResponse:
     # Get the request body, interpreted as JSON into an python object
     payload = req.get_json()
-    container = get_container('TimeTracking') 
-    # Now that we have a connection to the container we can insert/update the data
+    container = get_container('TimeTracking')
+    # Now that we have a connection to the container we can insert/update data
     container.upsert_item(payload)
     logging.error(payload)
     return func.HttpResponse(
@@ -167,7 +175,7 @@ def post_time_entry(req: func.HttpRequest) -> func.HttpResponse:
 
 @app.function_name(name="RebuildData")
 @app.schedule(schedule="0 */1 * * * *", arg_name="req",
-              run_on_startup=True, use_monitor=False) 
+              run_on_startup=True, use_monitor=False)
 def rebuild_data(req: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
@@ -179,33 +187,34 @@ def rebuild_data(req: func.TimerRequest) -> None:
 
 
 def get_tba_url_as_df(url):
-  """
-  Retrieves a URL from The Blue Alliance and converts it to a dataframe
-  """
-  tba = 'https://www.thebluealliance.com/api/v3'
-  # We must specify this extra HTTP header so TBA knows what account is
-  # accessing the data.
-  key = os.environ.get('TBA_KEY')
-  headers = {'X-TBA-Auth-Key': key}
-  full_url = f'{tba}{url}'
-  # Uncomment this to see the URL you'r trying to contact.  Sometimes a simple
-  # mistake like having two slashes (//) instead of one (/) means the server
-  # can't process your request.
-  # print(f'Retrieving {full_url}')
-  r = requests.get(full_url, headers=headers)
-  json_data = r.text
-  df = pd.read_json(io.StringIO(json_data))
-  return df 
+    """
+    Retrieves a URL from The Blue Alliance and converts it to a dataframe
+    """
+    tba = 'https://www.thebluealliance.com/api/v3'
+    # We must specify this extra HTTP header so TBA knows what account is
+    # accessing the data.
+    key = os.environ.get('TBA_KEY')
+    headers = {'X-TBA-Auth-Key': key}
+    full_url = f'{tba}{url}'
+    # Uncomment this to see the URL you'r trying to contact.  Sometimes a
+    # mistake like having two slashes (//) instead of one (/) means the server
+    # can't process your request.
+    # print(f'Retrieving {full_url}')
+    r = requests.get(full_url, headers=headers)
+    json_data = r.text
+    df = pd.read_json(io.StringIO(json_data))
+    return df
+
 
 def get_teams_df(year):
     """
     Repeatedly calls the teams/<year>/X URL to build a complete dataframe with
     all FRC team data that TBA has
-    
+
     Parameters:
     -----------
         year: str
-            Year to locate active teams 
+            Year to locate active teams
     Returns:
     --------
     DataFrame
@@ -220,10 +229,11 @@ def get_teams_df(year):
     full_team_count = 0
     last_team_count = 0
     # We'll hard-code a maximum of 25 pages of results that we will look at.
-    # That sets the upper team number limit at 25 * 500 = 12,500.  We're safe for now.
+    # That sets the upper team number limit at 25 * 500 = 12,500.
+    # We're safe for now.
     for page_index in range(25):
-        partial_df = get_tba_url_as_df(f'/teams/{year}/{page_index}') 
-        
+        partial_df = get_tba_url_as_df(f'/teams/{year}/{page_index}')
+
         # If teams_df is still None that means this is our first pass through
         # the data and we'll use our partial dataframe of data to initialize
         # the final one
@@ -234,13 +244,13 @@ def get_teams_df(year):
         # to the largert one
         else:
             teams_df = teams_df.append(partial_df)
-        
+
         # Now we take a count of how many teams we've found so far.
         # It's a little odd, because we're useing teams_df.index which
         # returns and index number for each row of data, then taking the
         # length/len() of that to get the total count.
         full_team_count = len(teams_df.index)
-        
+
         # If we've still got the seame number of teams that we had on the
         # last run through this loop then we must be done.
         if full_team_count != last_team_count:
@@ -248,6 +258,7 @@ def get_teams_df(year):
         else:
             break
     return teams_df
+
 
 def get_team_events_df(team_key, year):
     """
@@ -266,6 +277,7 @@ def get_team_events_df(team_key, year):
     df = get_tba_url_as_df(f'/team/{team_key}/events/{year}')
     return df
 
+
 def get_event_df(event_key):
     """
     Parameters:
@@ -283,6 +295,7 @@ def get_event_df(event_key):
     df = get_tba_url_as_df(f'/event/{event_key}/simple')
     return df
 
+
 def get_event_matches_df(event_key):
     """
     Parameters:
@@ -297,6 +310,7 @@ def get_event_matches_df(event_key):
     df = get_tba_url_as_df(f'/event/{event_key}/matches')
     return df
 
+
 def get_events_df(year):
     """
     Parameters:
@@ -310,6 +324,7 @@ def get_events_df(year):
     """
     df = get_tba_url_as_df(f'/events/{year}')
     return df
+
 
 def get_event_teams_df(event_key):
     """
@@ -326,17 +341,20 @@ def get_event_teams_df(event_key):
         for the given year.
     """
     df = get_tba_url_as_df(f'/event/{event_key}/teams')
-    return df    
+    return df
+
 
 def get_container(container_name='MatchResults'):
     endpoint = os.environ.get('COSMOS_ENDPOINT')
     key = os.environ.get('COSMOS_KEY')
-    # Some hard-coded values for our datbase name and container for match results
+    # Some hard-coded values for our datbase name and container for match
+    # results
     db_name = 'ScoutingData'
     client = CosmosClient(endpoint, key)
     db = client.get_database_client(db_name)
     container = db.get_container_client(container_name)
     return container
+
 
 def get_scouting_data(secret_team_key=None, event_key=None):
     container = get_container('MatchResults')
@@ -344,10 +362,10 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     params = [
     ]
     if (secret_team_key is not None):
-        query += "AND TRIM(LOWER(c.secret_team_key)) = TRIM(LOWER(@secret_team_key)) " 
+        query += "AND TRIM(LOWER(c.secret_team_key)) = TRIM(LOWER(@secret_team_key)) "  # noqa
         params.append({'name': '@secret_team_key', 'value': secret_team_key})
     if (event_key is not None):
-        query += "AND c.event_key = @event_key " 
+        query += "AND c.event_key = @event_key "
         params.append({'name': '@event_key', 'value': event_key})
 
     items = container.query_items(query=query, parameters=params,
@@ -360,14 +378,15 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     df.drop_duplicates(inplace=True, ignore_index=True, keep='last')
     return df
 
-def get_time_entries(secret_team_key=None, account_name=None):
+
+def cosmos_get_time_entries(secret_team_key=None, account_name=None):
     container = get_container('TimeTracking')
     query = "SELECT * FROM c WHERE 1=1 "
     params = [
     ]
-    query += "AND c.secret_team_key = @secret_team_key " 
+    query += "AND c.secret_team_key = @secret_team_key "
     params.append({'name': '@secret_team_key', 'value': secret_team_key})
-    query += "AND c.account_name = @account_name " 
+    query += "AND c.account_name = @account_name "
     params.append({'name': '@account_name', 'value': account_name})
     print(query)
     print(params)
@@ -376,6 +395,7 @@ def get_time_entries(secret_team_key=None, account_name=None):
 
     return list(items)
 
+
 def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
     container = get_container('PitResults')
     query = "SELECT * FROM c WHERE 1=1 "
@@ -383,16 +403,15 @@ def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
     ]
     """
     if (secret_team_key is not None):
-        query += "AND c.secret_team_key = @secret_team_key " 
+        query += "AND c.secret_team_key = @secret_team_key "
         params.append({'name': '@secret_team_key', 'value': secret_team_key})
     """
     if (event_key is not None):
-        query += "AND c.event_key = @event_key " 
+        query += "AND c.event_key = @event_key "
         params.append({'name': '@event_key', 'value': event_key})
     if (team_key is not None):
-        query += "AND c.scouting_team = @team_key " 
+        query += "AND c.scouting_team = @team_key "
         params.append({'name': '@team_key', 'value': int(team_key)})
-
 
     print(query)
     print(params)
@@ -408,7 +427,7 @@ def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
                 newurl = f'{os.environ.get("BLOB_PUB_URL")}/{image}'
                 print(newurl)
                 newimages.append(newurl)
-            newitem['image_names'] = newimages;
+            newitem['image_names'] = newimages
         results.append(newitem)
         print(json.dumps(dict(newitem), sort_keys=True, indent=4))
     df = pd.DataFrame(results)
@@ -419,19 +438,20 @@ def get_pit_data(secret_team_key=None, event_key=None, team_key=None):
     # df.drop_duplicates(inplace=True, ignore_index=True, keep='last')
     return df
 
-def get_opr_data(event_code):
-    event_teams = get_event_teams_df(event_code)['key']
-    team_dict = {key:int(key[3:]) for key in event_teams}
 
-    ## Now get the qualification matches
+def http_get_opr_data(event_code):
+    event_teams = get_event_teams_df(event_code)['key']
+    team_dict = {key: int(key[3:]) for key in event_teams}
+
+    # Now get the qualification matches
 
     matches = get_event_matches_df(event_code)
     quals = matches[matches['comp_level'] == 'qm']
     quals = quals.dropna(axis='index', subset=['score_breakdown'])
 
-    ## dictionary to keep track of who played in a match
-    ## had to be modified so we could work with events where not
-    ## every team showed up.
+    # dictionary to keep track of who played in a match
+    # had to be modified so we could work with events where not
+    # every team showed up.
 
     teams_in_match = []
     for i, r in quals.iterrows():
@@ -441,7 +461,7 @@ def get_opr_data(event_code):
 
     event_teams = list(set(teams_in_match))
     teams_in_match = {team: 0 for team in event_teams}
-    
+
     # build lookup df for each team's matches in order
     team_match_numbers = {
         'match_num': [],
@@ -456,9 +476,13 @@ def get_opr_data(event_code):
                 team_match_numbers['match_num'].append(mn)
                 team_match_numbers['team_key'].append(t)
     tmn_df = pd.DataFrame.from_dict(team_match_numbers)
-    tmn_df['match_of_tournament'] = tmn_df.sort_values(by='match_num').groupby('team_key').cumcount()+1
+    tmn_df['match_of_tournament'] = (
+        tmn_df.sort_values(by='match_num')
+              .groupby('team_key')
+              .cumcount()+1
+    )
 
-    ## compute oprs
+    # compute oprs
 
     team_matrix = []
     score_matrix = []
@@ -468,9 +492,10 @@ def get_opr_data(event_code):
             teams = alliance['surrogate_team_keys'] + alliance['team_keys']
             team_matrix_row = teams_in_match.copy()
             for team in teams:
-                mot = tmn_df.loc[(tmn_df['team_key'] == team) & (tmn_df['match_num'] == row['match_number']), 'match_of_tournament'].values[0]
-                # Use tanh to make the 12th match more important than the 1st, emphasis on later matches
-                team_matrix_row[team] = math.tanh(mot) 
+                mot = tmn_df.loc[(tmn_df['team_key'] == team) & (tmn_df['match_num'] == row['match_number']), 'match_of_tournament'].values[0]  # noqa
+                # Use tanh to make the 12th match more important than the 1st,
+                # emphasis on later matches
+                team_matrix_row[team] = math.tanh(mot)
             team_matrix.append(team_matrix_row)
 
             scores = row['score_breakdown'][color]
