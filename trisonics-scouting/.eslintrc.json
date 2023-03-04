@@ -48,7 +48,9 @@
         "operator-linebreak": "off",
         "prefer-destructuring": "off",
         "class-methods-use-this": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-restricted-globals": "off",
+        "no-alert": "off",
         "prefer-template": "off"
       }
     }
