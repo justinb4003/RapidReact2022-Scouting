@@ -16,10 +16,12 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
   public teamList: TBATeam[] = [];
 
   public fgMatch: FormGroup = new FormGroup({
-    autoCommunity: new FormControl(this.appData.autoCommunity, Validators.required),
-    endgameDocked: new FormControl(this.appData.endgameDock, Validators.required),
     autoEngaged: new FormControl(this.appData.autoEngaged, Validators.required),
-    endGameParked: new FormControl(this.appData.endgameParked, Validators.required),
+    autoDocked: new FormControl(this.appData.autoEngaged, Validators.required),
+    autoCommunity: new FormControl(this.appData.autoCommunity, Validators.required),
+    endgameEngaged: new FormControl(this.appData.endgameDock, Validators.required),
+    endgameDocked: new FormControl(this.appData.endgameDock, Validators.required),
+    endgameParked: new FormControl(this.appData.endgameParked, Validators.required),
     scouterName: new FormControl(this.appData.scouterName, Validators.required),
     teamKey: new FormControl(this.appData.teamKey),
     scoutingTeam: new FormControl(this.appData.scoutingTeam, [
@@ -242,27 +244,37 @@ export class ScoreMatchComponent implements OnInit, AfterViewInit {
 
 
   get matchData(): ScoutResult {
-    // const ret = {
-    //   scouter_name: this.appData.scouterName,
-    //   secret_team_key: this.appData.teamKey.toLowerCase().trim(),
-    //   event_key: this.appData.eventKey,
-    //   match_key: this.appData.match,
-    //   scouting_team: this.appData.scoutingTeam,
-    //   auton_tarmac: this.appData.autoCommunity,
-    //   auton_high_goals: this.appData.autoHighGoal,
-    //   auton_high_miss: this.appData.autoHighGoalmiss,
-    //   auton_low_goals: this.appData.autoLowGoal,
-    //   auton_low_miss: this.appData.autoLowGoalmiss,
-    //   auton_human_player: this.appData.humanGoals,
-    //   teleop_high_goals: this.appData.teleopHighGoal,
-    //   teleop_high_miss: this.appData.teleopHighGoalmiss,
-    //   teleop_low_goals: this.appData.teleopLowGoal,
-    //   teleop_low_miss: this.appData.teleopLowGoalmiss,
-    //   final_hang_pos: this.appData.finalHangPos,
-    //   match_notes: this.appData.matchNotes,
-    // } as ScoutResult;
-    // return ret;
-    return {} as ScoutResult;
+    const ret = {
+      scouter_name: this.appData.scouterName,
+      secret_team_key: this.appData.teamKey.toLowerCase().trim(),
+      event_key: this.appData.eventKey,
+      match_key: this.appData.match,
+      scouting_team: this.appData.scoutingTeam,
+
+      auto_engaged: this.appData.autoEngaged,
+      auto_docked: this.appData.autoDocked,
+      auto_community: this.appData.autoCommunity,
+      endgame_engaged: this.appData.endgameEngaged,
+      endgame_docked: this.appData.endgameDock,
+      endgame_parked: this.appData.endgameParked,
+      
+      auto_cubes_high: this.appData.autoCubeHigh,
+      auto_cubes_medium: this.appData.autoCubeMedium,
+      auto_cubes_low: this.appData.autoCubeLow,
+      auto_cones_high: this.appData.autoConeHigh,
+      auto_cones_medium: this.appData.autoConeMedium,
+      auto_cones_low: this.appData.autoConeLow,
+      
+      teleop_cubes_high: this.appData.teleopCubeHigh,
+      teleop_cubes_medium: this.appData.teleopCubeMedium,
+      teleop_cubes_low: this.appData.teleopCubeLow,
+      teleop_cones_high: this.appData.teleopConeHigh,
+      teleop_cones_medium: this.appData.teleopConeMedium,
+      teleop_cones_low: this.appData.teleopConeLow,
+
+      match_notes: this.appData.matchNotes,
+    } as ScoutResult;
+    return ret;
   }
 
   public uploadData(): void {

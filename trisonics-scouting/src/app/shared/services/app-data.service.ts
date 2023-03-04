@@ -107,23 +107,18 @@ export class AppDataService {
   public eventList: TBAEvent[] = [
     {
       eventKey: '2023mifor',
-      eventName: 'Calvin (test)',
-      eventDate: null,
+      eventName: 'Calvin (Test)',
+      eventDate: new Date(2023, 3, 2),
     },
     {
       eventKey: '2023mista',
       eventName: 'Standish',
-      eventDate: null,
+      eventDate: new Date(2023, 3, 16),
     },
     {
       eventKey: '2023miwmi',
       eventName: 'GVSU',
-      eventDate: null,
-    },
-    {
-      eventKey: '2023micmp',
-      eventName: 'States',
-      eventDate: null,
+      eventDate: new Date(2023, 3, 23),
     },
   ];
 

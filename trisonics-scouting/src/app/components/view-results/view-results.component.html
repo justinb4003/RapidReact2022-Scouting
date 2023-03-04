@@ -21,7 +21,7 @@
     <mat-checkbox class="game-section" formControlName="displayNotes">Notes</mat-checkbox>
   </div>
   <div class="flex-row">
-    <mat-checkbox class="game-section" formControlName="displaySummary">Summary/Group Data by Team</mat-checkbox>
+    <mat-checkbox class="game-section" formControlName="displaySummary">Average Details</mat-checkbox>
   </div>
   <div class="flex-row">
     <mat-form-field >
@@ -57,81 +57,123 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_tarmac">
+    <ng-container matColumnDef="auto_engaged">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Tarmac
+        A Engaged
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_tarmac | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_engaged | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_human_player">
+    <ng-container matColumnDef="auto_docked">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Auton Human
+        A Docked
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_human_player | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_docked | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_high_goals">
+    <ng-container matColumnDef="auto_community">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Auton High
+        Community
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_high_goals | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_community | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_low_goals">
+    <ng-container matColumnDef="auto_cubes_high">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Auton Low
+        A Cube H
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_low_goals | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cubes_high | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_high_miss">
+    <ng-container matColumnDef="auto_cubes_medium">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Auton High Miss
+        A Cube M
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_high_miss | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cubes_medium | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="auton_low_miss">
+    <ng-container matColumnDef="auto_cubes_low">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Auton Low Miss
+        A Cube L
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.auton_low_miss | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cubes_low | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="teleop_high_goals">
+    <ng-container matColumnDef="auto_cones_high">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Teleop High
+        A Cone H
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.teleop_high_goals | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cones_high | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="teleop_low_goals">
+    <ng-container matColumnDef="auto_cones_medium">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Teleop Low
+        A Cone M
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.teleop_low_goals | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cones_medium | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="teleop_high_miss">
+    <ng-container matColumnDef="auto_cones_low">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Teleop High Miss
+        A Cone L
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.teleop_high_miss | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.auto_cones_low | number : '1.2-2'}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="teleop_cubes_high">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        T Cube H
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cubes_high | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="teleop_low_miss">
+    <ng-container matColumnDef="teleop_cubes_medium">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Teleop Low Miss
+        T Cube M
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.teleop_low_miss | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cubes_medium | number : '1.2-2'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="final_hang_pos">
+    <ng-container matColumnDef="teleop_cubes_low">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Hang
+        T Cube L
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.final_hang_pos | number : '1.2-2'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cubes_low | number : '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teleop_cones_high">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        T Cone H
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cones_high | number : '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teleop_cones_medium">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        T Cone M
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cones_medium | number : '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="teleop_cones_low">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        T Cone L
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.teleop_cones_low | number : '1.2-2'}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="endgame_engaged">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        EE
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.endgame_engaged | number : '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="endgame_docked">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        ED
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.endgame_docked | number : '1.2-2'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="event_key">
