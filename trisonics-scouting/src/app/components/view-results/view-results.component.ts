@@ -30,25 +30,31 @@ export class ViewResultsComponent implements AfterViewInit {
 
   public pageReady = false;
 
-  public dataLoading = false;
+  public dataLoading = true;
 
   public teamList: TBATeam[] = [];
 
   public allColumns = [
     'scouting_team',
     'team_name',
-    'auton_tarmac',
-    'auton_human_player',
-    'auton_high_goals',
-    'auton_low_goals',
-    'auton_high_miss',
-    'auton_low_miss',
-    'teleop_high_goals',
-    'teleop_low_goals',
-    'teleop_high_miss',
-    'teleop_low_miss',
-    'final_hang_pos',
     'event_key',
+    'auto_engaged',
+    'auto_docked',
+    'auto_community',
+    'auto_cubes_high',
+    'auto_cubes_medium',
+    'auto_cubes_low',
+    'auto_cones_high',
+    'auto_cones_medium',
+    'auto_cones_low',
+    'teleop_cubes_high',
+    'teleop_cubes_medium',
+    'teleop_cubes_low',
+    'teleop_cones_high',
+    'teleop_cones_medium',
+    'teleop_cones_low',
+    'endgame_engaged',
+    'endgame_docked',
     'match_key',
     'scouter_name',
     'match_notes',
@@ -99,18 +105,20 @@ export class ViewResultsComponent implements AfterViewInit {
       this.displayedColumns = this.displayedColumns.concat(this.oprColumns);
     }
     if (!this.fgSearch.value.displayAuton) {
-      this.displayedColumns = this.displayedColumns.filter((x) => !(x.startsWith('auton')));
+      this.displayedColumns = this.displayedColumns.filter((x) => !(x.startsWith('auto')));
     }
     if (!this.fgSearch.value.displayTeleop) {
       this.displayedColumns = this.displayedColumns.filter((x) => !(x.startsWith('teleop')));
     }
     if (!this.fgSearch.value.displayEndGame) {
-      this.displayedColumns = this.displayedColumns.filter((x) => x !== 'final_hang_pos');
+      this.displayedColumns = this.displayedColumns.filter((x) => !(x.startsWith('endgame')));
     }
     if (!this.fgSearch.value.displayNotes) {
       this.displayedColumns = this.displayedColumns.filter((x) => x !== 'match_notes');
       this.displayedColumns = this.displayedColumns.filter((x) => x !== 'scouter_name');
     }
+    // TODO: When we're using the averaged view we should hide the things
+    // we cannot aggregate, like match notes, scouter name, and match number.
   }
 
   public filterData(): void {
@@ -136,18 +144,31 @@ export class ViewResultsComponent implements AfterViewInit {
     _(this.scoutData.data).groupBy('scouting_team')
       .map((objs, key) => ({
         scouting_team: +key,
-        team_name: this.teamList.find((t) => t.number === +key)?.name,
-        auton_tarmac: _.meanBy(objs, 'auton_tarmac'),
-        auton_human_player: _.meanBy(objs, 'auton_human_player'),
-        auton_high_goals: _.meanBy(objs, 'auton_high_goals'),
-        auton_low_goals: _.meanBy(objs, 'auton_low_goals'),
-        auton_high_miss: _.meanBy(objs, 'auton_high_miss'),
-        auton_low_miss: _.meanBy(objs, 'auton_low_miss'),
-        teleop_high_goals: _.meanBy(objs, 'teleop_high_goals'),
-        teleop_low_goals: _.meanBy(objs, 'teleop_low_goals'),
-        teleop_high_miss: _.meanBy(objs, 'teleop_high_miss'),
-        teleop_low_miss: _.meanBy(objs, 'teleop_low_miss'),
-        final_hang_pos: _.meanBy(objs, 'final_hang_pos'),
+        team_name: this.teamList.find((t) => t.number === +key)?.name!,
+        auto_engaged: _.meanBy(objs, (o) => o.auto_engaged ? 1 : 0),
+        auto_docked: _.meanBy(objs, (o) => o.auto_docked ? 1 : 0),
+        auto_community: _.meanBy(objs, (o) => o.auto_community ? 1 : 0),
+        endgame_engaged: _.meanBy(objs, 'endgame_engaged'),
+        endgame_docked: _.meanBy(objs, 'endgame_docked'),
+        endgame_parked: _.meanBy(objs, 'endgame_parked'),
+        
+        auto_cubes_high:_.meanBy(objs, 'auto_cubes_high'),
+        auto_cubes_medium:_.meanBy(objs, 'auto_cubes_medium'),
+        auto_cubes_low:_.meanBy(objs, 'auto_cubes_low'),
+        auto_cones_high:_.meanBy(objs, 'auto_cones_high'),
+        auto_cones_medium:_.meanBy(objs, 'auto_cones_medium'),
+        auto_cones_low:_.meanBy(objs, 'auto_cones_low'),
+        
+        teleop_cubes_high:_.meanBy(objs, 'teleop_cubes_high'),
+        teleop_cubes_medium:_.meanBy(objs, 'teleop_cubes_medium'),
+        teleop_cubes_low:_.meanBy(objs, 'teleop_cubes_low'),
+        teleop_cones_high:_.meanBy(objs, 'teleop_cones_high'),
+        teleop_cones_medium:_.meanBy(objs, 'teleop_cones_medium'),
+        teleop_cones_low:_.meanBy(objs, 'teleop_cones_low'),
+
+        // These cannot be summarized but we'll give them some empty values
+        // that won't cause a problem later on in the code if we try and
+        // display them.
         event_key: '',
         match_key: '',
         scouter_name: '',

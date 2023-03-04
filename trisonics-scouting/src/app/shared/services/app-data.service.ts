@@ -106,74 +106,19 @@ export class AppDataService {
   */
   public eventList: TBAEvent[] = [
     {
-      eventKey: '2022carv',
-      eventName: 'Worlds - Carver',
-      eventDate: new Date(2022, 4, 20),
+      eventKey: '2023mifor',
+      eventName: 'Calvin (Test)',
+      eventDate: new Date(2023, 3, 2),
     },
     {
-      eventKey: '2022gal',
-      eventName: 'Worlds - Galileo',
-      eventDate: new Date(2022, 4, 20),
+      eventKey: '2023mista',
+      eventName: 'Standish',
+      eventDate: new Date(2023, 3, 16),
     },
     {
-      eventKey: '2022hop',
-      eventName: 'Worlds - Hopper',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022new',
-      eventName: 'Worlds - Newton',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022roe',
-      eventName: 'Worlds - Roebling',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022tur',
-      eventName: 'Worlds - Turing',
-      eventDate: new Date(2022, 4, 20),
-    },
-    {
-      eventKey: '2022mifor',
-      eventName: 'Calvin (test)',
-      eventDate: null,
-    },
-    {
-      eventKey: '2022misjo',
-      eventName: 'St. Joe',
-      eventDate: new Date(2022, 3, 9),
-    },
-    {
-      eventKey: '2022miwmi',
+      eventKey: '2023miwmi',
       eventName: 'GVSU',
-      eventDate: new Date(2022, 3, 25),
-    },
-    {
-      eventKey: '2022micmp',
-      eventName: 'States',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp1',
-      eventName: 'States - DTE',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp2',
-      eventName: 'States - Ford',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp3',
-      eventName: 'States - APTIV',
-      eventDate: new Date(2022, 4, 13),
-    },
-    {
-      eventKey: '2022micmp4',
-      eventName: 'States - Consumers',
-      eventDate: new Date(2022, 4, 13),
+      eventDate: new Date(2023, 3, 23),
     },
   ];
 

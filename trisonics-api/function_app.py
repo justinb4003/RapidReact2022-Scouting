@@ -16,11 +16,10 @@ from uuid import uuid4
 
 app = func.FunctionApp()
 
-
-@app.function_name(name="HelloWorld")
-@app.route(route="hello")  # HTTP Trigger
-def hello_world(req: func.HttpRequest) -> func.HttpResponse:
-    return func.HttpResponse("HelloWorld function processed a request!!!")
+@app.function_name(name="HttpTrigger1")
+@app.route(route="hello") # HTTP Trigger
+def test_function(req: func.HttpRequest) -> func.HttpResponse:
+    return func.HttpResponse("HttpTrigger1 function processed a request!!!")
 
 
 @app.function_name(name="GetOPRData")
