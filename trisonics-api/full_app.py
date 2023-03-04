@@ -17,12 +17,10 @@ from uuid import uuid4
 app = func.FunctionApp()
 
 
-_match_results_container = 'MatchResults2023'
-
-@app.function_name(name="HttpTrigger1")
-@app.route(route="hello") # HTTP Trigger
-def test_function(req: func.HttpRequest) -> func.HttpResponse:
-    return func.HttpResponse("HttpTrigger1 function processed a request!!!")
+@app.function_name(name="HelloWorld")
+@app.route(route="hello")  # HTTP Trigger
+def hello_world(req: func.HttpRequest) -> func.HttpResponse:
+    return func.HttpResponse("HelloWorld function processed a request!!!")
 
 
 @app.function_name(name="GetOPRData")
@@ -151,10 +149,7 @@ def post_pit_results(req: func.HttpRequest) -> func.HttpResponse:
 def post_results(req: func.HttpRequest) -> func.HttpResponse:
     # Get the request body, interpreted as JSON into an python object
     payload = req.get_json()
-    if 'id' not in payload:
-        payload['id'] = str(uuid4())
-    logging.warning(payload)
-    container = get_container(_match_results_container)
+    container = get_container('MatchResults')
     # Now that we have a connection to the container we can insert/update data
     container.upsert_item(payload)
     return func.HttpResponse(
@@ -206,9 +201,7 @@ def get_tba_url_as_df(url):
     # can't process your request.
     # print(f'Retrieving {full_url}')
     r = requests.get(full_url, headers=headers)
-    print(f'STATUS CODE: {r.status_code}')
     json_data = r.text
-    logging.error(json_data)
     df = pd.read_json(io.StringIO(json_data))
     return df
 
@@ -351,7 +344,7 @@ def get_event_teams_df(event_key):
     return df
 
 
-def get_container(container_name=_match_results_container):
+def get_container(container_name='MatchResults'):
     endpoint = os.environ.get('COSMOS_ENDPOINT')
     key = os.environ.get('COSMOS_KEY')
     # Some hard-coded values for our datbase name and container for match
@@ -364,7 +357,7 @@ def get_container(container_name=_match_results_container):
 
 
 def get_scouting_data(secret_team_key=None, event_key=None):
-    container = get_container(_match_results_container)
+    container = get_container('MatchResults')
     query = "SELECT * FROM c WHERE 1=1 "
     params = [
     ]
@@ -381,11 +374,7 @@ def get_scouting_data(secret_team_key=None, event_key=None):
     df = pd.DataFrame(items)
     df = df[df.columns.drop(list(df.filter(regex='^_')))]
     df = df.drop(columns=['id'])
-    bool_to_int_cols = ['auto_engaged', 'auto_docked', 'auto_community', 
-                        'endgame_engaged', 'endgame_docked', 'endgame_parked']
-    for c in bool_to_int_cols:
-        if c in df.columns:
-            df[c] = df[c].astype(int)
+    df["auton_tarmac"] = df["auton_tarmac"].astype(int)
     df.drop_duplicates(inplace=True, ignore_index=True, keep='last')
     return df
 
